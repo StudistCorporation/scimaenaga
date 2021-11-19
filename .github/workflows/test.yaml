@@ -43,7 +43,9 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
       - name: Setup environment
-        run: gem install -v ${{ matrix.rails }} rails
+        run: |
+          gem install -v ${{ matrix.rails }} rails;
+          bundle install
       - name: Prepare database
         run: bundle exec rails db:setup
       - name: Run tests
