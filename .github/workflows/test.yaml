@@ -10,6 +10,7 @@ jobs:
       matrix:
         ruby:
           ## test against ruby versions from the last two release cycles
+          ##
           ## cf https://endoflife.date/ruby
           # 2021-04-05 releases
           - 2.5.9
@@ -22,6 +23,9 @@ jobs:
           - 3.0.2
         rails:
           ## test against last two releases from supported rails versions
+          ## when updating, be sure to add the matching version Gemfile to
+          ## .github/gemfiles
+          ##
           ## cf https://endoflife.date/rails
           # 2021-05-06 releases
           - 5.2.4.6
@@ -43,9 +47,7 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
       - name: Setup environment
-        run: |
-          bundle inject rails "${{ matrix.rails }}";
-          bundle install
+        run: bundle install --gemfile=.github/gemfiles/rails-${{ matrix.rails }}.Gemfile
       - name: Prepare database
         run: bundle exec rails db:setup
       - name: Run tests
