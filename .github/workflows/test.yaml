@@ -3,6 +3,35 @@ on:
   push:
 
 jobs:
+  rubocop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.2
+      - uses: reviewdog/action-rubocop@v2
+
+  brakeman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.2
+      - uses: reviewdog/action-brakeman@v1
+
+  misspell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.2
+      - uses: reviewdog/action-misspell@v1
+        with:
+          locale: "US"
+
   test:
     runs-on: ubuntu-latest
 
