@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
 
-gemspec path: '../../scim_rails.gemspec'
+gemspec path: '../..'
 
 gem "rails", "5.2.4.6"
