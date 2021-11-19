@@ -44,7 +44,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
       - name: Setup environment
         run: |
-          bundle add rails -v "${{ matrix.rails }}";
+          bundle inject rails "${{ matrix.rails }}";
           bundle install
       - name: Prepare database
         run: bundle exec rails db:setup
