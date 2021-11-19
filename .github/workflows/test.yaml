@@ -64,7 +64,7 @@ jobs:
           # 2021-08-20 releases
           - 6.0.4.1
           - 6.1.4.1
-        excludes:
+        exclude:
           ## be careful with which versions of ruby does rails support
           ## cf https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
           # rails 5.2 requires ruby < 2.7
