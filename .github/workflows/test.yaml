@@ -63,6 +63,7 @@ jobs:
 
     env:
       RAILS_ENV: test
+      BUNDLE_GEMFILE: ${{ github.workspace }}/.github/gemfiles/rails-${{ matrix.rails }}.Gemfile
 
     steps:
       - uses: actions/checkout@v2
@@ -72,8 +73,6 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Setup environment
-        run: bundle install --gemfile=.github/gemfiles/rails-${{ matrix.rails }}.Gemfile
       - name: Prepare database
         run: bundle exec rails db:setup
       - name: Run tests
@@ -101,6 +100,7 @@ jobs:
 
     env:
       RAILS_ENV: test
+      BUNDLE_GEMFILE: ${{ github.workspace }}/.github/gemfiles/rails-${{ matrix.rails }}.Gemfile
 
     steps:
       - uses: actions/checkout@v2
@@ -110,8 +110,6 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Setup environment
-        run: bundle install --gemfile=.github/gemfiles/rails-${{ matrix.rails }}.Gemfile
       - name: Prepare database
         run: bundle exec rails db:setup
       - name: Run tests
@@ -140,6 +138,7 @@ jobs:
 
     env:
       RAILS_ENV: test
+      BUNDLE_GEMFILE: ${{ github.workspace }}/.github/gemfiles/rails-${{ matrix.rails }}.Gemfile
 
     steps:
       - uses: actions/checkout@v2
@@ -149,8 +148,6 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Setup environment
-        run: bundle install --gemfile=.github/gemfiles/rails-${{ matrix.rails }}.Gemfile
       - name: Prepare database
         run: bundle exec rails db:setup
       - name: Run tests
