@@ -7,9 +7,8 @@ require "scim_rails/version"
 Gem::Specification.new do |s|
   s.name = "scim_rails"
   s.version = ScimRails::VERSION
-  s.authors = ["Spencer Alan"]
-  s.email = ["devops@lessonly.com"]
-  s.homepage = "https://github.com/lessonly/scim_rails"
+  s.authors = ['Studist Corporation']
+  s.homepage = "https://github.com/StudistCorporation/scim_rails"
   s.summary = "SCIM Adapter for Rails."
   s.description = "SCIM Adapter for Rails."
   s.license = "MIT"
