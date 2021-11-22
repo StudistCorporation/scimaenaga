@@ -5,7 +5,7 @@ require "scim_rails/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name = "scim_rails"
+  s.name = "scimaenaga"
   s.version = ScimRails::VERSION
   s.authors = ['Studist Corporation']
   s.homepage = "https://github.com/StudistCorporation/scim_rails"
