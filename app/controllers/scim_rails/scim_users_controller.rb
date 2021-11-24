@@ -62,6 +62,10 @@ module ScimRails
     # This will work just fine for Okta but is not SCIM compliant.
     def patch_update
       user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
+      patch = ScimPatch.new(params, ScimRails.config.mutable_user_attributes_schema)
+      # patch.apply(user)
+      # user.save
+
       update_status(user)
       json_scim_response(object: user)
     end
