@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
+# Parse One of "Operations" in PATCH request
 class ScimPatchOperation
   attr_accessor :op, :path_scim, :path_sp, :value
 
-  def initialize(op, path, value, mutable_attributes_schema)      
+  def initialize(op, path, value, mutable_attributes_schema)
     # FIXME: Raise proper Error
-    raise StandardError unless op.in? ['Add', 'Replace', 'Remove']
+    raise StandardError unless op.in? %w[Add Replace Remove]
 
     # No path is not supported.
     # FIXME: Raise proper Error
@@ -13,16 +14,7 @@ class ScimPatchOperation
 
     @op = op.downcase.to_sym
     @path_scim = path
-
-    # For now, library does not support model which has many email addresses.
-    @path_sp = if path.start_with?('emails[')
-      mutable_attributes_schema.dig(:emails, 0, :value)
-    elsif path.include?('.')
-      mutable_attributes_schema.dig(*path.split(/\./).map(&:to_sym))
-    else
-      mutable_attributes_schema[path.to_sym]
-    end
-    
+    @path_sp = convert_path(path, mutable_attributes_schema)
     @value = value
   end
 
@@ -30,11 +22,35 @@ class ScimPatchOperation
   def apply(model)
     case @op
     when :add
-      model.update(@path_sp, @value)
+      model.assign_attributes(@path_sp, @value)
     when :replace
-      model.update(@path_sp, @value)
+      model.assign_attributes(@path_sp, @value)
     when :remove
-      model.update(@path_sp, nil)
+      model.assign_attributes(@path_sp, nil)
     end
+  end
+
+  private
+
+  def convert_path(path, mutable_attributes_schema)
+    # For now, library does not support Multi-Valued Attributes properly.
+    # examle:
+    #   path = 'emails[type eq "work"].value'
+    #   mutable_attributes_schema = {
+    #     emails: [
+    #       {
+    #         value: :mail_address,
+    #      }
+    #     ],
+    #   }
+    #
+    #   Library ignores [type eq "work"] and dig(:emails, 0, :value)
+    dig_keys = path.gsub(/\[(.+?)\]/, ".0").split(".").map do |element|
+      Integer(element)
+    rescue StandardError
+      element.to_sym
+    end
+
+    mutable_attributes_schema.dig(*dig_keys)
   end
 end
