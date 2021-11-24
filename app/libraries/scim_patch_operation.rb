@@ -44,13 +44,9 @@ class ScimPatchOperation
     #     ],
     #   }
     #
-    #   Library ignores [type eq "work"] and dig(:emails, 0, :value)
-    dig_keys = path.gsub(/\[(.+?)\]/, ".0").split(".").map do |element|
-      Integer(element)
-    rescue StandardError
-      element.to_sym
-    end
-
+    #   Library ignores filter conditions (like [type eq "work"])
+    #   and always uses the first element of the array
+    dig_keys = path.gsub(/\[(.+?)\]/, ".0").split(".").map { |step| step == "0" ? 0 : step.to_sym }
     mutable_attributes_schema.dig(*dig_keys)
   end
 end
