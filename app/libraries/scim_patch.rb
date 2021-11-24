@@ -17,7 +17,7 @@ class ScimPatch
   # WIP
   def apply(model)
     @operations.each do |operation|
-      operation.update(model)
+      operation.apply(model)
     end
     return model
   end
