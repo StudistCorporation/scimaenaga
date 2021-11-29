@@ -1,8 +1,66 @@
 inherit_from:
+  - .rubocop_todo.yml
   - https://raw.githubusercontent.com/lessonly/rubocop-default-configuration/master/.rubocop.yml
+
+
 
 Metrics/BlockLength:
   # don't warn about block length in block-centered DSLs
   Exclude:
     - 'config/routes.rb'
     - 'spec/**/*.rb'
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/RedundantReturn:
+  Enabled: false
+
+Style/NegatedIf:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Layout/IndentationConsistency:
+   EnforcedStyle: indented_internal_methods # インデントを許可
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes/*.rb'
+    - 'config/initializers/*.rb'
+    - 'spec/*.rb'
+    - 'spec/**/*.rb'
+    - 'spec/**/**/*.rb'
+
+Layout/LineLength:
+  # (default: 80)
+  Max: 90
+
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Metrics/MethodLength:
+  Exclude:
+    - "app/libraries/json_v2/*"
+    - "spec/system/**/*.rb"
+Metrics/AbcSize:
+  Exclude:
+    - "app/libraries/json_v2/*"
+    - "spec/system/**/*.rb"
+
+Naming/ClassAndModuleCamelCase:
+  Exclude:
+    - "config/initializers/constants/*"
