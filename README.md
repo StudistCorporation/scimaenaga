@@ -19,7 +19,7 @@ The goal of the Gem is to offer a relatively painless way of adding SCIM 2.0 to 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'scim_rails'
+gem 'scimaenaga', require: 'scim_rails'
 ```
 
 And then execute:
@@ -31,7 +31,7 @@ $ bundle
 Or install it yourself as:
 
 ```bash
-$ gem install scim_rails
+$ gem install scimaenaga
 ```
 
 Generate the config file with:
