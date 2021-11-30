@@ -1,6 +1,4 @@
 [![Tests](https://github.com/StudistCorporation/scimaenaga/actions/workflows/test.yaml/badge.svg)](https://github.com/StudistCorporation/scimaenaga/actions/workflows/test.yaml)
-[![Inline docs](http://inch-ci.org/github/lessonly/scim_rails.svg?branch=master)](http://inch-ci.org/github/lessonly/scim_rails)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ddfb6a891d2f0d1122ae/maintainability)](https://codeclimate.com/github/lessonly/scim_rails/maintainability)
 
 # Scimaenaga
 
