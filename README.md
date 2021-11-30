@@ -250,7 +250,7 @@ $ curl -X PATCH 'http://username:password@localhost:3000/scim/v2/Users/1' -d '{"
 
 ### Error Handling
 
-By default, scim_rails will output any unhandled exceptions to your configured rails logs.
+By default, scimaenaga will output any unhandled exceptions to your configured rails logs.
 
 If you would like, you can supply a custom handler for exceptions in the initializer. The only requirement is that the value you supply responds to `#call`.
 
@@ -264,7 +264,7 @@ end
 
 ## Contributing
 
-### [Code of Conduct](https://github.com/lessonly/scim_rails/blob/master/CODE_OF_CONDUCT.md)
+### [Code of Conduct](https://github.com/StudistCorporation/scimaenaga/blob/master/CODE_OF_CONDUCT.md)
 
 ### Pull Requests
 
