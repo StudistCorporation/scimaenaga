@@ -1,5 +1,4 @@
 inherit_from:
-  - .rubocop_todo.yml
   - https://raw.githubusercontent.com/lessonly/rubocop-default-configuration/master/.rubocop.yml
 
 Metrics/BlockLength:
