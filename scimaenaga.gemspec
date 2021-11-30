@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.name = "scimaenaga"
   s.version = ScimRails::VERSION
   s.authors = ['Studist Corporation']
-  s.homepage = "https://github.com/StudistCorporation/scim_rails"
+  s.homepage = "https://github.com/StudistCorporation/scimaenaga"
   s.summary = "SCIM Adapter for Rails."
   s.description = "SCIM Adapter for Rails."
   s.license = "MIT"
