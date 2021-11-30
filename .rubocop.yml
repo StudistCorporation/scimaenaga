@@ -2,8 +2,6 @@ inherit_from:
   - .rubocop_todo.yml
   - https://raw.githubusercontent.com/lessonly/rubocop-default-configuration/master/.rubocop.yml
 
-
-
 Metrics/BlockLength:
   # don't warn about block length in block-centered DSLs
   Exclude:
@@ -29,7 +27,7 @@ Layout/EmptyLinesAroundModuleBody:
   Enabled: false
 
 Layout/IndentationConsistency:
-   EnforcedStyle: indented_internal_methods # インデントを許可
+   EnforcedStyle: indented_internal_methods
 
 Style/ClassAndModuleChildren:
   Enabled: false
