@@ -6,11 +6,12 @@ class ScimPatchOperation
 
   def initialize(op, path, value, mutable_attributes_schema)
     # FIXME: Raise proper Error
-    raise StandardError unless op.in? %w[Add Replace Remove]
+    raise StandardError unless op.downcase.in? %w[add replace remove]
 
     # No path is not supported.
     # FIXME: Raise proper Error
-    raise StandardError if path.nil?
+    raise ScimRails::ExceptionHandler::UnsupportedPatchRequest if path.nil?
+    raise ScimRails::ExceptionHandler::UnsupportedPatchRequest if value.nil?
 
     @op = op.downcase.to_sym
     @path_scim = path
@@ -22,11 +23,11 @@ class ScimPatchOperation
   def apply(model)
     case @op
     when :add
-      model.assign_attributes(@path_sp, @value)
+      model.attributes = { @path_sp => @value }
     when :replace
-      model.assign_attributes(@path_sp, @value)
+      model.attributes = { @path_sp => @value }
     when :remove
-      model.assign_attributes(@path_sp, nil)
+      model.attributes = { @path_sp => nil }
     end
   end
 
