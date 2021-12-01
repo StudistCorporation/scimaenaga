@@ -44,6 +44,3 @@ Layout/LineLength:
 
 Style/AndOr:
   EnforcedStyle: conditionals
-
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
