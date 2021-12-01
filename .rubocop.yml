@@ -34,7 +34,6 @@ Style/ClassAndModuleChildren:
 Metrics/BlockLength:
   Exclude:
     - 'config/routes/*.rb'
-    - 'config/initializers/*.rb'
     - 'spec/*.rb'
     - 'spec/**/*.rb'
     - 'spec/**/**/*.rb'
@@ -48,16 +47,3 @@ Style/AndOr:
 
 Layout/EmptyLineAfterGuardClause:
   Enabled: false
-
-Metrics/MethodLength:
-  Exclude:
-    - "app/libraries/json_v2/*"
-    - "spec/system/**/*.rb"
-Metrics/AbcSize:
-  Exclude:
-    - "app/libraries/json_v2/*"
-    - "spec/system/**/*.rb"
-
-Naming/ClassAndModuleCamelCase:
-  Exclude:
-    - "config/initializers/constants/*"
