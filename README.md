@@ -1,8 +1,6 @@
-[![Tests](https://github.com/StudistCorporation/scim_rails/actions/workflows/test.yaml/badge.svg)](https://github.com/StudistCorporation/scim_rails/actions/workflows/test.yaml)
-[![Inline docs](http://inch-ci.org/github/lessonly/scim_rails.svg?branch=master)](http://inch-ci.org/github/lessonly/scim_rails)
-[![Maintainability](https://api.codeclimate.com/v1/badges/ddfb6a891d2f0d1122ae/maintainability)](https://codeclimate.com/github/lessonly/scim_rails/maintainability)
+[![Tests](https://github.com/StudistCorporation/scimaenaga/actions/workflows/test.yaml/badge.svg)](https://github.com/StudistCorporation/scimaenaga/actions/workflows/test.yaml)
 
-# ScimRails
+# Scimaenaga
 
 NOTE: This Gem is not yet fully SCIM complaint. It was developed with the main function of interfacing with Okta. There are features of SCIM that this Gem does not implement as described in the SCIM documentation or that have been left out completely.
 
@@ -19,7 +17,7 @@ The goal of the Gem is to offer a relatively painless way of adding SCIM 2.0 to 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'scim_rails'
+gem 'scimaenaga', require: 'scim_rails'
 ```
 
 And then execute:
@@ -31,7 +29,7 @@ $ bundle
 Or install it yourself as:
 
 ```bash
-$ gem install scim_rails
+$ gem install scimaenaga
 ```
 
 Generate the config file with:
@@ -252,7 +250,7 @@ $ curl -X PATCH 'http://username:password@localhost:3000/scim/v2/Users/1' -d '{"
 
 ### Error Handling
 
-By default, scim_rails will output any unhandled exceptions to your configured rails logs.
+By default, scimaenaga will output any unhandled exceptions to your configured rails logs.
 
 If you would like, you can supply a custom handler for exceptions in the initializer. The only requirement is that the value you supply responds to `#call`.
 
@@ -266,7 +264,7 @@ end
 
 ## Contributing
 
-### [Code of Conduct](https://github.com/lessonly/scim_rails/blob/master/CODE_OF_CONDUCT.md)
+### [Code of Conduct](https://github.com/StudistCorporation/scimaenaga/blob/master/CODE_OF_CONDUCT.md)
 
 ### Pull Requests
 

@@ -1,8 +1,41 @@
 inherit_from:
   - https://raw.githubusercontent.com/lessonly/rubocop-default-configuration/master/.rubocop.yml
 
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/RedundantReturn:
+  Enabled: false
+
+Style/NegatedIf:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Layout/IndentationConsistency:
+   EnforcedStyle: indented_internal_methods
+
+Layout/LineLength:
+  # (default: 80)
+  Max: 90
+
 Metrics/BlockLength:
   # don't warn about block length in block-centered DSLs
   Exclude:
     - 'config/routes.rb'
+    - 'spec/*.rb'
     - 'spec/**/*.rb'
+    - 'spec/**/**/*.rb'
