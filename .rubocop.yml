@@ -16,6 +16,9 @@ Style/TrailingCommaInHashLiteral:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Style/AndOr:
+  EnforcedStyle: conditionals
+
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
 
@@ -36,6 +39,3 @@ Metrics/BlockLength:
     - 'spec/*.rb'
     - 'spec/**/*.rb'
     - 'spec/**/**/*.rb'
-
-Style/AndOr:
-  EnforcedStyle: conditionals
