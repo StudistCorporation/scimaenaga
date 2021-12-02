@@ -637,7 +637,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
           id: 1,
           Operations: [
             {
-              op: "replace",
+              op: "replace"
             }
           ]
         }, as: :json

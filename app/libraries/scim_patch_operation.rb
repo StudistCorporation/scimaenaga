@@ -33,21 +33,23 @@ class ScimPatchOperation
 
   private
 
-  def convert_path(path, mutable_attributes_schema)
-    # For now, library does not support Multi-Valued Attributes properly.
-    # examle:
-    #   path = 'emails[type eq "work"].value'
-    #   mutable_attributes_schema = {
-    #     emails: [
-    #       {
-    #         value: :mail_address,
-    #      }
-    #     ],
-    #   }
-    #
-    #   Library ignores filter conditions (like [type eq "work"])
-    #   and always uses the first element of the array
-    dig_keys = path.gsub(/\[(.+?)\]/, ".0").split(".").map { |step| step == "0" ? 0 : step.to_sym }
-    mutable_attributes_schema.dig(*dig_keys)
-  end
+    def convert_path(path, mutable_attributes_schema)
+      # For now, library does not support Multi-Valued Attributes properly.
+      # examle:
+      #   path = 'emails[type eq "work"].value'
+      #   mutable_attributes_schema = {
+      #     emails: [
+      #       {
+      #         value: :mail_address,
+      #      }
+      #     ],
+      #   }
+      #
+      #   Library ignores filter conditions (like [type eq "work"])
+      #   and always uses the first element of the array
+      dig_keys = path.gsub(/\[(.+?)\]/, ".0").split(".").map do |step|
+        step == "0" ? 0 : step.to_sym
+      end
+      mutable_attributes_schema.dig(*dig_keys)
+    end
 end

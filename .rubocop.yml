@@ -19,6 +19,9 @@ Style/ClassAndModuleChildren:
 Style/AndOr:
   EnforcedStyle: conditionals
 
+Style/Documentation:
+  Enabled: false
+
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
 
@@ -39,3 +42,6 @@ Metrics/BlockLength:
     - 'spec/*.rb'
     - 'spec/**/*.rb'
     - 'spec/**/**/*.rb'
+
+Naming/MethodParameterName:
+ MinNameLength: 1

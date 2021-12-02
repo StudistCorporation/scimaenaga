@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module ScimRails
-  class ScimUsersController < ScimRails::ApplicationController
+  class ScimUsersController < ScimRails::ApplicationController # rubocop:disable Metrics/ClassLength
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def index
       if params[:filter].present?
         query = ScimRails::ScimQueryParser.new(
@@ -11,7 +13,8 @@ module ScimRails
         users = @company
           .public_send(ScimRails.config.scim_users_scope)
           .where(
-            "#{ScimRails.config.scim_users_model.connection.quote_column_name(query.attribute)} #{query.operator} ?",
+            "#{ScimRails.config.scim_users_model
+              .connection.quote_column_name(query.attribute)} #{query.operator} ?",
             query.parameter
           )
           .order(ScimRails.config.scim_users_list_order)
@@ -32,7 +35,9 @@ module ScimRails
 
     def create
       if ScimRails.config.scim_user_prevent_update_on_create
-        user = @company.public_send(ScimRails.config.scim_users_scope).create!(permitted_user_params)
+        user = @company
+          .public_send(ScimRails.config.scim_users_scope)
+          .create!(permitted_user_params)
       else
         username_key = ScimRails.config.queryable_user_attributes[:userName]
         find_by_username = {}
@@ -45,6 +50,8 @@ module ScimRails
       update_status(user) unless put_active_param.nil?
       json_scim_response(object: user, status: :created)
     end
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
 
     def show
       user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
@@ -70,57 +77,57 @@ module ScimRails
 
     private
 
-    def permitted_user_params
-      ScimRails.config.mutable_user_attributes.each.with_object({}) do |attribute, hash|
-        hash[attribute] = find_value_for(attribute)
-      end
-    end
-
-    def controller_schema
-      ScimRails.config.mutable_user_attributes_schema
-    end
-
-    def update_status(user)
-      user.public_send(ScimRails.config.user_reprovision_method) if active?
-      user.public_send(ScimRails.config.user_deprovision_method) unless active?
-    end
-
-    def active?
-      active = put_active_param
-      active = patch_active_param if active.nil?
-
-      case active
-      when true, "true", 1
-        true
-      when false, "false", 0
-        false
-      else
-        raise ActiveRecord::RecordInvalid
-      end
-    end
-
-    def put_active_param
-      params[:active]
-    end
-
-    def patch_active_param
-      handle_invalid = lambda do
-        raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
+      def permitted_user_params
+        ScimRails.config.mutable_user_attributes.each.with_object({}) do |attribute, hash|
+          hash[attribute] = find_value_for(attribute)
+        end
       end
 
-      operations = params["Operations"] || {}
-
-      valid_operation = operations.find(handle_invalid) do |operation|
-        valid_patch_operation?(operation)
+      def controller_schema
+        ScimRails.config.mutable_user_attributes_schema
       end
 
-      valid_operation.dig("value", "active")
-    end
+      def update_status(user)
+        user.public_send(ScimRails.config.user_reprovision_method) if active?
+        user.public_send(ScimRails.config.user_deprovision_method) unless active?
+      end
 
-    def valid_patch_operation?(operation)
-      operation["op"].casecmp("replace") &&
-        operation["value"] &&
-        [true, false].include?(operation["value"]["active"])
-    end
+      def active?
+        active = put_active_param
+        active = patch_active_param if active.nil?
+
+        case active
+        when true, "true", 1
+          true
+        when false, "false", 0
+          false
+        else
+          raise ActiveRecord::RecordInvalid
+        end
+      end
+
+      def put_active_param
+        params[:active]
+      end
+
+      def patch_active_param
+        handle_invalid = lambda do
+          raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
+        end
+
+        operations = params["Operations"] || {}
+
+        valid_operation = operations.find(handle_invalid) do |operation|
+          valid_patch_operation?(operation)
+        end
+
+        valid_operation.dig("value", "active")
+      end
+
+      def valid_patch_operation?(operation)
+        operation["op"].casecmp("replace") &&
+          operation["value"] &&
+          [true, false].include?(operation["value"]["active"])
+      end
   end
 end
