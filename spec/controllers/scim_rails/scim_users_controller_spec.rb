@@ -564,7 +564,8 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       it "successfully change user email" do
         expect(company.users.count).to eq 1
         user = company.users.first
-        # expect(user.email).to eq '2@example.com'
+        user.update(email: 'test@example.com')
+        expect(user.reload.email).to eq 'test@example.com'
 
         patch \
           :patch_update,
