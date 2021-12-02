@@ -1,12 +1,6 @@
 inherit_from:
   - https://raw.githubusercontent.com/lessonly/rubocop-default-configuration/master/.rubocop.yml
 
-Metrics/BlockLength:
-  # don't warn about block length in block-centered DSLs
-  Exclude:
-    - 'config/routes.rb'
-    - 'spec/**/*.rb'
-
 Style/FrozenStringLiteralComment:
   Enabled: true
 
@@ -19,6 +13,9 @@ Style/NegatedIf:
 Style/TrailingCommaInHashLiteral:
   EnforcedStyleForMultiline: consistent_comma
 
+Style/ClassAndModuleChildren:
+  Enabled: false
+
 Layout/EmptyLinesAroundClassBody:
   Enabled: false
 
@@ -28,19 +25,17 @@ Layout/EmptyLinesAroundModuleBody:
 Layout/IndentationConsistency:
    EnforcedStyle: indented_internal_methods
 
-Style/ClassAndModuleChildren:
-  Enabled: false
-
-Metrics/BlockLength:
-  Exclude:
-    - 'config/routes/*.rb'
-    - 'spec/*.rb'
-    - 'spec/**/*.rb'
-    - 'spec/**/**/*.rb'
-
 Layout/LineLength:
   # (default: 80)
   Max: 90
+
+Metrics/BlockLength:
+  # don't warn about block length in block-centered DSLs
+  Exclude:
+    - 'config/routes.rb'
+    - 'spec/*.rb'
+    - 'spec/**/*.rb'
+    - 'spec/**/**/*.rb'
 
 Style/AndOr:
   EnforcedStyle: conditionals
