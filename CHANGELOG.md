@@ -2,7 +2,7 @@
 
 # v0.5.0 06-12-2021
 
-- [User patch request for Azure AD is now supported](https://github.com/StudistCorporation/scimaenaga/pull/9)
+- [User patch request for Azure AD is now partial supported](https://github.com/StudistCorporation/scimaenaga/pull/9)
 
 # v0.4.1 22-11-2021
 
