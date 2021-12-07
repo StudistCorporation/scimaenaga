@@ -2,7 +2,7 @@
 
 # Scimaenaga
 
-NOTE: This Gem is not yet fully SCIM complaint. It was developed with the main function of interfacing with Okta. There are features of SCIM that this Gem does not implement as described in the SCIM documentation or that have been left out completely.
+NOTE: This Gem is not yet fully SCIM complaint. It was developed with the main function of interfacing with Azure AD. There are features of SCIM that this Gem does not implement as described in the SCIM documentation or that have been left out completely.
 
 #### What is SCIM?
 
@@ -10,7 +10,7 @@ SCIM stands for System for Cross-domain Identity Management. At its core, it is 
 
 To learn more about SCIM 2.0 you can read the documentation at [RFC 7643](https://tools.ietf.org/html/rfc7643) and [RFC 7644](https://tools.ietf.org/html/rfc7644).
 
-The goal of the Gem is to offer a relatively painless way of adding SCIM 2.0 to your app. This Gem should be fully compatible with Okta's SCIM implementation. This project is ongoing and will hopefully be fully SCIM compliant in time. Pull requests that assist in meeting that goal are welcome!
+The goal of the Gem is to offer a relatively painless way of adding SCIM 2.0 to your app. This Gem should be fully compatible with Azure AD's SCIM implementation. This project is ongoing and will hopefully be fully SCIM compliant in time. Pull requests that assist in meeting that goal are welcome!
 
 ## Installation
 
