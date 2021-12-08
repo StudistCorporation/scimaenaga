@@ -4,7 +4,6 @@ module ScimRails
   class ScimQueryParser
     attr_accessor :query_elements, :query_attributes
 
-    # emails[type eq \"work\"].value eq \"taro@example.com\"
     def initialize(query_string, queryable_attributes)
       self.query_elements = query_string.gsub(/\[(.+?)\]/, ".0").split
       self.query_attributes = queryable_attributes
