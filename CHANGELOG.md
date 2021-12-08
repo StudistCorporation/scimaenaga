@@ -1,5 +1,13 @@
 # Upcoming Release
 
+# v0.5.0 06-12-2021
+
+- [User patch request for Azure AD is now partially supported](https://github.com/StudistCorporation/scimaenaga/pull/9)
+
+# v0.4.1 22-11-2021
+
+- [Release as Scimaenaga](https://github.com/StudistCorporation/scimaenaga/pull/3)
+
 # v0.4.0 26-03-2021
 
 - [Rail 6.1 is now supported](https://github.com/lessonly/scim_rails/pull/41)
