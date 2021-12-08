@@ -4,8 +4,9 @@ module ScimRails
   class ScimQueryParser
     attr_accessor :query_elements, :query_attributes
 
+    # emails[type eq \"work\"].value eq \"taro@example.com\"
     def initialize(query_string, queryable_attributes)
-      self.query_elements = query_string.split
+      self.query_elements = query_string.gsub(/\[(.+?)\]/, ".0").split
       self.query_attributes = queryable_attributes
     end
 
@@ -13,9 +14,11 @@ module ScimRails
       attribute = query_elements[0]
       raise ScimRails::ExceptionHandler::InvalidQuery if attribute.blank?
 
-      attribute = attribute.to_sym
+      dig_keys = attribute.split(".").map do |step|
+        step == "0" ? 0 : step.to_sym
+      end
 
-      mapped_attribute = query_attributes[attribute]
+      mapped_attribute = query_attributes.dig(*dig_keys)
       raise ScimRails::ExceptionHandler::InvalidQuery if mapped_attribute.blank?
 
       mapped_attribute
