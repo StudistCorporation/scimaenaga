@@ -4,6 +4,11 @@ company = Company.create(
   api_token: 1
 )
 
+group = Group.create(
+  company: company,
+  name: 'Test Group'
+)
+
 1.upto(1000) do |n|
   User.create(
     company: company,
