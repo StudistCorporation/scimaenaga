@@ -20,7 +20,24 @@ class ScimPatchOperation
   end
 
   # WIP
-  def apply(model)
+  def save(model)
+    if @path_scim == 'members'
+      update_member_ids = self.class.perse_member_values(@value)
+      groups = model.public_send(ScimRails.config.group_member_relation_attribute)
+      case @op
+      when :add
+        member_ids = groups.concat(update_member_ids)
+      when :replace
+        member_ids = groups.concat(update_member_ids)
+      when :remove
+        member_ids = groups - update_member_ids
+      end
+
+      # Only the member addition process is saved by each ids
+      model.public_send(ScimRails.config.group_member_relation_attribute.to_s+'=', member_ids.uniq)
+      return
+    end
+
     case @op
     when :add
       model.attributes = { @path_sp => @value }
@@ -28,6 +45,12 @@ class ScimPatchOperation
       model.attributes = { @path_sp => @value }
     when :remove
       model.attributes = { @path_sp => nil }
+    end
+  end
+
+  def self.perse_member_values(value)
+    value.map do |v|
+      v[ScimRails.config.group_member_relation_schema.keys.first]
     end
   end
 

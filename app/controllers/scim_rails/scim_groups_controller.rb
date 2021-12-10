@@ -54,6 +54,16 @@ module ScimRails
       json_scim_response(object: group)
     end
 
+    def patch_update
+      group = @company
+        .public_send(ScimRails.config.scim_groups_scope)
+        .find(params[:id])
+      patch = ScimPatch.new(params, ScimRails.config.mutable_group_attributes_schema)
+      patch.save(group)
+
+      json_scim_response(object: group)
+    end
+
     def destroy
       unless ScimRails.config.group_destroy_method
         raise ScimRails::ExceptionHandler::UnsupportedDeleteRequest
@@ -79,9 +89,7 @@ module ScimRails
     def member_params
       {
         ScimRails.config.group_member_relation_attribute =>
-          params[:members].map do |member|
-            member[ScimRails.config.group_member_relation_schema.keys.first]
-          end
+          ScimPatchOperation.perse_member_values(params[:members])
       }
     end
 

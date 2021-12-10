@@ -19,10 +19,14 @@ class ScimPatch
     end
   end
 
-  def apply(model)
-    @operations.each do |operation|
-      operation.apply(model)
+  def save(model)
+    model.transaction do
+      @operations.each do |operation|
+        operation.save(model)
+      end
     end
-    model
+      model.save if model.changed?
+    rescue => e
+      raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
   end
 end

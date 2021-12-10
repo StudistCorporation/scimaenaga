@@ -391,6 +391,72 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
     end
   end
 
+  describe "patch update" do
+    let(:company) { create(:company) }
+
+    context "when authorized" do
+      let!(:group) { create(:group, id: 1, company: company) }
+      let(:user1) { create(:user, company: company, groups: [group]) }
+      let(:user2) { create(:user, company: company) }
+
+      before :each do
+        http_login(company)
+      end
+
+      it "returns scim+json content type" do
+        patch :patch_update, params: patch_params, as: :json
+
+        expect(response.media_type).to eq "application/scim+json"
+      end
+
+      it "can add Users from a Group" do
+        expect do
+          patch :patch_update, params: patch_params(user_id: user2.id), as: :json
+        end.to change { group.reload.users }.from([user1]).to([user1, user2])
+
+        expect(response.status).to eq 200
+      end
+
+      # delete is not supported now
+      xit "can add and delete Users from a Group at once" do
+        user1 = create(:user, company: company, groups: [group])
+        user2 = create(:user, company: company)
+
+        expect do
+          put :patch_update, params: patch_params(users: [user2]), as: :json
+        end.to change { group.reload.users }.from([user1]).to([user2])
+
+        expect(response.status).to eq 200
+      end
+
+      it "returns :not_found for id that cannot be found" do
+        put :patch_update, params: { id: "fake_id" }, as: :json
+
+        expect(response.status).to eq 404
+      end
+
+      it "return :unprocessable_entity and rollback if even one cannot be saved" do
+        expect do
+          patch :patch_update, params: {
+            id: 1,
+            schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+            Operations: [{
+              op: "Add",
+              path: "members",
+              value: [
+                { value: user2.id },
+                { value: 999999999 },
+              ]
+            }]
+          }, as: :json
+        end.to_not change{ group.reload.users.count }
+        expect(response.status).to eq 422
+      end
+
+
+    end
+  end
+
   describe "destroy" do
     let(:company) { create(:company) }
 
@@ -491,4 +557,19 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
       members: users.map { |user| { value: user.id.to_s, display: user.email } }
     }
   end
+
+  def patch_params(user_id: 1)
+    {
+      id: 1,
+      schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      Operations: [{
+        op: "Add",
+        path: "members",
+        value: [{
+          value: user_id
+        }]
+      }]
+    }
+  end
+
 end
