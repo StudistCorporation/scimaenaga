@@ -22,7 +22,10 @@ class ScimPatchOperation
   # WIP
   def save(model)
     if @path_scim == 'members'
-      update_member_ids = self.class.perse_member_values(@value)
+      update_member_ids = @value.map do |v|
+        v[ScimRails.config.group_member_relation_schema.keys.first]
+      end
+
       groups = model.public_send(ScimRails.config.group_member_relation_attribute)
       case @op
       when :add
@@ -45,12 +48,6 @@ class ScimPatchOperation
       model.attributes = { @path_sp => @value }
     when :remove
       model.attributes = { @path_sp => nil }
-    end
-  end
-
-  def self.perse_member_values(value)
-    value.map do |v|
-      v[ScimRails.config.group_member_relation_schema.keys.first]
     end
   end
 

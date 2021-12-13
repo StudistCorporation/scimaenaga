@@ -89,7 +89,9 @@ module ScimRails
     def member_params
       {
         ScimRails.config.group_member_relation_attribute =>
-          ScimPatchOperation.perse_member_values(params[:members])
+          params[:members].map do |member|
+            member[ScimRails.config.group_member_relation_schema.keys.first]
+          end
       }
     end
 
