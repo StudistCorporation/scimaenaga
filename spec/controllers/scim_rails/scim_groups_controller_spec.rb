@@ -429,7 +429,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
       end
 
       it "returns :not_found for id that cannot be found" do
-        put :patch_update, params: { id: "fake_id" }, as: :json
+        put :patch_update, patch_params(user_id: 0), as: :json
 
         expect(response.status).to eq 404
       end
