@@ -1,5 +1,5 @@
-inherit_from:
-  - https://raw.githubusercontent.com/lessonly/rubocop-default-configuration/master/.rubocop.yml
+AllCops:
+  NewCops: enable
 
 Style/FrozenStringLiteralComment:
   Enabled: true
