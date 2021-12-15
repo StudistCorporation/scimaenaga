@@ -26,6 +26,8 @@ class ScimPatch
       end
     end
       model.save if model.changed?
+    rescue ActiveRecord::RecordNotFound => e
+      raise ActiveRecord::RecordNotFound
     rescue => e
       raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
   end
