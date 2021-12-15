@@ -434,7 +434,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
         expect(response.status).to eq 404
       end
 
-      it "return :unprocessable_entity and rollback if even one cannot be saved" do
+      it "rollback if even one cannot be saved" do
         expect do
           patch :patch_update, params: {
             id: 1,
@@ -444,12 +444,11 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
               path: "members",
               value: [
                 { value: user2.id },
-                { value: 999999999 },
+                { value: 0 },
               ]
             }]
           }, as: :json
         end.to_not change{ group.reload.users.count }
-        expect(response.status).to eq 422
       end
 
 
