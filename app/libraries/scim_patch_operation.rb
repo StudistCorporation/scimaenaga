@@ -19,9 +19,8 @@ class ScimPatchOperation
     @value = value
   end
 
-  # WIP
   def save(model)
-    if @path_scim == 'members'
+    if @path_scim == 'members' # Only members are supported for data that value is an array
       update_member_ids = @value.map do |v|
         v[ScimRails.config.group_member_relation_schema.keys.first]
       end
