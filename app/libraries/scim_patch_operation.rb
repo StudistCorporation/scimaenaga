@@ -26,14 +26,14 @@ class ScimPatchOperation
         v[ScimRails.config.group_member_relation_schema.keys.first]
       end
 
-      groups = model.public_send(ScimRails.config.group_member_relation_attribute)
+      current_member_ids = model.public_send(ScimRails.config.group_member_relation_attribute)
       case @op
       when :add
-        member_ids = groups.concat(update_member_ids)
+        member_ids = current_member_ids.concat(update_member_ids)
       when :replace
-        member_ids = groups.concat(update_member_ids)
+        member_ids = current_member_ids.concat(update_member_ids)
       when :remove
-        member_ids = groups - update_member_ids
+        member_ids = current_member_ids - update_member_ids
       end
 
       # Only the member addition process is saved by each ids
