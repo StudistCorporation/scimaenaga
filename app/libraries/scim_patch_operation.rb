@@ -19,9 +19,9 @@ class ScimPatchOperation
     @value = value
   end
 
-  # rubocop:disable Metrics/MethodLength
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/CyclomaticComplexity
+
+
+
   def save(model)
     if @path_scim == 'members' # Only members are supported for value is an array
       update_member_ids = @value.map do |v|
@@ -52,9 +52,9 @@ class ScimPatchOperation
       model.attributes = { @path_sp => nil }
     end
   end
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/CyclomaticComplexity
+
+
+
 
   private
 

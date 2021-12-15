@@ -2,8 +2,6 @@
 
 module ScimRails
   class ScimGroupsController < ScimRails::ApplicationController
-    # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/AbcSize
     def index
       if params[:filter].present?
         query = ScimRails::ScimQueryParser.new(
@@ -34,8 +32,6 @@ module ScimRails
 
       json_scim_response(object: groups, counts: counts)
     end
-    # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
 
     def show
       group = @company

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module ScimRails
-  class ScimUsersController < ScimRails::ApplicationController # rubocop:disable Metrics/ClassLength
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
+  class ScimUsersController < ScimRails::ApplicationController
+
+
     def index
       if params[:filter].present?
         query = ScimRails::ScimQueryParser.new(
@@ -50,8 +50,8 @@ module ScimRails
       update_status(user) unless put_active_param.nil?
       json_scim_response(object: user, status: :created)
     end
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
+
+
 
     def show
       user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
