@@ -41,9 +41,7 @@ class ScimPatchOperation
     end
 
     case @op
-    when :add
-      model.attributes = { @path_sp => @value }
-    when :replace
+    when :add, :replace
       model.attributes = { @path_sp => @value }
     when :remove
       model.attributes = { @path_sp => nil }
