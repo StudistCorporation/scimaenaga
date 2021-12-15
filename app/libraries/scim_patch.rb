@@ -25,10 +25,10 @@ class ScimPatch
         operation.save(model)
       end
     end
-      model.save if model.changed?
-    rescue ActiveRecord::RecordNotFound => e
-      raise ActiveRecord::RecordNotFound
-    rescue => e
-      raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
+  model.save if model.changed?
+  rescue ActiveRecord::RecordNotFound => e
+    raise ActiveRecord::RecordNotFound
+  rescue => e
+    raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
   end
 end
