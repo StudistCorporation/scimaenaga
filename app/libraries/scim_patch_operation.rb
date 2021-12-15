@@ -19,13 +19,17 @@ class ScimPatchOperation
     @value = value
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
   def save(model)
-    if @path_scim == 'members' # Only members are supported for data that value is an array
+    if @path_scim == 'members' # Only members are supported for value is an array
       update_member_ids = @value.map do |v|
         v[ScimRails.config.group_member_relation_schema.keys.first]
       end
 
-      current_member_ids = model.public_send(ScimRails.config.group_member_relation_attribute)
+      current_member_ids = model
+                           .public_send(ScimRails.config.group_member_relation_attribute)
       case @op
       when :add
         member_ids = current_member_ids.concat(update_member_ids)
@@ -36,7 +40,8 @@ class ScimPatchOperation
       end
 
       # Only the member addition process is saved by each ids
-      model.public_send(ScimRails.config.group_member_relation_attribute.to_s+'=', member_ids.uniq)
+      model.public_send("#{ScimRails.config.group_member_relation_attribute}=",
+                        member_ids.uniq)
       return
     end
 
@@ -47,6 +52,9 @@ class ScimPatchOperation
       model.attributes = { @path_sp => nil }
     end
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   private
 
@@ -64,8 +72,8 @@ class ScimPatchOperation
       #
       #   Library ignores filter conditions (like [type eq "work"])
       #   and always uses the first element of the array
-      dig_keys = path.gsub(/\[(.+?)\]/, ".0").split(".").map do |step|
-        step == "0" ? 0 : step.to_sym
+      dig_keys = path.gsub(/\[(.+?)\]/, '.0').split('.').map do |step|
+        step == '0' ? 0 : step.to_sym
       end
       mutable_attributes_schema.dig(*dig_keys)
     end
