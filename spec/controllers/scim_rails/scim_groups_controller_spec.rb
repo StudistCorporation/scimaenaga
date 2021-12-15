@@ -417,14 +417,13 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
         expect(response.status).to eq 200
       end
 
-      # delete is not supported now
-      xit "can add and delete Users from a Group at once" do
+      it "can delete Users from a Group" do
         user1 = create(:user, company: company, groups: [group])
-        user2 = create(:user, company: company)
+        user2 = create(:user, company: company, groups: [group])
 
         expect do
-          put :patch_update, params: patch_params(users: [user2]), as: :json
-        end.to change { group.reload.users }.from([user1]).to([user2])
+          put :patch_update, params: patch_params(user_id: user2.id, op: 'Remove'), as: :json
+        end.to change { group.reload.users }.from([user1, user2]).to([user1])
 
         expect(response.status).to eq 200
       end
@@ -558,12 +557,12 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
     }
   end
 
-  def patch_params(user_id: 1)
+  def patch_params(user_id: 1, op: "Add")
     {
       id: 1,
       schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
       Operations: [{
-        op: "Add",
+        op: op,
         path: "members",
         value: [{
           value: user_id
