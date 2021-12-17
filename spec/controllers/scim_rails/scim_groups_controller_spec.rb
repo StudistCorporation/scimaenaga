@@ -409,6 +409,22 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
         expect(response.media_type).to eq 'application/scim+json'
       end
 
+      it 'can change displayName of group' do
+        expect do
+          patch :patch_update, params: {
+            id: 1,
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
+            Operations: [{
+              op: 'Replace',
+              path: 'displayName',
+              value: 'changed'
+            }]
+          }, as: :json
+        end.to change { group.reload.name }.to('changed')
+
+        expect(response.status).to eq 200
+      end
+
       it 'can add Users from a Group' do
         expect do
           patch :patch_update, params: patch_params(user_id: user2.id), as: :json
