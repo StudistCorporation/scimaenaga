@@ -19,9 +19,6 @@ class ScimPatchOperation
     @value = value
   end
 
-
-
-
   def save(model)
     if @path_scim == 'members' # Only members are supported for value is an array
       update_member_ids = @value.map do |v|
@@ -52,9 +49,6 @@ class ScimPatchOperation
       model.attributes = { @path_sp => nil }
     end
   end
-
-
-
 
   private
 

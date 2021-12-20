@@ -532,12 +532,15 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         expect(response.status).to eq 404
       end
 
-      xit "successfully archives user" do
+      it "successfully archives user" do
         expect(company.users.count).to eq 1
         user = company.users.first
         expect(user.archived?).to eq false
 
-        patch :patch_update, params: patch_params(id: 1), as: :json
+        patch \
+          :patch_update,
+          params: patch_active_params(id: user.id, active: false),
+          as: :json
 
         expect(response.status).to eq 200
         expect(company.users.count).to eq 1
@@ -545,14 +548,14 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         expect(user.archived?).to eq true
       end
 
-      xit "successfully restores user" do
+      it "successfully restores user" do
         expect(company.users.count).to eq 1
         user = company.users.first.tap(&:archive!)
         expect(user.archived?).to eq true
 
         patch \
           :patch_update,
-          params: patch_params(id: 1, active: true),
+          params: patch_active_params(id: 1, active: true),
           as: :json
 
         expect(response.status).to eq 200
@@ -569,7 +572,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
 
         patch \
           :patch_update,
-          params: patch_params(id: 1, active: true),
+          params: patch_params(id: 1),
           as: :json
 
         expect(response.status).to eq 200
@@ -683,7 +686,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
     end
   end
 
-  def patch_params(id:, active: false)
+  def patch_params(id: )
     {
       schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
       id: id,
@@ -692,6 +695,20 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
           op: "Replace",
           path: "emails[type eq \"work\"].value",
           value: "change@example.com"
+        }
+      ]
+    }
+  end
+
+  def patch_active_params(id:, active: false)
+    {
+      schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      id: id,
+      Operations: [
+        {
+          op: "Replace",
+          path: "active",
+          value: active
         }
       ]
     }

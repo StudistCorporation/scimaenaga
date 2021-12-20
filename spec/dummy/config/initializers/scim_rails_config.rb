@@ -37,7 +37,8 @@ ScimRails.configure do |config|
       {
         value: :email
       }
-    ]
+    ],
+    active: :active
   }
 
   config.user_schema = {

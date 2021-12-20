@@ -15,6 +15,20 @@ class User < ApplicationRecord
       case_insensitive: true
     }
 
+  def active
+    return false if archived_at
+
+    true
+  end
+
+  def active=(active)
+    if active
+      self.archived_at = nil
+    else
+      self.archived_at ||= Time.now
+    end
+  end
+
   def active?
     archived_at.blank?
   end
