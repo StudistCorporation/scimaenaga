@@ -596,6 +596,24 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         expect(response.status).to eq 200
       end
 
+      it "don't update if not included in mutable attributes" do
+        expect do
+          patch :patch_update, params: {
+            schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+            id: user.id,
+            Operations: [
+             {
+                op: "Replace",
+                path: "not_mutable_attribute",
+                value: "changed"
+              }
+            ]
+          }, as: :json
+        end.to_not change { user }
+
+        expect(response.status).to eq 200
+      end
+
       xit "returns 422 when value is not an object" do
         patch :patch_update, params: {
           schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
