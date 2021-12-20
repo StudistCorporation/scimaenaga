@@ -412,7 +412,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
       it 'can change displayName of group' do
         expect do
           patch :patch_update, params: {
-            id: 1,
+            id: group.id,
             schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
             Operations: [{
               op: 'Replace',
@@ -454,7 +454,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
       it 'rollback if even one cannot be saved' do
         expect do
           patch :patch_update, params: {
-            id: 1,
+            id: group.id,
             schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
             Operations: [{
               op: 'Add',
