@@ -517,6 +517,29 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         expect(response.status).to eq 200
       end
 
+      it 'rollback for contains invalid operaton' do
+        expect do
+          patch :patch_update, params: {
+            schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+            id: user.id,
+            Operations: [
+              {
+                op: "Replace",
+                path: "emails[type eq \"work\"].value",
+                value: "change@example.com"
+              },
+              {
+                op: "Replace",
+                value: "hoge"
+              }
+            ]
+          },
+          as: :json
+        end.to_not change { user.reload.email }
+
+        expect(response.status).to eq 422
+      end
+
       it "returns :not_found for id that cannot be found" do
         get :patch_update, params: patch_params(id: "fake_id"), as: :json
 

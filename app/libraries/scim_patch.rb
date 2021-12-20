@@ -24,8 +24,8 @@ class ScimPatch
       @operations.each do |operation|
         operation.save(model)
       end
+      model.save if model.changed?
     end
-    model.save if model.changed?
   rescue ActiveRecord::RecordNotFound
     raise
   rescue StandardError
