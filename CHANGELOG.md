@@ -1,5 +1,9 @@
 # Upcoming Release
 
+# v0.6.0 20-12-2021
+
+- [Group patch request is now partially supported (for Azure AD)](https://github.com/StudistCorporation/scimaenaga/pull/14)
+
 # v0.5.0 06-12-2021
 
 - [User patch request for Azure AD is now partially supported](https://github.com/StudistCorporation/scimaenaga/pull/9)
