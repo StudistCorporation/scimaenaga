@@ -506,13 +506,13 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       end
 
       it "returns scim+json content type" do
-        patch :patch_update, params: patch_params(id: 1), as: :json
+        patch :patch_update, params: patch_params(id: user.id), as: :json
 
         expect(response.media_type).to eq "application/scim+json"
       end
 
       it "is successful with valid credentials" do
-        patch :patch_update, params: patch_params(id: 1), as: :json
+        patch :patch_update, params: patch_params(id: user.id), as: :json
 
         expect(response.status).to eq 200
       end
