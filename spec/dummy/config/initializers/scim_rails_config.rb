@@ -18,7 +18,8 @@ ScimRails.configure do |config|
   config.mutable_user_attributes = [
     :first_name,
     :last_name,
-    :email
+    :email,
+    :active
   ]
 
   config.queryable_user_attributes = {

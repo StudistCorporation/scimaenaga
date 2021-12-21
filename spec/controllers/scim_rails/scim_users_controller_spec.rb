@@ -364,7 +364,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
               value: "test@example.com"
             }
           ],
-          active: "false"
+          active: false
         }, as: :json
 
         expect(response.status).to eq 201
@@ -415,10 +415,16 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         expect(response.media_type).to eq "application/scim+json"
       end
 
-      it "is successful with with valid credentials" do
+      it "is successful with valid credentials" do
         put :put_update, params: put_params, as: :json
 
         expect(response.status).to eq 200
+      end
+
+      it "successfully change user email" do
+        put :put_update, params: put_params(id: user.id), as: :json
+
+        expect(user.reload.email).to eq 'test@example.com'
       end
 
       it "deprovisions an active record" do
@@ -737,9 +743,9 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
     }
   end
 
-  def put_params(active: true)
+  def put_params(id: 1, active: true)
     {
-      id: 1,
+      id: id,
       userName: "test@example.com",
       name: {
         givenName: "Test",
