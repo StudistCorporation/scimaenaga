@@ -467,6 +467,28 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
           }, as: :json
         end.to_not change { group.reload.users.count }
       end
+
+      it 'return :not_found for assign user don\'t belongs to company' do
+        other_company = create(:company)
+        other_company_user = create(:user, company: other_company)
+
+        expect do
+          patch :patch_update, params: {
+            id: group.id,
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
+            Operations: [{
+              op: 'Add',
+              path: 'members',
+              value: [
+                { value: user2.id },
+                { value: other_company_user.id }
+              ],
+            }],
+          }, as: :json
+        end.to_not change { group.users.count }
+
+        expect(response.status).to eq 404
+      end
     end
   end
 

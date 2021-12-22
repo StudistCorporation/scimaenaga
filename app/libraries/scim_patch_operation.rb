@@ -28,6 +28,8 @@ class ScimPatchOperation
         v[ScimRails.config.group_member_relation_schema.keys.first]
       end
 
+      raise ActiveRecord::RecordNotFound unless check_member_ids(model, update_member_ids)
+
       current_member_ids = model
                            .public_send(ScimRails.config.group_member_relation_attribute)
       case @op
@@ -76,5 +78,13 @@ class ScimPatchOperation
         step == '0' ? 0 : step.to_sym
       end
       mutable_attributes_schema.dig(*dig_keys)
+    end
+
+    def check_member_ids(group, ids)
+      ids.each do |id|
+        return false unless group.company.user_ids.include?(id)
+      end
+
+      true
     end
 end
