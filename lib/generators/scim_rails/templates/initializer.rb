@@ -48,12 +48,6 @@ ScimRails.configure do |config|
   # For example, [:created_at, :id] or { created_at: :desc }.
   # config.scim_users_list_order = :id
 
-  # Method called on user model to deprovision a user.
-  config.user_deprovision_method = :archive!
-
-  # Method called on user model to reprovision a user.
-  config.user_reprovision_method = :unarchive!
-
   # Hash of queryable attribtues on the user model. If
   # the attribute is not listed in this hash it cannot
   # be queried by this Gem. The structure of this hash
