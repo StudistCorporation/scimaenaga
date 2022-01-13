@@ -715,7 +715,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
     end
   end
 
-  def patch_params(id: )
+  def patch_params(id:)
     {
       schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
       id: id,
