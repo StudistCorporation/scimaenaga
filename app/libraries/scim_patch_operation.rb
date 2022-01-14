@@ -16,7 +16,7 @@ class ScimPatchOperation
     @op = op.downcase.to_sym
     @path_scim = path
     @path_sp = convert_path(path, mutable_attributes_schema)
-    @value = value
+    @value = check_value_is_bool(value)
   end
 
   def save(model)
@@ -70,5 +70,16 @@ class ScimPatchOperation
         step == '0' ? 0 : step.to_sym
       end
       mutable_attributes_schema.dig(*dig_keys)
+    end
+
+    def check_value_is_bool(value)
+      case value
+      when 'true', 'True' then
+        return true
+      when 'false', 'False' then
+        return false
+      else
+        return value
+      end
     end
 end
