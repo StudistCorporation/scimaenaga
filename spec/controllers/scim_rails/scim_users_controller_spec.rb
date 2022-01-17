@@ -641,12 +641,12 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
               },
               {
                 op: "Replace",
-                path: "not_mutable_attribute",
-                value: "changed"
+                path: "country",
+                value: "Japan"
               },
             ]
           }, as: :json
-        end.not_to change { user.reload.email }
+        end.not_to change { user.reload.country }
 
         expect(response.status).to eq 422
       end

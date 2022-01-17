@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_23_075950) do
+ActiveRecord::Schema.define(version: 2022_01_17_095407) do
 
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
@@ -23,8 +23,8 @@ ActiveRecord::Schema.define(version: 2021_04_23_075950) do
   create_table "group_users", force: :cascade do |t|
     t.integer "group_id", null: false
     t.integer "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["group_id"], name: "index_group_users_on_group_id"
     t.index ["user_id"], name: "index_group_users_on_user_id"
   end
@@ -32,8 +32,8 @@ ActiveRecord::Schema.define(version: 2021_04_23_075950) do
   create_table "groups", force: :cascade do |t|
     t.string "name", null: false
     t.integer "company_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_groups_on_company_id"
   end
 
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2021_04_23_075950) do
     t.datetime "archived_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "country"
   end
 
   add_foreign_key "group_users", "groups"
