@@ -41,7 +41,7 @@ class ScimPatchOperation
                         member_ids.uniq)
       return
     end
-    return if @path_sp.nil?
+
     case @op
     when :add, :replace
       model.attributes = { @path_sp => @value }

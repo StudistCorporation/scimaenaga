@@ -634,16 +634,21 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
             schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
             id: user.id,
             Operations: [
-             {
+              {
+                op: "Replace",
+                path: "emails[type eq \"work\"].value",
+                value: "change@example.com"
+              },
+              {
                 op: "Replace",
                 path: "not_mutable_attribute",
                 value: "changed"
-              }
+              },
             ]
           }, as: :json
-        end.to_not change { user }
+        end.not_to change { user.reload.email }
 
-        expect(response.status).to eq 200
+        expect(response.status).to eq 422
       end
 
       xit "returns 422 when value is not an object" do
