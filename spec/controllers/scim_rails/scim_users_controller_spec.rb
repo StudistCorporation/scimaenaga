@@ -523,7 +523,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         expect(response.status).to eq 200
       end
 
-      it 'rollback when contains invalid operaton' do
+      it 'rollback all changes when contains any invalid operation' do
         expect do
           patch :patch_update, params: {
             schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
