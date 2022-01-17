@@ -16,9 +16,7 @@ class User < ApplicationRecord
     }
 
   def active
-    return false if archived_at
-
-    true
+    return active?
   end
 
   def active=(active)
