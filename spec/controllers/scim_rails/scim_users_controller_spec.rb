@@ -720,7 +720,85 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
     end
   end
 
-  def patch_params(id:)
+  describe 'destroy' do
+    let(:company) { create(:company) }
+
+    context "when unauthorized" do
+      it "returns scim+json content type" do
+        delete :destroy, params: { id: 1 }, as: :json
+
+        expect(response.media_type).to eq "application/scim+json"
+      end
+
+      it "fails with no credentials" do
+        delete :destroy, params: { id: 1 }, as: :json
+
+        expect(response.status).to eq 401
+      end
+
+      it "fails with invalid credentials" do
+        request.env["HTTP_AUTHORIZATION"] =
+          ActionController::HttpAuthentication::Basic
+          .encode_credentials("unauthorized", "123456")
+
+        delete :destroy, params: { id: 1 }, as: :json
+
+        expect(response.status).to eq 401
+      end
+    end
+
+    context 'when authorized' do
+      let!(:user) { create(:user, id: 1, company: company) }
+
+      before :each do
+        http_login(company)
+      end
+
+      context 'when User destroy method is configured' do
+        before do
+          allow(ScimRails.config).to(
+            receive(:user_destroy_method).and_return(:destroy!)
+          )
+        end
+
+        it 'is sucessful with valid credentials' do
+          delete :destroy, params: { id: 1 }, as: :json
+
+          expect(response.status).to eq 204
+        end
+
+        it 'returns empty response' do
+          delete :destroy, params: { id: 1 }, as: :json
+
+          expect(response.body).to be_empty
+        end
+
+        it 'successfully deletes User' do
+          expect do
+            delete :destroy, params: { id: 1 }, as: :json
+          end.to change { company.users.reload.count }.from(1).to(0)
+
+          expect(response.status).to eq 204
+        end
+      end
+
+      context 'when User destroy method is not configured' do
+        it 'does not delete Group' do
+          allow(ScimRails.config).to(
+            receive(:user_destroy_method).and_return(nil)
+          )
+
+          expect do
+            delete :destroy, params: { id: 1 }, as: :json
+          end.not_to change { company.users.reload.count }.from(1)
+
+          expect(response.status).to eq 501
+        end
+      end
+    end
+  end
+
+  def patch_params(id:, active: false)
     {
       schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
       id: id,
