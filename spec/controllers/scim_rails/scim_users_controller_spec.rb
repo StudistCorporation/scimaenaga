@@ -364,7 +364,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
               value: "test@example.com"
             }
           ],
-          active: "false"
+          active: false
         }, as: :json
 
         expect(response.status).to eq 201
@@ -415,10 +415,16 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         expect(response.media_type).to eq "application/scim+json"
       end
 
-      it "is successful with with valid credentials" do
+      it "is successful with valid credentials" do
         put :put_update, params: put_params, as: :json
 
         expect(response.status).to eq 200
+      end
+
+      it "successfully change user email" do
+        put :put_update, params: put_params(id: user.id), as: :json
+
+        expect(user.reload.email).to eq 'test@example.com'
       end
 
       it "deprovisions an active record" do
@@ -506,15 +512,38 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       end
 
       it "returns scim+json content type" do
-        patch :patch_update, params: patch_params(id: 1), as: :json
+        patch :patch_update, params: patch_params(id: user.id), as: :json
 
         expect(response.media_type).to eq "application/scim+json"
       end
 
       it "is successful with valid credentials" do
-        patch :patch_update, params: patch_params(id: 1), as: :json
+        patch :patch_update, params: patch_params(id: user.id), as: :json
 
         expect(response.status).to eq 200
+      end
+
+      it 'rollback all changes when contains any invalid operation' do
+        expect do
+          patch :patch_update, params: {
+            schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+            id: user.id,
+            Operations: [
+              {
+                op: "Replace",
+                path: "emails[type eq \"work\"].value",
+                value: "change@example.com"
+              },
+              {
+                op: "Replace",
+                value: "hoge"
+              }
+            ]
+          },
+          as: :json
+        end.to_not change { user.reload.email }
+
+        expect(response.status).to eq 422
       end
 
       it "returns :not_found for id that cannot be found" do
@@ -532,12 +561,15 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         expect(response.status).to eq 404
       end
 
-      xit "successfully archives user" do
+      it "successfully archives user" do
         expect(company.users.count).to eq 1
         user = company.users.first
         expect(user.archived?).to eq false
 
-        patch :patch_update, params: patch_params(id: 1), as: :json
+        patch \
+          :patch_update,
+          params: patch_active_params(id: user.id, active: false),
+          as: :json
 
         expect(response.status).to eq 200
         expect(company.users.count).to eq 1
@@ -545,14 +577,14 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         expect(user.archived?).to eq true
       end
 
-      xit "successfully restores user" do
+      it "successfully restores user" do
         expect(company.users.count).to eq 1
         user = company.users.first.tap(&:archive!)
         expect(user.archived?).to eq true
 
         patch \
           :patch_update,
-          params: patch_params(id: 1, active: true),
+          params: patch_active_params(id: 1, active: true),
           as: :json
 
         expect(response.status).to eq 200
@@ -569,7 +601,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
 
         patch \
           :patch_update,
-          params: patch_params(id: 1, active: true),
+          params: patch_params(id: 1),
           as: :json
 
         expect(response.status).to eq 200
@@ -594,6 +626,29 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
         }, as: :json
 
         expect(response.status).to eq 200
+      end
+
+      it "don't update if not included in mutable attributes" do
+        expect do
+          patch :patch_update, params: {
+            schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+            id: user.id,
+            Operations: [
+              {
+                op: "Replace",
+                path: "emails[type eq \"work\"].value",
+                value: "change@example.com"
+              },
+              {
+                op: "Replace",
+                path: "country",
+                value: "Japan"
+              },
+            ]
+          }, as: :json
+        end.not_to change { user.reload.country }
+
+        expect(response.status).to eq 422
       end
 
       xit "returns 422 when value is not an object" do
@@ -665,7 +720,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
     end
   end
 
-  def patch_params(id:, active: false)
+  def patch_params(id:)
     {
       schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
       id: id,
@@ -679,9 +734,23 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
     }
   end
 
-  def put_params(active: true)
+  def patch_active_params(id:, active: false)
     {
-      id: 1,
+      schemas: ["urn:ietf:params:scim:api:messages:2.0:PatchOp"],
+      id: id,
+      Operations: [
+        {
+          op: "Replace",
+          path: "active",
+          value: active
+        }
+      ]
+    }
+  end
+
+  def put_params(id: 1, active: true)
+    {
+      id: id,
       userName: "test@example.com",
       name: {
         givenName: "Test",

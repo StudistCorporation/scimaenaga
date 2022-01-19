@@ -19,7 +19,8 @@ describe ScimPatchOperation do
       name: {
         familyName: :family_name,
         givenName: :given_name
-      }
+      },
+      active: :active
     }
   }
   let(:operation) {
@@ -80,6 +81,15 @@ describe ScimPatchOperation do
         expect(operation.path_sp).to eq :family_name
         expect(operation.value).to eq value
       }
+    end
+
+    context 'replace active' do
+      let(:path) { 'active' }
+      let(:value) { 'False' }
+
+      it 'convert string to bool' do
+        expect(operation.value).to eq false
+      end
     end
   end
 

@@ -12,13 +12,11 @@ ScimRails.configure do |config|
   config.signing_algorithm = "HS256"
   config.signing_secret = "2d6806dd11c2fece2e81b8ca76dcb0062f5b08e28e3264e8ba1c44bbd3578b70"
 
-  config.user_deprovision_method = :archive!
-  config.user_reprovision_method = :unarchive!
-
   config.mutable_user_attributes = [
     :first_name,
     :last_name,
-    :email
+    :email,
+    :active
   ]
 
   config.queryable_user_attributes = {
@@ -37,7 +35,8 @@ ScimRails.configure do |config|
       {
         value: :email
       }
-    ]
+    ],
+    active: :active
   }
 
   config.user_schema = {

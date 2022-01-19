@@ -16,11 +16,8 @@ class ScimPatchOperation
     @op = op.downcase.to_sym
     @path_scim = path
     @path_sp = convert_path(path, mutable_attributes_schema)
-    @value = value
+    @value = convert_bool_if_string(value, @path_scim)
   end
-
-
-
 
   def save(model)
     if @path_scim == 'members' # Only members are supported for value is an array
@@ -53,9 +50,6 @@ class ScimPatchOperation
     end
   end
 
-
-
-
   private
 
     def convert_path(path, mutable_attributes_schema)
@@ -76,5 +70,20 @@ class ScimPatchOperation
         step == '0' ? 0 : step.to_sym
       end
       mutable_attributes_schema.dig(*dig_keys)
+    end
+
+    def convert_bool_if_string(value, path)
+      # This method correct value in requests from Azure AD according to SCIM.
+      # When path is not active, do nothing and return
+      return value if path != 'active'
+
+      case value
+      when 'true', 'True' then
+        return true
+      when 'false', 'False' then
+        return false
+      else
+        return value
+      end
     end
 end

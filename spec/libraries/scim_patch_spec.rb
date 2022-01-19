@@ -22,6 +22,11 @@ describe ScimPatch do
           'op' => 'Replace',
           'path' => 'name.familyName',
           'value' => 'Suzuki'
+        },
+        {
+          'op' => 'Replace',
+          'path' => 'active',
+          'value' => 'False'
         }
       ]
     }
@@ -39,7 +44,8 @@ describe ScimPatch do
       name: {
         familyName: :family_name,
         givenName: :given_name
-      }
+      },
+      active: :active
     }
   }
 
@@ -61,6 +67,11 @@ describe ScimPatch do
       expect(patch.operations[2].path_scim).to eq 'name.familyName'
       expect(patch.operations[2].path_sp).to eq :family_name
       expect(patch.operations[2].value).to eq 'Suzuki'
+
+      expect(patch.operations[3].op).to eq :replace
+      expect(patch.operations[3].path_scim).to eq 'active'
+      expect(patch.operations[3].path_sp).to eq :active
+      expect(patch.operations[3].value).to eq false
     }
   end
 
