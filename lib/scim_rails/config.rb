@@ -46,6 +46,7 @@ module ScimRails
       :user_reprovision_method,
       :user_schema,
       :group_schema,
+      :user_destroy_method
       :group_destroy_method
 
     def initialize

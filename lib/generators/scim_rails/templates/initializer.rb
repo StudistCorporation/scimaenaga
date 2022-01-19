@@ -54,6 +54,10 @@ ScimRails.configure do |config|
   # Method called on user model to reprovision a user.
   config.user_reprovision_method = :unarchive!
 
+  # Set user_destroy_method to a method on the User model
+  # to be called on a destroy request
+  # config.user_destroy_method = :destroy!
+
   # Hash of queryable attribtues on the user model. If
   # the attribute is not listed in this hash it cannot
   # be queried by this Gem. The structure of this hash
