@@ -117,6 +117,8 @@ class ScimPatchOperation
     end
 
     def convert_path(path, mutable_attributes_schema)
+      return nil if path.nil?
+
       # For now, library does not support Multi-Valued Attributes properly.
       # examle:
       #   path = 'emails[type eq "work"].value'
