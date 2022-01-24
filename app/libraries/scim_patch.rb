@@ -5,9 +5,8 @@ class ScimPatch
   attr_accessor :operations
 
   def initialize(params, mutable_attributes_schema)
-    # FIXME: raise proper error.
     unless params['schemas'] == ['urn:ietf:params:scim:api:messages:2.0:PatchOp']
-      raise StandardError
+      raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
     end
     if params['Operations'].nil?
       raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
