@@ -52,15 +52,15 @@ class ScimPatchOperation
     create_operation(op_downcase, path, value, mutable_attributes_schema)
   end
 
-  def save(_model)
+  def save(model)
     @operations.each do |operation|
-      apply_operation(operation)
+      apply_operation(model, operation)
     end
   end
 
   private
 
-    def apply_operation(operation)
+    def apply_operation(model, operation)
       if operation.path_scim == 'members' # Only members are supported for value is an array
         update_member_ids = operation.value.map do |v|
           v[ScimRails.config.group_member_relation_schema.keys.first]
