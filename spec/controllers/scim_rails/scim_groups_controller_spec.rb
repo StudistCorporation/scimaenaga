@@ -438,7 +438,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
         user2 = create(:user, company: company, groups: [group])
 
         expect do
-          put :patch_update, params: patch_params(user_id: user2.id, op: 'Remove'),
+          put :patch_update, params: patch_params(user_id: user2.id.to_s, op: 'Remove'),
                              as: :json
         end.to change { group.reload.users }.from([user1, user2]).to([user1])
 
