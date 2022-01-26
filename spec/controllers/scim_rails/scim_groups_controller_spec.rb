@@ -427,7 +427,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
 
       it 'can add Users from a Group' do
         expect do
-          patch :patch_update, params: patch_params(user_id: user2.id), as: :json
+          patch :patch_update, params: patch_params(user_id: user2.id.to_s), as: :json
         end.to change { group.reload.users }.from([user1]).to([user1, user2])
 
         expect(response.status).to eq 200
