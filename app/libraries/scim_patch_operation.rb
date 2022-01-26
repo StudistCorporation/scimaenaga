@@ -26,7 +26,7 @@ class ScimPatchOperation
       end
 
       current_member_ids = model
-                           .public_send(ScimRails.config.group_member_relation_attribute)
+                           .public_send(ScimRails.config.group_member_relation_attribute).map(&:to_s)
       case @op
       when :add
         member_ids = current_member_ids.concat(update_member_ids)
