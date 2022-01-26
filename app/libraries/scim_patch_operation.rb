@@ -78,9 +78,9 @@ class ScimPatchOperation
       return value if path != 'active'
 
       case value
-      when 'true', 'True' then
+      when 'true', 'True'
         return true
-      when 'false', 'False' then
+      when 'false', 'False'
         return false
       else
         return value
