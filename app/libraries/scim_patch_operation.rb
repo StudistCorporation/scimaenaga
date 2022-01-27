@@ -45,11 +45,11 @@ class ScimPatchOperation
     #     "value": "taro",
     #   },
     # ]
-    if value.instance_of?(Hash)
+    if value.instance_of?(Hash) || value.instance_of?(ActionController::Parameters)
       create_multiple_operations(op_downcase, path, value, mutable_attributes_schema)
-      return
+    else
+      create_operation(op_downcase, path, value, mutable_attributes_schema)
     end
-    create_operation(op_downcase, path, value, mutable_attributes_schema)
   end
 
   def save(model)
