@@ -1,5 +1,9 @@
 # Upcoming Release
 
+# v0.6.2 27-01-2022
+
+- [Fix a bug](https://github.com/StudistCorporation/scimaenaga/pull/22)
+
 # v0.6.1 18-01-2022
 
 - [User deprovisioning/reprovisioning is now supoorted (for Azure AD)](https://github.com/StudistCorporation/scimaenaga/pull/17)
