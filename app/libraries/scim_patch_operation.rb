@@ -63,12 +63,12 @@ class ScimPatchOperation
     def apply_operation(model, operation)
       if operation.path_scim == 'members' # Only members are supported for value is an array
         update_member_ids = operation.value.map do |v|
-          v[ScimRails.config.group_member_relation_schema.keys.first]
+          v[ScimRails.config.group_member_relation_schema.keys.first].to_s
         end
 
         current_member_ids = model.public_send(
           ScimRails.config.group_member_relation_attribute
-        )
+        ).map(&:to_s)
         case operation.op
         when :add
           member_ids = current_member_ids.concat(update_member_ids)
