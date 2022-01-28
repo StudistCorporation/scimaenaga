@@ -81,6 +81,7 @@ class ScimPatchOperation
         # Only the member addition process is saved by each ids
         model.public_send("#{ScimRails.config.group_member_relation_attribute}=",
                           member_ids.uniq)
+        return
       end
 
       case operation.op
