@@ -20,7 +20,7 @@ class ScimPatchOperation
     @operations = []
 
     # To handle request pattern A and B in the same way,
-    # convert multi-value to path + single-value
+    # convert complex-value to path + single-value
     #
     # pattern A
     # {
@@ -66,8 +66,9 @@ class ScimPatchOperation
           v[ScimRails.config.group_member_relation_schema.keys.first]
         end
 
-        current_member_ids = model
-                             .public_send(ScimRails.config.group_member_relation_attribute)
+        current_member_ids = model.public_send(
+          ScimRails.config.group_member_relation_attribute
+        )
         case operation.op
         when :add
           member_ids = current_member_ids.concat(update_member_ids)
@@ -80,7 +81,6 @@ class ScimPatchOperation
         # Only the member addition process is saved by each ids
         model.public_send("#{ScimRails.config.group_member_relation_attribute}=",
                           member_ids.uniq)
-        return
       end
 
       case operation.op
@@ -97,9 +97,11 @@ class ScimPatchOperation
       @operations << Operation.new(op.to_sym, path_scim, path_sp, value)
     end
 
-    def create_multiple_operations(op, path_scim_orig, value, mutable_attributes_schema)
-      value.each do |k, v|
-        # Typical request is path = nil and value = complex-value:
+    # convert hash value to 1 path + 1 value
+    # each path is created by path_scim_base + key of value
+    def create_multiple_operations(op, path_scim_base, hash_value, mutable_attributes_schema)
+      hash_value.each do |k, v|
+        # Typical request is path_scim_base = nil and value = complex-value:
         # {
         #   "op": "replace",
         #   "value": {
@@ -107,8 +109,8 @@ class ScimPatchOperation
         #       "name.givenName": "taro"
         #   }
         # }
-        path_scim = if path_scim_orig.present?
-                      path_scim_orig + ".#{k}"
+        path_scim = if path_scim_base.present?
+                      "#{path_scim_base}.#{k}"
                     else
                       k
                     end
