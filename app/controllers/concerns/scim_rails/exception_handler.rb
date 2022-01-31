@@ -7,6 +7,9 @@ module ScimRails
     class InvalidCredentials < StandardError
     end
 
+    class InvalidRequest < StandardError
+    end
+
     class InvalidQuery < StandardError
     end
 
@@ -14,6 +17,12 @@ module ScimRails
     end
 
     class UnsupportedDeleteRequest < StandardError
+    end
+
+    class InvalidConfiguretion < StandardError
+    end
+
+    class UnexpectedError < StandardError
     end
 
     included do
