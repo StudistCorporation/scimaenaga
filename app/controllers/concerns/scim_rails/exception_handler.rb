@@ -47,6 +47,17 @@ module ScimRails
         )
       end
 
+      rescue_from ScimRails::ExceptionHandler::InvalidRequest do
+        json_response(
+          {
+            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
+            detail: "Invalid request.",
+            status: "400"
+          },
+          :bad_request
+        )
+      end
+
       rescue_from ScimRails::ExceptionHandler::InvalidQuery do
         json_response(
           {
@@ -63,7 +74,7 @@ module ScimRails
         json_response(
           {
             schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
-            detail: "Invalid PATCH request. This PATCH endpoint only supports deprovisioning and reprovisioning records.",
+            detail: "Invalid PATCH request.",
             status: "422"
           },
           :unprocessable_entity
@@ -78,6 +89,28 @@ module ScimRails
             status: "501"
           },
           :not_implemented
+        )
+      end
+
+      rescue_from ScimRails::ExceptionHandler::InvalidConfiguretion do
+        json_response(
+          {
+            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
+            detail: "Invalid configuration.",
+            status: "500"
+          },
+          :internal_server_error
+        )
+      end
+
+      rescue_from ScimRails::ExceptionHandler::UnexpectedError do
+        json_response(
+          {
+            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
+            detail: "Unexpected Error.",
+            status: "500"
+          },
+          :internal_server_error
         )
       end
 

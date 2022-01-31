@@ -68,13 +68,24 @@ module ScimRails
 
     def destroy
       unless ScimRails.config.group_destroy_method
-        raise ScimRails::ExceptionHandler::UnsupportedDeleteRequest
+        raise ScimRails::ExceptionHandler::InvalidConfiguretion
       end
 
       group = @company
               .public_send(ScimRails.config.scim_groups_scope)
               .find(params[:id])
-      group.public_send(ScimRails.config.group_destroy_method)
+      raise ActiveRecord::RecordNotFound unless group
+
+      begin
+        group.public_send(ScimRails.config.group_destroy_method)
+      rescue NoMethodError => e
+        raise ScimRails::ExceptionHandler::InvalidConfiguretion
+      rescue ActiveRecord::RecordNotDestroyed => e
+        raise ScimRails::ExceptionHandler::InvalidRequest
+      rescue => e
+        raise ScimRails::ExceptionHandler::UnexpectedError
+      end
+
       head :no_content
     end
 
