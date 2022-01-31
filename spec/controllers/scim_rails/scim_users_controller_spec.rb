@@ -792,7 +792,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
             delete :destroy, params: { id: 1 }, as: :json
           end.not_to change { company.users.reload.count }.from(1)
 
-          expect(response.status).to eq 501
+          expect(response.status).to eq 500
         end
       end
     end
