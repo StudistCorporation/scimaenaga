@@ -795,6 +795,30 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
           expect(response.status).to eq 500
         end
       end
+
+      context 'when User destroy method is invalid' do
+        it 'does not delete User' do
+          allow(ScimRails.config).to(
+            receive(:user_destroy_method).and_return('destory!')
+          )
+
+          expect do
+            delete :destroy, params: { id: 1 }, as: :json
+          end.not_to change { company.users.reload.count }.from(1)
+
+          expect(response.status).to eq 500
+        end
+      end
+
+      context 'when target User is not found' do
+        it 'return 404 not found' do
+          expect do
+            delete :destroy, params: { id: 999999 }, as: :json
+          end.not_to change { company.users.reload.count }.from(1)
+
+          expect(response.status).to eq 404
+        end
+      end
     end
   end
 
