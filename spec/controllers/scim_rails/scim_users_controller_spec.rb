@@ -783,7 +783,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       end
 
       context 'when User destroy method is not configured' do
-        it 'does not delete Group' do
+        it 'does not delete User' do
           allow(ScimRails.config).to(
             receive(:user_destroy_method).and_return(nil)
           )
