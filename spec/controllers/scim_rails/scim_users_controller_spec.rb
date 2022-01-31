@@ -819,6 +819,18 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
           expect(response.status).to eq 404
         end
       end
+
+      context 'when target User are not allowed to delete' do
+        let!(:user) { create(:user, id: 1, company: company, is_owner: true) }
+
+        it 'does not delete user' do
+          expect do
+            delete :destroy, params: { id: 1 }, as: :json
+          end.not_to change { company.users.reload.count }.from(1)
+
+          expect(response.status).to eq 400
+        end
+      end
     end
   end
 

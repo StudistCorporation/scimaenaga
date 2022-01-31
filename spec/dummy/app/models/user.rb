@@ -3,6 +3,8 @@ class User < ApplicationRecord
   has_many :group_users
   has_many :groups, through: :group_users
 
+  before_destroy :check_owner
+
   validates \
     :first_name,
     :last_name,
@@ -47,5 +49,12 @@ class User < ApplicationRecord
   def unarchive!
     write_attribute(:archived_at, nil)
     save!
+  end
+
+  def check_owner
+    return unless is_owner
+
+    errors.add(:base, 'owner is not deleted.')
+    throw :abort
   end
 end
