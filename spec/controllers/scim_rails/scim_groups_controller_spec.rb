@@ -505,12 +505,6 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
       end
 
       context 'when Group destroy method is configured' do
-        before do
-          allow(ScimRails.config).to(
-            receive(:group_destroy_method).and_return(:destroy!)
-          )
-        end
-
         it 'returns empty response' do
           delete :destroy, params: { id: 1 }, as: :json
 
@@ -558,6 +552,30 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
           end.not_to change { company.groups.reload.count }.from(1)
 
           expect(response.status).to eq 500
+        end
+      end
+
+      context 'when Group destroy method is invalid' do
+        it 'does not delete Group' do
+          allow(ScimRails.config).to(
+            receive(:group_destroy_method).and_return('destory!')
+          )
+
+          expect do
+            delete :destroy, params: { id: 1 }, as: :json
+          end.not_to change { company.groups.reload.count }.from(1)
+
+          expect(response.status).to eq 500
+        end
+      end
+
+      context 'whenr target Group is not found' do
+        it 'return 404 not found' do
+          expect do
+            delete :destroy, params: { id: 999999 }, as: :json
+          end.not_to change { company.groups.reload.count }.from(1)
+
+          expect(response.status).to eq 404
         end
       end
     end

@@ -755,11 +755,6 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       end
 
       context 'when User destroy method is configured' do
-        before do
-          allow(ScimRails.config).to(
-            receive(:user_destroy_method).and_return(:destroy!)
-          )
-        end
 
         it 'is sucessful with valid credentials' do
           delete :destroy, params: { id: 1 }, as: :json
