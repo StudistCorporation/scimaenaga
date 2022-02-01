@@ -68,7 +68,7 @@ module ScimRails
 
     def destroy
       unless ScimRails.config.group_destroy_method
-        raise ScimRails::ExceptionHandler::InvalidConfiguretion
+        raise ScimRails::ExceptionHandler::InvalidConfiguration
       end
 
       group = @company
@@ -79,7 +79,7 @@ module ScimRails
       begin
         group.public_send(ScimRails.config.group_destroy_method)
       rescue NoMethodError => e
-        raise ScimRails::ExceptionHandler::InvalidConfiguretion
+        raise ScimRails::ExceptionHandler::InvalidConfiguration
       rescue ActiveRecord::RecordNotDestroyed => e
         raise ScimRails::ExceptionHandler::InvalidRequest
       rescue => e

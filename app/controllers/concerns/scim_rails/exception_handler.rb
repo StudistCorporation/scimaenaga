@@ -19,7 +19,7 @@ module ScimRails
     class UnsupportedDeleteRequest < StandardError
     end
 
-    class InvalidConfiguretion < StandardError
+    class InvalidConfiguration < StandardError
     end
 
     class UnexpectedError < StandardError
@@ -101,7 +101,7 @@ module ScimRails
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::InvalidConfiguretion do
+      rescue_from ScimRails::ExceptionHandler::InvalidConfiguration do
         json_response(
           {
             schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],

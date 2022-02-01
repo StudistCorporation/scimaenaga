@@ -73,7 +73,7 @@ module ScimRails
 
     def destroy
       unless ScimRails.config.user_destroy_method
-        raise ScimRails::ExceptionHandler::InvalidConfiguretion
+        raise ScimRails::ExceptionHandler::InvalidConfiguration
       end
 
       user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
@@ -82,7 +82,7 @@ module ScimRails
       begin
         user.public_send(ScimRails.config.user_destroy_method)
       rescue NoMethodError => e
-        raise ScimRails::ExceptionHandler::InvalidConfiguretion
+        raise ScimRails::ExceptionHandler::InvalidConfiguration
       rescue ActiveRecord::RecordNotDestroyed => e
         raise ScimRails::ExceptionHandler::InvalidRequest
       rescue => e
