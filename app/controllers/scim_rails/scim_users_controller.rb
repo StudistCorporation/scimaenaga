@@ -3,7 +3,6 @@
 module ScimRails
   class ScimUsersController < ScimRails::ApplicationController
 
-
     def index
       if params[:filter].present?
         query = ScimRails::ScimQueryParser.new(
@@ -50,8 +49,6 @@ module ScimRails
       json_scim_response(object: user, status: :created)
     end
 
-
-
     def show
       user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
       json_scim_response(object: user)
@@ -65,7 +62,7 @@ module ScimRails
 
     def patch_update
       user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
-      patch = ScimPatch.new(params, ScimRails.config.mutable_user_attributes_schema)
+      patch = ScimPatch.new(params, :user)
       patch.save(user)
 
       json_scim_response(object: user)

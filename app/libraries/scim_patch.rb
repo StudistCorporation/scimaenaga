@@ -4,17 +4,24 @@
 class ScimPatch
   attr_accessor :operations
 
-  def initialize(params, mutable_attributes_schema)
-    unless params['schemas'] == ['urn:ietf:params:scim:api:messages:2.0:PatchOp']
-      raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
-    end
-    if params['Operations'].nil?
+  def initialize(params, resource_type)
+    if params['schemas'] != ['urn:ietf:params:scim:api:messages:2.0:PatchOp'] ||
+       params['Operations'].nil?
       raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
     end
 
-    @operations = params['Operations'].map do |operation|
-      ScimPatchOperation.new(operation['op'], operation['path'], operation['value'],
-                             mutable_attributes_schema)
+    # complex-value(Hash) operation is converted to multiple single-value operations
+    converted_operations = ScimPatchOperationConverter.convert(params['Operations'])
+    @operations = converted_operations.map do |o|
+      create_operation(resource_type, o['op'], o['path'], o['value'])
+    end
+  end
+
+  def create_operation(resource_type, op, path, value)
+    if resource_type == :user
+      ScimPatchOperationUser.new(op, path, value)
+    else
+      ScimPatchOperationGroup.new(op, path, value)
     end
   end
 

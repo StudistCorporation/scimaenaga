@@ -60,7 +60,7 @@ module ScimRails
       group = @company
               .public_send(ScimRails.config.scim_groups_scope)
               .find(params[:id])
-      patch = ScimPatch.new(params, ScimRails.config.mutable_group_attributes_schema)
+      patch = ScimPatch.new(params, :group)
       patch.save(group)
 
       json_scim_response(object: group)
