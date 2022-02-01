@@ -3,7 +3,7 @@ class User < ApplicationRecord
   has_many :group_users
   has_many :groups, through: :group_users
 
-  before_destroy :check_owner
+  before_destroy :check_deletable
 
   validates \
     :first_name,
@@ -51,10 +51,10 @@ class User < ApplicationRecord
     save!
   end
 
-  def check_owner
-    return unless is_owner
+  def check_deletable
+    return if deletable
 
-    errors.add(:base, 'owner is not deleted.')
+    errors.add(:base, 'The specified user could not be deleted.')
     throw :abort
   end
 end

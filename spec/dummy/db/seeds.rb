@@ -14,7 +14,7 @@ User.create(
   first_name: 'scim',
   last_name: 'owner',
   email: 'owner@example.com',
-  is_owner: true
+  deletable: false
 )
 
 1.upto(1000) do |n|
@@ -23,6 +23,6 @@ User.create(
     first_name: "Test#{n}",
     last_name: "User#{n}",
     email: "#{n}@example.com",
-    is_owner: false
+    deletable: true
   )
 end

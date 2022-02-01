@@ -6,6 +6,6 @@ FactoryBot.define do
     last_name { "User" }
     sequence(:email) { |n| "#{n}@example.com" }
 
-    is_owner { false }
+    deletable { true }
   end
 end

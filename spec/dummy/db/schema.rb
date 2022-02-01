@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2022_01_31_090107) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "country"
-    t.boolean "is_owner"
+    t.boolean "deletable"
   end
 
   add_foreign_key "group_users", "groups"

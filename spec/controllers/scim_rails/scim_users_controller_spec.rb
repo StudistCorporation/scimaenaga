@@ -816,7 +816,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       end
 
       context 'when target User are not allowed to delete' do
-        let!(:user) { create(:user, id: 1, company: company, is_owner: true) }
+        let!(:user) { create(:user, id: 1, company: company, deletable: false) }
 
         it 'does not delete user' do
           expect do
