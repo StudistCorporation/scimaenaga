@@ -82,11 +82,11 @@ module ScimRails
       begin
         user.public_send(ScimRails.config.user_destroy_method)
       rescue NoMethodError => e
-        raise ScimRails::ExceptionHandler::InvalidConfiguration
+        raise ScimRails::ExceptionHandler::InvalidConfiguration, e.message
       rescue ActiveRecord::RecordNotDestroyed => e
-        raise ScimRails::ExceptionHandler::InvalidRequest
+        raise ScimRails::ExceptionHandler::InvalidRequest, e.message
       rescue => e
-        raise ScimRails::ExceptionHandler::UnexpectedError
+        raise ScimRails::ExceptionHandler::UnexpectedError, e.message
       end
 
       head :no_content

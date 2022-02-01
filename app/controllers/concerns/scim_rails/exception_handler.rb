@@ -56,11 +56,11 @@ module ScimRails
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::InvalidRequest do
+      rescue_from ScimRails::ExceptionHandler::InvalidRequest do |e|
         json_response(
           {
             schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
-            detail: "Invalid request.",
+            detail: "Invalid request. #{e.message}",
             status: "400"
           },
           :bad_request
@@ -101,22 +101,22 @@ module ScimRails
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::InvalidConfiguration do
+      rescue_from ScimRails::ExceptionHandler::InvalidConfiguration do |e|
         json_response(
           {
             schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
-            detail: "Invalid configuration.",
+            detail: "Invalid configuration. #{e.message}",
             status: "500"
           },
           :internal_server_error
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::UnexpectedError do
+      rescue_from ScimRails::ExceptionHandler::UnexpectedError do |e|
         json_response(
           {
             schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
-            detail: "Unexpected Error.",
+            detail: "Unexpected Error. #{e.message}",
             status: "500"
           },
           :internal_server_error
