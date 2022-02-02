@@ -13,7 +13,7 @@ class ScimPatchOperationUser < ScimPatchOperation
 
   private
 
-    def operation_mutable_attributes_schema
+    def mutable_attributes_schema
       ScimRails.config.mutable_user_attributes_schema
     end
 
