@@ -51,16 +51,13 @@ class ScimPatchOperation
 
       # filter_elements: ['type', 'eq', '"work"']
       filter_elements = filter_string&.split(' ')
-
-      # delete double quotation
-      filter_elements[2] = filter_elements[2].slice(1...filter_elements[2].length - 1)
-
       path_scim = {attribute: path_elements[0], rest_path: path_elements[1..]}
       if filter_elements.present?
         path_scim[:filter] = {
           attribute: filter_elements[0],
           operator: filter_elements[1],
-          parameter: filter_elements[2],
+          # delete double quotation
+          parameter: filter_elements[2].slice(1...filter_elements[2].length - 1),
         }
       end
 

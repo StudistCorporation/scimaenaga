@@ -46,10 +46,6 @@ class ScimPatchOperationGroup < ScimPatchOperation
 
   private
 
-    def mutable_attributes_schema
-      ScimRails.config.mutable_group_attributes_schema
-    end
-
     def validate(_op, _path, _value)
       return
     end
@@ -80,7 +76,7 @@ class ScimPatchOperationGroup < ScimPatchOperation
       dig_keys.concat(path_scim[:rest_path].map(&:to_sym))
 
       # *dig_keys example: displayName
-      mutable_attributes_schema.dig(*dig_keys)
+      ScimRails.config.mutable_group_attributes_schema.dig(*dig_keys)
     end
 
 end
