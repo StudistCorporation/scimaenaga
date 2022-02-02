@@ -51,7 +51,8 @@ class ScimPatchOperation
 
       # filter_elements: ['type', 'eq', '"work"']
       filter_elements = filter_string&.split(' ')
-      path_scim = {attribute: path_elements[0], rest_path: path_elements[1..nil]}
+      path_scim = { attribute: path_elements[0],
+                    rest_path: path_elements.slice(1...path_elements.length), }
       if filter_elements.present?
         path_scim[:filter] = {
           attribute: filter_elements[0],
