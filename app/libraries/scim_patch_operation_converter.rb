@@ -44,7 +44,7 @@ class ScimPatchOperationConverter
           next
         end
 
-        result << format_fixed_operation(o['op'], o['path'], value)
+        result << fix_operation_format(o['op'], o['path'], value)
       end
     end
 
@@ -57,11 +57,11 @@ class ScimPatchOperationConverter
                  else
                    k
                  end
-          format_fixed_operation(op, path, v)
+          fix_operation_format(op, path, v)
         end
       end
 
-      def format_fixed_operation(op, path, value)
+      def fix_operation_format(op, path, value)
         { 'op' => op.downcase, 'path' => path, 'value' => fix_value(value, path) }
       end
 

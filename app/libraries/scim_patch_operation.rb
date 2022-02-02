@@ -32,6 +32,7 @@ class ScimPatchOperation
     def mutable_attributes_schema
       return @mutable_attributes_schema if @mutable_attributes_schema.present?
 
+      # define schema method in the inherited class
       operation_mutable_attributes_schema
     end
 end
