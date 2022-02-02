@@ -2,8 +2,18 @@
 
 class ScimPatchOperationGroup < ScimPatchOperation
 
+  # TODO: When feature flag is specified,
+  #       Azure AD sends member remove request as follows:
+  # "Operations": [
+  #   {
+  #       "op": "remove",
+  #       "path": "members[value eq \"7f4bc1a3-285e-48ae-8202-5accb43efb0e\"]"
+  #   }
+  # ]
+  #
+  # This format will have to be supported.
   def save(model)
-    if @path_scim == 'members' # Only members are supported for value is an array
+    if @path_scim[:attribute] == 'members' # Only members are supported for value is an array
       update_member_ids = @value.map do |v|
         v[ScimRails.config.group_member_relation_schema.keys.first].to_s
       end
@@ -44,17 +54,32 @@ class ScimPatchOperationGroup < ScimPatchOperation
       return
     end
 
-    def convert_path(_path)
-      # TODO: When feature flag is specified,
-      #       Azure AD sends member remove request as follows:
-      # "Operations": [
-      #   {
-      #       "op": "remove",
-      #       "path": "members[value eq \"7f4bc1a3-285e-48ae-8202-5accb43efb0e\"]"
-      #   }
-      # ]
-      #
-      # This format will have to be supported.
+    def path_scim_to_path_sp(path_scim)
+      # path_scim example1:
+      # {
+      #   attribute: 'members',
+      #   filter: {
+      #     attribute: 'value',
+      #     operator: 'eq',
+      #     parameter: 'XXXX'
+      #   },
+      #   rest_path: []
+      # }
+
+      # path_scim example2:
+      # {
+      #   attribute: 'displayName',
+      #   filter: nil,
+      #   rest_path: []
+      # }
+      if path_scim[:attribute] == 'members'
+        return ScimRails.config.group_member_relation_attribute
+      end
+
+      dig_keys = [path_scim[:attribute].to_sym]
+      dig_keys.concat(path_scim[:rest_path].map(&:to_sym))
+
+      # *dig_keys example: displayName
       mutable_attributes_schema.dig(*dig_keys)
     end
 

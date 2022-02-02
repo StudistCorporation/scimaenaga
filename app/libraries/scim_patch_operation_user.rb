@@ -25,23 +25,32 @@ class ScimPatchOperationUser < ScimPatchOperation
       return
     end
 
-    def convert_path(path)
-      # For now, library does not support Multi-Valued Attributes properly.
-      # examle:
-      #   path = 'emails[type eq "work"].value'
-      #   mutable_attributes_schema = {
-      #     emails: [
-      #       {
-      #         value: :mail_address,
-      #      }
-      #     ],
-      #   }
+    def path_scim_to_path_sp(path_scim)
+      # path_scim example1:
+      # {
+      #   attribute: 'emails',
+      #   filter: {
+      #     attribute: 'type',
+      #     operator: 'eq',
+      #     parameter: 'work'
+      #   },
+      #   rest_path: ['value']
+      # }
       #
-      #   Library ignores filter conditions (like [type eq "work"])
-      #   and always uses the first element of the array
-      dig_keys = path.gsub(/\[(.+?)\]/, '.0').split('.').map do |step|
-        step == '0' ? 0 : step.to_sym
-      end
+      # path_scim example2:
+      # {
+      #   attribute: 'name',
+      #   filter: nil,
+      #   rest_path: ['givenName']
+      # }
+      dig_keys = [path_scim[:attribute].to_sym]
+
+      # Library ignores filter conditions ([type eq "work"])
+      dig_keys << 0 if path_scim[:attribute] == 'emails'
+
+      dig_keys.concat(path_scim[:rest_path].map(&:to_sym))
+
+      # *dig_keys example: emails, 0, value
       mutable_attributes_schema.dig(*dig_keys)
     end
 

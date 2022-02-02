@@ -17,10 +17,54 @@ class ScimPatchOperation
     validate(op, path, value)
 
     @op = op
-    @path_scim = path
     @value = value
+    @path_scim = parse_path_scim(path)
+    @path_sp = path_scim_to_path_sp(@path_scim)
 
-    # define convert_path method in the inherited class
-    @path_sp = convert_path(path)
+    # define parse method in the inherited class
   end
+
+  private
+
+    def parse_path_scim(path)
+      # 'emails[type eq "work"].value' is parsed as follows:
+      #
+      # {
+      #   attribute: 'emails',
+      #   filter: {
+      #     attribute: 'type',
+      #     operator: 'eq',
+      #     parameter: 'work'
+      #   },
+      #   rest_path: ['value']
+      # }
+      #
+      # This method suport only single operator
+
+      # path: emails.value
+      # filter_string: type eq "work"
+      path_str = path.dup
+      filter_string = path_str.slice!(/\[(.+?)\]/, 0)&.slice(/\[(.+?)\]/, 1)
+
+      # path_elements: ['emails', 'value']
+      path_elements = path_str.split('.')
+
+      # filter_elements: ['type', 'eq', '"work"']
+      filter_elements = filter_string&.split(' ')
+
+      # delete double quotation
+      filter_elements[2] = filter_elements[2].slice(1...filter_elements[2].length - 1)
+
+      path_scim = {attribute: path_elements[0], rest_path: path_elements[1..]}
+      if filter_elements.present?
+        path_scim[:filter] = {
+          attribute: filter_elements[0],
+          operator: filter_elements[1],
+          parameter: filter_elements[2],
+        }
+      end
+
+      path_scim
+    end
+
 end
