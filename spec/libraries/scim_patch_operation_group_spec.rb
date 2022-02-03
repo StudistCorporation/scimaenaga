@@ -82,8 +82,7 @@ describe ScimPatchOperationGroup do
       }
     end
 
-    # TODO: operation.value should be ['1', '2']
-    xcontext 'remove user ids' do
+    context 'remove user ids' do
       let(:op) { 'remove' }
       let(:path) { 'members' }
       let(:value) { [{ 'value' => '1' }, { 'value' => '2' }] }
@@ -97,12 +96,11 @@ describe ScimPatchOperationGroup do
         expect(operation.op).to eq 'remove'
         expect(operation.path_scim).to eq(attribute: 'members', rest_path: [])
         expect(operation.path_sp).to eq :user_ids
-        expect(operation.value).to eq %w[1 2]
+        expect(operation.value).to eq [{ 'value' => '1' }, { 'value' => '2' }]
       }
     end
 
-    # TODO: operation.value should be ['abcdef01']
-    xcontext 'remove user id (with filter)' do
+    context 'remove user id (with filter)' do
       let(:op) { 'remove' }
       let(:path) { 'members[value eq "abcdef01"]' }
       let(:value) { nil }
@@ -117,7 +115,7 @@ describe ScimPatchOperationGroup do
         expect(operation.path_scim).to eq(attribute: 'members',
                                           filter: { attribute: 'value', operator: 'eq', parameter: 'abcdef01' }, rest_path: [])
         expect(operation.path_sp).to eq :user_ids
-        expect(operation.value).to eq ['abcdef01']
+        expect(operation.value).to eq nil
       }
     end
   end

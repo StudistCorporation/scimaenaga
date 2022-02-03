@@ -54,7 +54,7 @@ describe ScimPatch do
 
   let(:mutable_group_attributes_schema) do
     {
-      displayName: name,
+      displayName: :name,
     }
   end
 
@@ -115,8 +115,7 @@ describe ScimPatch do
     end
   end
 
-  # TODO: operation.value should be ['1', '2']
-  xdescribe '#initialize :group' do
+  describe '#initialize :group' do
     let(:params) do
       {
         'schemas' => ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
@@ -146,7 +145,16 @@ describe ScimPatch do
       allow(ScimRails.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_group_attributes_schema)
       )
-      # TODO: implement
+
+      expect(patch.operations[0].op).to eq 'replace'
+      expect(patch.operations[0].path_scim).to eq(attribute: 'displayName', rest_path: [])
+      expect(patch.operations[0].path_sp).to eq :name
+      expect(patch.operations[0].value).to eq 'groupA'
+
+      expect(patch.operations[1].op).to eq 'add'
+      expect(patch.operations[1].path_scim).to eq(attribute: 'members', rest_path: [])
+      expect(patch.operations[1].path_sp).to eq :user_ids
+      expect(patch.operations[1].value).to eq [{ 'value' => '1' }, { 'value' => '2' }]
     }
   end
 
