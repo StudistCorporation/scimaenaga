@@ -13,26 +13,8 @@ class ScimPatchOperationGroup < ScimPatchOperation
   #
   # This format will have to be supported.
   def save(model)
-    if @path_scim[:attribute] == 'members' # Only members are supported for value is an array
-      update_member_ids = @value.map do |v|
-        v[ScimRails.config.group_member_relation_schema.keys.first].to_s
-      end
-
-      current_member_ids = model.public_send(
-        ScimRails.config.group_member_relation_attribute
-      ).map(&:to_s)
-      case @op
-      when 'add'
-        member_ids = current_member_ids.concat(update_member_ids)
-      when 'replace'
-        member_ids = current_member_ids.concat(update_member_ids)
-      when 'remove'
-        member_ids = current_member_ids - update_member_ids
-      end
-
-      # Only the member addition process is saved by each ids
-      model.public_send("#{ScimRails.config.group_member_relation_attribute}=",
-                        member_ids.uniq)
+    if @path_scim[:attribute] == 'members'
+      save_members(model)
       return
     end
 
@@ -45,6 +27,52 @@ class ScimPatchOperationGroup < ScimPatchOperation
   end
 
   private
+
+    def save_members(model)
+      current_member_ids = model.public_send(member_relation_attribute).map(&:to_s)
+
+      case @op
+      when 'add'
+        member_ids = add_member_ids(current_member_ids)
+      when 'replace'
+        member_ids = replace_member_ids
+      when 'remove'
+        member_ids = remove_member_ids(current_member_ids)
+      end
+
+      model.public_send("#{member_relation_attribute}=", member_ids.uniq)
+    end
+
+    def add_member_ids(current_member_ids)
+      current_member_ids.concat(member_ids_from_value)
+    end
+
+    def replace_member_ids
+      member_ids_from_value
+    end
+
+    def remove_member_ids(current_member_ids)
+      removed_member_ids = if member_ids_from_value.present?
+                             member_ids_from_value
+                           else
+                             [member_id_from_filter]
+                           end
+      current_member_ids - removed_member_ids
+    end
+
+    def member_ids_from_value
+      @member_ids_from_value ||= @value&.map do |v|
+        v['value'].to_s
+      end
+    end
+
+    def member_id_from_filter
+      @path_scim.dig(:filter, :parameter)
+    end
+
+    def member_relation_attribute
+      ScimRails.config.group_member_relation_attribute
+    end
 
     def validate(_op, _path, _value)
       return
