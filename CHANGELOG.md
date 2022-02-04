@@ -1,5 +1,9 @@
 # Upcoming Release
 
+# v0.8.0 04-02-2022
+
+- [Accept member remove by filter](https://github.com/StudistCorporation/scimaenaga/pull/26)
+
 # v0.7.0 01-02-2022
 
 - [Support delete user](https://github.com/StudistCorporation/scimaenaga/pull/20)
