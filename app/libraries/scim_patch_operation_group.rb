@@ -2,16 +2,6 @@
 
 class ScimPatchOperationGroup < ScimPatchOperation
 
-  # TODO: When feature flag is specified,
-  #       Azure AD sends member remove request as follows:
-  # "Operations": [
-  #   {
-  #       "op": "remove",
-  #       "path": "members[value eq \"7f4bc1a3-285e-48ae-8202-5accb43efb0e\"]"
-  #   }
-  # ]
-  #
-  # This format will have to be supported.
   def save(model)
     if @path_scim[:attribute] == 'members'
       save_members(model)
