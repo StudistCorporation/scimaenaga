@@ -13,7 +13,7 @@ module ScimRails
 
   # Class containing configuration of ScimRails
   class Config
-    ALGO_NONE = "none"
+    ALGO_NONE = 'none'
 
     attr_writer \
       :basic_auth_model,
@@ -45,20 +45,22 @@ module ScimRails
       :user_schema,
       :group_schema,
       :user_destroy_method,
-      :group_destroy_method
+      :group_destroy_method,
+      :schemas
 
     def initialize
-      @basic_auth_model = "Company"
+      @basic_auth_model = 'Company'
       @scim_users_list_order = :id
-      @scim_users_model = "User"
+      @scim_users_model = 'User'
       @scim_groups_list_order = :id
-      @scim_groups_model = "Group"
+      @scim_groups_model = 'Group'
       @signing_algorithm = ALGO_NONE
       @user_schema = {}
       @user_attributes = []
       @user_abbreviated_schema = {}
       @group_schema = {}
       @group_abbreviated_schema = {}
+      @schemas = []
     end
 
     def mutable_user_attributes_schema

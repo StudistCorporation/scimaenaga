@@ -25,6 +25,15 @@ module ScimRails
     class UnexpectedError < StandardError
     end
 
+    class ResourceNotFound < StandardError
+      attr_reader :id
+
+      def initialize(id)
+        super
+        @id = id
+      end
+    end
+
     included do
       if Rails.env.production?
         rescue_from StandardError do |exception|
@@ -37,8 +46,8 @@ module ScimRails
 
           json_response(
             {
-              schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
-              status: "500"
+              schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
+              status: '500',
             },
             :internal_server_error
           )
@@ -48,9 +57,9 @@ module ScimRails
       rescue_from ScimRails::ExceptionHandler::InvalidCredentials do
         json_response(
           {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
-            detail: "Authorization failure. The authorization header is invalid or missing.",
-            status: "401"
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
+            detail: 'Authorization failure. The authorization header is invalid or missing.',
+            status: '401',
           },
           :unauthorized
         )
@@ -59,9 +68,9 @@ module ScimRails
       rescue_from ScimRails::ExceptionHandler::InvalidRequest do |e|
         json_response(
           {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
             detail: "Invalid request. #{e.message}",
-            status: "400"
+            status: '400',
           },
           :bad_request
         )
@@ -70,10 +79,10 @@ module ScimRails
       rescue_from ScimRails::ExceptionHandler::InvalidQuery do
         json_response(
           {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
-            scimType: "invalidFilter",
-            detail: "The specified filter syntax was invalid, or the specified attribute and filter comparison combination is not supported.",
-            status: "400"
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
+            scimType: 'invalidFilter',
+            detail: 'The specified filter syntax was invalid, or the specified attribute and filter comparison combination is not supported.',
+            status: '400',
           },
           :bad_request
         )
@@ -82,9 +91,9 @@ module ScimRails
       rescue_from ScimRails::ExceptionHandler::UnsupportedPatchRequest do
         json_response(
           {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
-            detail: "Invalid PATCH request.",
-            status: "422"
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
+            detail: 'Invalid PATCH request.',
+            status: '422',
           },
           :unprocessable_entity
         )
@@ -93,9 +102,9 @@ module ScimRails
       rescue_from ScimRails::ExceptionHandler::UnsupportedDeleteRequest do
         json_response(
           {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
-            detail: "Delete operation is disabled for the requested resource.",
-            status: "501"
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
+            detail: 'Delete operation is disabled for the requested resource.',
+            status: '501',
           },
           :not_implemented
         )
@@ -104,9 +113,9 @@ module ScimRails
       rescue_from ScimRails::ExceptionHandler::InvalidConfiguration do |e|
         json_response(
           {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
             detail: "Invalid configuration. #{e.message}",
-            status: "500"
+            status: '500',
           },
           :internal_server_error
         )
@@ -115,20 +124,21 @@ module ScimRails
       rescue_from ScimRails::ExceptionHandler::UnexpectedError do |e|
         json_response(
           {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
             detail: "Unexpected Error. #{e.message}",
-            status: "500"
+            status: '500',
           },
           :internal_server_error
         )
       end
 
-      rescue_from ActiveRecord::RecordNotFound do |e|
+      rescue_from ActiveRecord::RecordNotFound,
+                  ScimRails::ExceptionHandler::ResourceNotFound do |e|
         json_response(
           {
-            schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
             detail: "Resource #{e.id} not found.",
-            status: "404"
+            status: '404',
           },
           :not_found
         )
@@ -139,18 +149,18 @@ module ScimRails
         when /has already been taken/
           json_response(
             {
-              schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
+              schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
               detail: e.message,
-              status: "409"
+              status: '409',
             },
             :conflict
           )
         else
           json_response(
             {
-              schemas: ["urn:ietf:params:scim:api:messages:2.0:Error"],
+              schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
               detail: e.message,
-              status: "422"
+              status: '422',
             },
             :unprocessable_entity
           )
