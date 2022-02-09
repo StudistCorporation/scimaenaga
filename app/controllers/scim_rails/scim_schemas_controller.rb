@@ -27,7 +27,6 @@ module ScimRails
     private
 
       def list_schemas_response(schemas, counts)
-        # start_index is 1-based index
         response = {
           schemas: [
             'urn:ietf:params:scim:api:messages:2.0:ListResponse'
