@@ -250,6 +250,21 @@ ScimRails.configure do |config|
 end
 ```
 
+### Schemas endpoint
+
+If you need Schemas endpoint configure `schemas`.
+(Azure AD requires Schemas endpoint when registering to Application Gallery.)
+
+You have to configure `schemas` as
+- corresponding with other configurations.
+e.g.) When `userName` is defined in `mutable_user_attributes`, configure `userName` as `mutability: 'readWrite'`.
+
+- corresponding with your model.
+e.g.) When `userName` must be specified configure `userName` as `required: true`
+
+Sample config (with comment) is written in scim_rails_config.rb.
+For more details, read [Schema Definition](https://datatracker.ietf.org/doc/html/rfc7643#section-7), and [Schema Representation](https://datatracker.ietf.org/doc/html/rfc7643#section-8.7)
+
 ## Contributing
 
 ### [Code of Conduct](https://github.com/StudistCorporation/scimaenaga/blob/master/CODE_OF_CONDUCT.md)

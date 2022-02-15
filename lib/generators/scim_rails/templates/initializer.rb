@@ -157,4 +157,110 @@ ScimRails.configure do |config|
   # Set group_destroy_method to a method on the Group model
   # to be called on a destroy request
   # config.group_destroy_method = :destroy!
+
+  # /Schemas settings.
+  # This configure is not used in /Users and /Groups for now.
+  # Configure this only when you need Schemas endpoint.
+  # Schemas endpoint returns configured value as it is.
+  config.schemas = [
+    # Define User schemas
+    {
+      # Basically, you don't have to change schemas/id/name/description
+      schemas: ['urn:ietf:params:scim:schemas:core:2.0:Schema'],
+      id: 'urn:ietf:params:scim:schemas:core:2.0:User',
+      name: 'User',
+      description: 'User Account',
+
+      # Configure 'attributes' as it corresponds with other configurations and your model
+      attributes: [
+        {
+          # Name of SCIM attribute. It must be configured in "user_schema"
+          name: 'userName',
+
+          # "type" must be string/boolan/decimal/integer/dateTime/reference
+          # "complex" value is not supported now
+          type: 'string',
+
+          # Multi value attribute is not supported, must be false
+          multiValued: false,
+
+          description: 'Unique identifier for the User. REQUIRED.',
+
+          # Specify true when you require this attribute
+          required: true,
+
+          # In this Library, String value is always handled as case exact
+          caseExact: true,
+
+          # "mutability" must be readOnly/readWrite/writeOnly
+          # "immutable" is not supported.
+          # readOnly: attribute is defined in queryable_user_attributes but not in mutable_user_attributes and user_schema
+          # readWrite: attribute is defined in queryable_user_attributes, mutable_user_attributes and user_schema
+          # writeOnly: attribute is defined in mutable_user_attributes, and user_schema but not in queryable_user_attributes
+          mutability: 'readWrite',
+
+          # "returned" must be always/never. default and request are not supported
+          # always: attribute is defined in user_schema
+          # never: attribute is not defined in user_schema
+          returned: 'always',
+
+          # "uniqueness" must be none/server/global. It's dependent on your service
+          uniqueness: 'server',
+        }
+      ],
+      meta: {
+        resourceType: 'Schema',
+        location:
+          '/v2/Schemas/urn:ietf:params:scim:schemas:core:2.0:User',
+      },
+    },
+    # define Group schemas
+    {
+      schemas: ['urn:ietf:params:scim:schemas:core:2.0:Schema'],
+      id: 'urn:ietf:params:scim:schemas:core:2.0:Group',
+      name: 'Group',
+      description: 'Group',
+      attributes: [
+        {
+          # Same as the User attributes
+          name: 'displayName',
+          type: 'string',
+          multiValued: false,
+          description: 'A human-readable name for the Group. REQUIRED.',
+          required: true,
+          caseExact: true,
+          mutability: 'readWrite',
+          returned: 'always',
+          uniqueness: 'none',
+        },
+        {
+          name: 'members',
+
+          # Only "members" can be configured as a complex and multivalued attribute
+          type: 'complex',
+          multiValued: true,
+
+          description: 'A list of members of the Group.',
+          required: false,
+          subAttributes: [
+            {
+              name: 'value',
+              type: 'string',
+              multiValued: false,
+              description: 'Identifier of the member of this Group.',
+              required: false,
+              caseExact: true,
+              mutability: 'immutable',
+              returned: 'default',
+              uniqueness: 'none',
+            }
+          ],
+        }
+      ],
+      meta: {
+        resourceType: 'Schema',
+        location: '/v2/Schemas/urn:ietf:params:scim:schemas:core:2.0:Group',
+      },
+    }
+  ]
 end
