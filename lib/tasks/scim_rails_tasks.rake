@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :scim_rails do
+# task :scimaenaga do
 #   # Task goes here
 # end

@@ -1,8 +1,8 @@
 Description:
-    Generates the scim_rails initializer.
+    Generates the scimaenaga initializer.
 
 Example:
-    rails generate scim_rails config
+    rails generate scimaenaga config
 
     This will create:
         config/initializers/scim_rails_config.rb

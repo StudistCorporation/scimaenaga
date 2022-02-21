@@ -1,6 +1,6 @@
-require 'scim_rails/engine'
-require 'scim_rails/config'
-require 'scim_rails/encoder'
+require 'scimaenaga/engine'
+require 'scimaenaga/config'
+require 'scimaenaga/encoder'
 
 module Scimaenaga
 end

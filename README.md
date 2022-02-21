@@ -35,7 +35,7 @@ $ gem install scimaenaga
 Generate the config file with:
 
 ```bash
-$ rails generate scim_rails config
+$ rails generate scimaenaga config
 ```
 
 The config file will be located at:
@@ -262,7 +262,7 @@ e.g.) When `userName` is defined in `mutable_user_attributes`, configure `userNa
 - corresponding with your model.
 e.g.) When `userName` must be specified configure `userName` as `required: true`
 
-Sample config (with comment) is written in lib/generators/scim_rails/templates/initializer.rb.
+Sample config (with comment) is written in lib/generators/scimaenaga/templates/initializer.rb.
 For more details, read [Schema Definition](https://datatracker.ietf.org/doc/html/rfc7643#section-7), and [Schema Representation](https://datatracker.ietf.org/doc/html/rfc7643#section-8.7)
 
 ## Contributing

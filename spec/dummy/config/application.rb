@@ -3,7 +3,7 @@ require_relative 'boot'
 require 'rails/all'
 
 Bundler.require(*Rails.groups)
-require 'scim_rails'
+require 'scimaenaga'
 
 module Dummy
   class Application < Rails::Application
