@@ -2,10 +2,10 @@
 
 require 'spec_helper'
 
-RSpec.describe ScimRails::ScimSchemasController, type: :controller do
+RSpec.describe Scimaenaga::ScimSchemasController, type: :controller do
   include AuthHelper
 
-  routes { ScimRails::Engine.routes }
+  routes { Scimaenaga::Engine.routes }
 
   let(:schemas) do
     [
@@ -146,7 +146,7 @@ RSpec.describe ScimRails::ScimSchemasController, type: :controller do
       end
 
       it 'returns all results' do
-        allow(ScimRails.config).to(receive(:schemas).and_return(schemas))
+        allow(Scimaenaga.config).to(receive(:schemas).and_return(schemas))
         get :index, as: :json
         response_body = JSON.parse(response.body)
         expect(response_body.dig('schemas', 0)).to(
@@ -156,7 +156,7 @@ RSpec.describe ScimRails::ScimSchemasController, type: :controller do
       end
 
       it 'defaults to 100 results' do
-        allow(ScimRails.config).to(receive(:schemas).and_return(schemas_110))
+        allow(Scimaenaga.config).to(receive(:schemas).and_return(schemas_110))
 
         get :index, as: :json
         response_body = JSON.parse(response.body)
@@ -166,7 +166,7 @@ RSpec.describe ScimRails::ScimSchemasController, type: :controller do
       end
 
       it 'paginates results' do
-        allow(ScimRails.config).to(receive(:schemas).and_return(schemas_110))
+        allow(Scimaenaga.config).to(receive(:schemas).and_return(schemas_110))
         get :index, params: {
           startIndex: 101,
           count: 5,
@@ -213,14 +213,14 @@ RSpec.describe ScimRails::ScimSchemasController, type: :controller do
       end
 
       it 'returns scim+json content type' do
-        allow(ScimRails.config).to(receive(:schemas).and_return(schemas))
+        allow(Scimaenaga.config).to(receive(:schemas).and_return(schemas))
         get :show, params: { id: 'urn:ietf:params:scim:schemas:core:2.0:User' }, as: :json
 
         expect(response.media_type).to eq 'application/scim+json'
       end
 
       it 'is successful with valid credentials' do
-        allow(ScimRails.config).to(receive(:schemas).and_return(schemas))
+        allow(Scimaenaga.config).to(receive(:schemas).and_return(schemas))
         get :show, params: { id: 'urn:ietf:params:scim:schemas:core:2.0:User' }, as: :json
 
         response_body = JSON.parse(response.body)

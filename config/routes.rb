@@ -1,4 +1,4 @@
-ScimRails::Engine.routes.draw do
+Scimaenaga::Engine.routes.draw do
   get    'scim/v2/Users',       action: :index,         controller: 'scim_users'
   post   'scim/v2/Users',       action: :create,        controller: 'scim_users'
   get    'scim/v2/Users/:id',   action: :show,          controller: 'scim_users'

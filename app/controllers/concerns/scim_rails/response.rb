@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ScimRails
+module Scimaenaga
   module Response
     CONTENT_TYPE = 'application/scim+json'
 
@@ -52,12 +52,12 @@ module ScimRails
 
       def object_response(object)
         schema = case object
-                 when ScimRails.config.scim_users_model
-                   ScimRails.config.user_schema
-                 when ScimRails.config.scim_groups_model
-                   ScimRails.config.group_schema
+                 when Scimaenaga.config.scim_users_model
+                   Scimaenaga.config.user_schema
+                 when Scimaenaga.config.scim_groups_model
+                   Scimaenaga.config.group_schema
                  else
-                   raise ScimRails::ExceptionHandler::InvalidQuery,
+                   raise Scimaenaga::ExceptionHandler::InvalidQuery,
                          "Unknown model: #{object}"
                  end
         find_value(object, schema)
@@ -80,10 +80,10 @@ module ScimRails
           schema.map do |value|
             find_value(object, value)
           end
-        when ScimRails.config.scim_users_model
-          find_value(schema, ScimRails.config.user_abbreviated_schema)
-        when ScimRails.config.scim_groups_model
-          find_value(schema, ScimRails.config.group_abbreviated_schema)
+        when Scimaenaga.config.scim_users_model
+          find_value(schema, Scimaenaga.config.user_abbreviated_schema)
+        when Scimaenaga.config.scim_groups_model
+          find_value(schema, Scimaenaga.config.group_abbreviated_schema)
         when Symbol
           find_value(object, object.public_send(schema))
         else

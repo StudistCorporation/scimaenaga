@@ -7,7 +7,7 @@ class ScimPatch
   def initialize(params, resource_type)
     if params['schemas'] != ['urn:ietf:params:scim:api:messages:2.0:PatchOp'] ||
        params['Operations'].nil?
-      raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
+      raise Scimaenaga::ExceptionHandler::UnsupportedPatchRequest
     end
 
     # complex-value(Hash) operation is converted to multiple single-value operations
@@ -35,6 +35,6 @@ class ScimPatch
   rescue ActiveRecord::RecordNotFound
     raise
   rescue StandardError
-    raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
+    raise Scimaenaga::ExceptionHandler::UnsupportedPatchRequest
   end
 end

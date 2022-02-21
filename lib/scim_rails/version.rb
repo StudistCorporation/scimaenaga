@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-module ScimRails
+module Scimaenaga
   VERSION = '0.9.0'
 end

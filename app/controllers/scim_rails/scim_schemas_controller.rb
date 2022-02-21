@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module ScimRails
-  class ScimSchemasController < ScimRails::ApplicationController
+module Scimaenaga
+  class ScimSchemasController < Scimaenaga::ApplicationController
     def index
-      schemas = ScimRails.config.schemas
+      schemas = Scimaenaga.config.schemas
 
       counts = ScimCount.new(
         start_index: params[:startIndex],
@@ -15,11 +15,11 @@ module ScimRails
     end
 
     def show
-      schema = ScimRails.config.schemas.find do |s|
+      schema = Scimaenaga.config.schemas.find do |s|
         s[:id] == params[:id]
       end
 
-      raise ScimRails::ExceptionHandler::ResourceNotFound, params[:id] if schema.nil?
+      raise Scimaenaga::ExceptionHandler::ResourceNotFound, params[:id] if schema.nil?
 
       json_response(schema)
     end

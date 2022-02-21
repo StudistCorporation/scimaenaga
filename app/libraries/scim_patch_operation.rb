@@ -10,7 +10,7 @@ class ScimPatchOperation
   # complex-value(Hash) is converted to multiple single-value operations by ScimPatchOperationConverter
   def initialize(op, path, value)
     if !op.in?(%w[add replace remove]) || path.nil?
-      raise ScimRails::ExceptionHandler::UnsupportedPatchRequest
+      raise Scimaenaga::ExceptionHandler::UnsupportedPatchRequest
     end
 
     # define validate method in the inherited class

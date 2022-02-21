@@ -1,4 +1,4 @@
-module ScimRails
+module Scimaenaga
   class ScimCount
     include ActiveModel::Model
 

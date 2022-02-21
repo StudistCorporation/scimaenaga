@@ -1,4 +1,4 @@
-ScimRails.configure do |config|
+Scimaenaga.configure do |config|
   config.basic_auth_model = 'Company'
   config.scim_users_model = 'User'
   config.scim_groups_model = 'Group'

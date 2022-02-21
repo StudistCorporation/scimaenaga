@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ScimRails
+module Scimaenaga
   class << self
     def configure
       yield config
@@ -11,7 +11,7 @@ module ScimRails
     end
   end
 
-  # Class containing configuration of ScimRails
+  # Class containing configuration of Scimaenaga
   class Config
     ALGO_NONE = 'none'
 

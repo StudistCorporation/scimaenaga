@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ScimRails
+module Scimaenaga
   module ExceptionHandler
     extend ActiveSupport::Concern
 
@@ -37,7 +37,7 @@ module ScimRails
     included do
       if Rails.env.production?
         rescue_from StandardError do |exception|
-          on_error = ScimRails.config.on_error
+          on_error = Scimaenaga.config.on_error
           if on_error.respond_to?(:call)
             on_error.call(exception)
           else
@@ -54,7 +54,7 @@ module ScimRails
         end
       end
 
-      rescue_from ScimRails::ExceptionHandler::InvalidCredentials do
+      rescue_from Scimaenaga::ExceptionHandler::InvalidCredentials do
         json_response(
           {
             schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
@@ -65,7 +65,7 @@ module ScimRails
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::InvalidRequest do |e|
+      rescue_from Scimaenaga::ExceptionHandler::InvalidRequest do |e|
         json_response(
           {
             schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
@@ -76,7 +76,7 @@ module ScimRails
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::InvalidQuery do
+      rescue_from Scimaenaga::ExceptionHandler::InvalidQuery do
         json_response(
           {
             schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
@@ -88,7 +88,7 @@ module ScimRails
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::UnsupportedPatchRequest do
+      rescue_from Scimaenaga::ExceptionHandler::UnsupportedPatchRequest do
         json_response(
           {
             schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
@@ -99,7 +99,7 @@ module ScimRails
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::UnsupportedDeleteRequest do
+      rescue_from Scimaenaga::ExceptionHandler::UnsupportedDeleteRequest do
         json_response(
           {
             schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
@@ -110,7 +110,7 @@ module ScimRails
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::InvalidConfiguration do |e|
+      rescue_from Scimaenaga::ExceptionHandler::InvalidConfiguration do |e|
         json_response(
           {
             schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
@@ -121,7 +121,7 @@ module ScimRails
         )
       end
 
-      rescue_from ScimRails::ExceptionHandler::UnexpectedError do |e|
+      rescue_from Scimaenaga::ExceptionHandler::UnexpectedError do |e|
         json_response(
           {
             schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
@@ -133,7 +133,7 @@ module ScimRails
       end
 
       rescue_from ActiveRecord::RecordNotFound,
-                  ScimRails::ExceptionHandler::ResourceNotFound do |e|
+                  Scimaenaga::ExceptionHandler::ResourceNotFound do |e|
         json_response(
           {
             schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],

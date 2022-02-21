@@ -1,27 +1,27 @@
 # frozen_string_literal: true
 
-module ScimRails
-  class ScimGroupsController < ScimRails::ApplicationController
+module Scimaenaga
+  class ScimGroupsController < Scimaenaga::ApplicationController
     def index
       if params[:filter].present?
-        query = ScimRails::ScimQueryParser.new(
-          params[:filter], ScimRails.config.queryable_group_attributes
+        query = Scimaenaga::ScimQueryParser.new(
+          params[:filter], Scimaenaga.config.queryable_group_attributes
         )
 
         groups = @company
-                 .public_send(ScimRails.config.scim_groups_scope)
+                 .public_send(Scimaenaga.config.scim_groups_scope)
                  .where(
-                   "#{ScimRails.config.scim_groups_model
+                   "#{Scimaenaga.config.scim_groups_model
                                .connection.quote_column_name(query.attribute)}
                                #{query.operator} ?",
                    query.parameter
                  )
-                 .order(ScimRails.config.scim_groups_list_order)
+                 .order(Scimaenaga.config.scim_groups_list_order)
       else
         groups = @company
-                 .public_send(ScimRails.config.scim_groups_scope)
+                 .public_send(Scimaenaga.config.scim_groups_scope)
                  .preload(:users)
-                 .order(ScimRails.config.scim_groups_list_order)
+                 .order(Scimaenaga.config.scim_groups_list_order)
       end
 
       counts = ScimCount.new(
@@ -35,14 +35,14 @@ module ScimRails
 
     def show
       group = @company
-              .public_send(ScimRails.config.scim_groups_scope)
+              .public_send(Scimaenaga.config.scim_groups_scope)
               .find(params[:id])
       json_scim_response(object: group)
     end
 
     def create
       group = @company
-              .public_send(ScimRails.config.scim_groups_scope)
+              .public_send(Scimaenaga.config.scim_groups_scope)
               .create!(permitted_group_params)
 
       json_scim_response(object: group, status: :created)
@@ -50,7 +50,7 @@ module ScimRails
 
     def put_update
       group = @company
-              .public_send(ScimRails.config.scim_groups_scope)
+              .public_send(Scimaenaga.config.scim_groups_scope)
               .find(params[:id])
       group.update!(permitted_group_params)
       json_scim_response(object: group)
@@ -58,7 +58,7 @@ module ScimRails
 
     def patch_update
       group = @company
-              .public_send(ScimRails.config.scim_groups_scope)
+              .public_send(Scimaenaga.config.scim_groups_scope)
               .find(params[:id])
       patch = ScimPatch.new(params, :group)
       patch.save(group)
@@ -67,23 +67,23 @@ module ScimRails
     end
 
     def destroy
-      unless ScimRails.config.group_destroy_method
-        raise ScimRails::ExceptionHandler::InvalidConfiguration
+      unless Scimaenaga.config.group_destroy_method
+        raise Scimaenaga::ExceptionHandler::InvalidConfiguration
       end
 
       group = @company
-              .public_send(ScimRails.config.scim_groups_scope)
+              .public_send(Scimaenaga.config.scim_groups_scope)
               .find(params[:id])
       raise ActiveRecord::RecordNotFound unless group
 
       begin
-        group.public_send(ScimRails.config.group_destroy_method)
+        group.public_send(Scimaenaga.config.group_destroy_method)
       rescue NoMethodError => e
-        raise ScimRails::ExceptionHandler::InvalidConfiguration, e.message
+        raise Scimaenaga::ExceptionHandler::InvalidConfiguration, e.message
       rescue ActiveRecord::RecordNotDestroyed => e
-        raise ScimRails::ExceptionHandler::InvalidRequest, e.message
+        raise Scimaenaga::ExceptionHandler::InvalidRequest, e.message
       rescue StandardError => e
-        raise ScimRails::ExceptionHandler::UnexpectedError, e.message
+        raise Scimaenaga::ExceptionHandler::UnexpectedError, e.message
       end
 
       head :no_content
@@ -102,19 +102,19 @@ module ScimRails
 
       def member_params
         {
-          ScimRails.config.group_member_relation_attribute =>
+          Scimaenaga.config.group_member_relation_attribute =>
             params[:members].map do |member|
-              member[ScimRails.config.group_member_relation_schema.keys.first]
+              member[Scimaenaga.config.group_member_relation_schema.keys.first]
             end,
         }
       end
 
       def mutable_attributes
-        ScimRails.config.mutable_group_attributes
+        Scimaenaga.config.mutable_group_attributes
       end
 
       def controller_schema
-        ScimRails.config.mutable_group_attributes_schema
+        Scimaenaga.config.mutable_group_attributes_schema
       end
   end
 end

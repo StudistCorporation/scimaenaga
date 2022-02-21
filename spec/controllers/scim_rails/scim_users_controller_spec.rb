@@ -2,10 +2,10 @@
 
 require 'spec_helper'
 
-RSpec.describe ScimRails::ScimUsersController, type: :controller do
+RSpec.describe Scimaenaga::ScimUsersController, type: :controller do
   include AuthHelper
 
-  routes { ScimRails::Engine.routes }
+  routes { Scimaenaga::Engine.routes }
 
   describe 'index' do
     let(:company) { create(:company) }
@@ -85,7 +85,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       end
 
       it 'paginates results by configurable scim_users_list_order' do
-        allow(ScimRails.config).to receive(:scim_users_list_order).and_return({ created_at: :desc })
+        allow(Scimaenaga.config).to receive(:scim_users_list_order).and_return({ created_at: :desc })
 
         create_list(:user, 400, company: company)
         expect(company.users.first.id).to eq 1
@@ -334,7 +334,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       end
 
       it 'returns 409 if user already exists and config.scim_user_prevent_update_on_create is set to true' do
-        allow(ScimRails.config).to receive(:scim_user_prevent_update_on_create).and_return(true)
+        allow(Scimaenaga.config).to receive(:scim_user_prevent_update_on_create).and_return(true)
         create(:user, email: 'new@example.com', company: company)
 
         post :create, params: {
@@ -810,7 +810,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
 
       context 'when User destroy method is not configured' do
         it 'does not delete User' do
-          allow(ScimRails.config).to(
+          allow(Scimaenaga.config).to(
             receive(:user_destroy_method).and_return(nil)
           )
 
@@ -824,7 +824,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
 
       context 'when User destroy method is invalid' do
         it 'does not delete User' do
-          allow(ScimRails.config).to(
+          allow(Scimaenaga.config).to(
             receive(:user_destroy_method).and_return('destory!')
           )
 

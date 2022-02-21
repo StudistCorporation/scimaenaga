@@ -33,7 +33,7 @@ describe ScimPatchOperationUser do
   describe '#initialize' do
     context 'replace single attribute' do
       it {
-        allow(ScimRails.config).to(
+        allow(Scimaenaga.config).to(
           receive(:mutable_user_attributes_schema).and_return(mutable_attributes_schema)
         )
         expect(operation.op).to eq 'replace'
@@ -46,7 +46,7 @@ describe ScimPatchOperationUser do
     context 'add single attribute' do
       let(:op) { 'add' }
       it {
-        allow(ScimRails.config).to(
+        allow(Scimaenaga.config).to(
           receive(:mutable_user_attributes_schema).and_return(mutable_attributes_schema)
         )
         expect(operation.op).to eq 'add'
@@ -59,7 +59,7 @@ describe ScimPatchOperationUser do
     context 'remove single attribute' do
       let(:op) { 'remove' }
       it {
-        allow(ScimRails.config).to(
+        allow(Scimaenaga.config).to(
           receive(:mutable_user_attributes_schema).and_return(mutable_attributes_schema)
         )
         expect(operation.op).to eq 'remove'
@@ -73,7 +73,7 @@ describe ScimPatchOperationUser do
       let(:path) { 'emails[type eq "work"].value' }
       let(:value) { 'taro.suzuki@example.com' }
       it {
-        allow(ScimRails.config).to(
+        allow(Scimaenaga.config).to(
           receive(:mutable_user_attributes_schema).and_return(mutable_attributes_schema)
         )
         expect(operation.op).to eq 'replace'
@@ -88,7 +88,7 @@ describe ScimPatchOperationUser do
       let(:path) { 'name.familyName' }
       let(:value) { 'Suzuki' }
       it {
-        allow(ScimRails.config).to(
+        allow(Scimaenaga.config).to(
           receive(:mutable_user_attributes_schema).and_return(mutable_attributes_schema)
         )
         expect(operation.op).to eq 'replace'

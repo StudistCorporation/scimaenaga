@@ -6,7 +6,7 @@ describe ScimPatch do
   shared_examples :user do
     let(:patch) { ScimPatch.new(params, :user) }
     it {
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:mutable_user_attributes_schema).and_return(mutable_user_attributes_schema)
       )
 
@@ -142,7 +142,7 @@ describe ScimPatch do
     end
     let(:patch) { described_class.new(params, :group) }
     it {
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_group_attributes_schema)
       )
 

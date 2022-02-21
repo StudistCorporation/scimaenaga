@@ -50,7 +50,7 @@ Mount the gem in your routes file:
 
 ```ruby
 Application.routes.draw do
-  mount ScimRails::Engine => "/"
+  mount Scimaenaga::Engine => "/"
 end
 ```
 
@@ -95,7 +95,7 @@ The config setting `basic_auth_model_authenticatable_attribute` is the model att
 
 Assuming the attribute is `:api_token`, generate the password using:
 ```ruby
-token = ScimRails::Encoder.encode(company)
+token = Scimaenaga::Encoder.encode(company)
 # use the token as password for requests
 company.api_token = token # required
 company.save! # don't forget to persist the company record
@@ -119,7 +119,7 @@ In the config settings, ensure you set `signing_secret` to a secret key that wil
 
 If you have already generated the `api_token` in the "Basic Auth" section, then use that as your bearer token and ignore the steps below:
 ```ruby
-token = ScimRails::Encoder.encode(company)
+token = Scimaenaga::Encoder.encode(company)
 # use the token as bearer token for requests
 company.api_token = token #required
 company.save! # don't forget to persist the company record
@@ -245,7 +245,7 @@ If you would like, you can supply a custom handler for exceptions in the initial
 For example, you might want to notify Honeybadger:
 
 ```ruby
-ScimRails.configure do |config|
+Scimaenaga.configure do |config|
   config.on_error = ->(e) { Honeybadger.notify(e) }
 end
 ```

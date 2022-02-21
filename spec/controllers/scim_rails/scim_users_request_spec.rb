@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe ScimRails::ScimUsersController, type: :request do
+RSpec.describe Scimaenaga::ScimUsersController, type: :request do
   let(:company) { create(:company) }
   let(:credentials) do
     Base64.encode64("#{company.subdomain}:#{company.api_token}")

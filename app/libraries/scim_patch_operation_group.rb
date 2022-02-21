@@ -61,7 +61,7 @@ class ScimPatchOperationGroup < ScimPatchOperation
     end
 
     def member_relation_attribute
-      ScimRails.config.group_member_relation_attribute
+      Scimaenaga.config.group_member_relation_attribute
     end
 
     def validate(_op, _path, _value)
@@ -87,14 +87,14 @@ class ScimPatchOperationGroup < ScimPatchOperation
       #   rest_path: []
       # }
       if path_scim[:attribute] == 'members'
-        return ScimRails.config.group_member_relation_attribute
+        return Scimaenaga.config.group_member_relation_attribute
       end
 
       dig_keys = [path_scim[:attribute].to_sym]
       dig_keys.concat(path_scim[:rest_path].map(&:to_sym))
 
       # *dig_keys example: displayName
-      ScimRails.config.mutable_group_attributes_schema.dig(*dig_keys)
+      Scimaenaga.config.mutable_group_attributes_schema.dig(*dig_keys)
     end
 
 end

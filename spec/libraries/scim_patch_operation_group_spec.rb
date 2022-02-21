@@ -24,10 +24,10 @@ describe ScimPatchOperationGroup do
   end
   context 'replace displayName' do
     it {
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_attributes_schema)
       )
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:group_member_relation_attribute).and_return(group_member_relation_attribute)
       )
       expect(operation.op).to eq 'replace'
@@ -43,10 +43,10 @@ describe ScimPatchOperationGroup do
   context 'add displayName' do
     let(:op) { 'add' }
     it {
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_attributes_schema)
       )
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:group_member_relation_attribute).and_return(group_member_relation_attribute)
       )
       expect(operation.op).to eq 'add'
@@ -62,10 +62,10 @@ describe ScimPatchOperationGroup do
   context 'remove displayName' do
     let(:op) { 'remove' }
     it {
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_attributes_schema)
       )
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:group_member_relation_attribute).and_return(group_member_relation_attribute)
       )
       expect(operation.op).to eq 'remove'
@@ -83,10 +83,10 @@ describe ScimPatchOperationGroup do
     let(:path) { 'members' }
     let(:value) { [{ 'value' => user3.id.to_s }, { 'value' => user4.id.to_s }] }
     it {
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_attributes_schema)
       )
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:group_member_relation_attribute).and_return(group_member_relation_attribute)
       )
       expect(operation.op).to eq 'add'
@@ -104,10 +104,10 @@ describe ScimPatchOperationGroup do
     let(:path) { 'members' }
     let(:value) { [{ 'value' => user3.id.to_s }, { 'value' => user4.id.to_s }] }
     it {
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_attributes_schema)
       )
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:group_member_relation_attribute).and_return(group_member_relation_attribute)
       )
       expect(operation.op).to eq 'replace'
@@ -125,10 +125,10 @@ describe ScimPatchOperationGroup do
     let(:path) { 'members' }
     let(:value) { [{ 'value' => user1.id.to_s }, { 'value' => user2.id.to_s }] }
     it {
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_attributes_schema)
       )
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:group_member_relation_attribute).and_return(group_member_relation_attribute)
       )
       expect(operation.op).to eq 'remove'
@@ -146,10 +146,10 @@ describe ScimPatchOperationGroup do
     let(:path) { "members[value eq \"#{user1.id}\"]" }
     let(:value) { nil }
     it {
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_attributes_schema)
       )
-      allow(ScimRails.config).to(
+      allow(Scimaenaga.config).to(
         receive(:group_member_relation_attribute).and_return(group_member_relation_attribute)
       )
       expect(operation.op).to eq 'remove'

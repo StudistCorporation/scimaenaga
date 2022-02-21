@@ -2,10 +2,10 @@
 
 require 'spec_helper'
 
-RSpec.describe ScimRails::ScimGroupsController, type: :controller do
+RSpec.describe Scimaenaga::ScimGroupsController, type: :controller do
   include AuthHelper
 
-  routes { ScimRails::Engine.routes }
+  routes { Scimaenaga::Engine.routes }
 
   describe 'index' do
     let(:company) { create(:company) }
@@ -86,7 +86,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
       end
 
       it 'paginates results by configurable scim_groups_list_order' do
-        allow(ScimRails.config).to(
+        allow(Scimaenaga.config).to(
           receive(:scim_groups_list_order).and_return(created_at: :desc)
         )
 
@@ -543,7 +543,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
 
       context 'when Group destroy method is not configured' do
         it 'does not delete Group' do
-          allow(ScimRails.config).to(
+          allow(Scimaenaga.config).to(
             receive(:group_destroy_method).and_return(nil)
           )
 
@@ -557,7 +557,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
 
       context 'when Group destroy method is invalid' do
         it 'does not delete Group' do
-          allow(ScimRails.config).to(
+          allow(Scimaenaga.config).to(
             receive(:group_destroy_method).and_return('destory!')
           )
 

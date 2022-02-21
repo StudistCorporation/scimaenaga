@@ -1,26 +1,26 @@
 # frozen_string_literal: true
 
-module ScimRails
-  class ScimUsersController < ScimRails::ApplicationController
+module Scimaenaga
+  class ScimUsersController < Scimaenaga::ApplicationController
 
     def index
       if params[:filter].present?
-        query = ScimRails::ScimQueryParser.new(
-          params[:filter], ScimRails.config.queryable_user_attributes
+        query = Scimaenaga::ScimQueryParser.new(
+          params[:filter], Scimaenaga.config.queryable_user_attributes
         )
 
         users = @company
-                .public_send(ScimRails.config.scim_users_scope)
+                .public_send(Scimaenaga.config.scim_users_scope)
                 .where(
-                  "#{ScimRails.config.scim_users_model
+                  "#{Scimaenaga.config.scim_users_model
               .connection.quote_column_name(query.attribute)} #{query.operator} ?",
                   query.parameter
                 )
-                .order(ScimRails.config.scim_users_list_order)
+                .order(Scimaenaga.config.scim_users_list_order)
       else
         users = @company
-                .public_send(ScimRails.config.scim_users_scope)
-                .order(ScimRails.config.scim_users_list_order)
+                .public_send(Scimaenaga.config.scim_users_scope)
+                .order(Scimaenaga.config.scim_users_list_order)
       end
 
       counts = ScimCount.new(
@@ -33,16 +33,16 @@ module ScimRails
     end
 
     def create
-      if ScimRails.config.scim_user_prevent_update_on_create
+      if Scimaenaga.config.scim_user_prevent_update_on_create
         user = @company
-               .public_send(ScimRails.config.scim_users_scope)
+               .public_send(Scimaenaga.config.scim_users_scope)
                .create!(permitted_user_params)
       else
-        username_key = ScimRails.config.queryable_user_attributes[:userName]
+        username_key = Scimaenaga.config.queryable_user_attributes[:userName]
         find_by_username = {}
         find_by_username[username_key] = permitted_user_params[username_key]
         user = @company
-               .public_send(ScimRails.config.scim_users_scope)
+               .public_send(Scimaenaga.config.scim_users_scope)
                .find_or_create_by(find_by_username)
         user.update!(permitted_user_params)
       end
@@ -50,18 +50,18 @@ module ScimRails
     end
 
     def show
-      user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
+      user = @company.public_send(Scimaenaga.config.scim_users_scope).find(params[:id])
       json_scim_response(object: user)
     end
 
     def put_update
-      user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
+      user = @company.public_send(Scimaenaga.config.scim_users_scope).find(params[:id])
       user.update!(permitted_user_params)
       json_scim_response(object: user)
     end
 
     def patch_update
-      user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
+      user = @company.public_send(Scimaenaga.config.scim_users_scope).find(params[:id])
       patch = ScimPatch.new(params, :user)
       patch.save(user)
 
@@ -69,21 +69,21 @@ module ScimRails
     end
 
     def destroy
-      unless ScimRails.config.user_destroy_method
-        raise ScimRails::ExceptionHandler::InvalidConfiguration
+      unless Scimaenaga.config.user_destroy_method
+        raise Scimaenaga::ExceptionHandler::InvalidConfiguration
       end
 
-      user = @company.public_send(ScimRails.config.scim_users_scope).find(params[:id])
+      user = @company.public_send(Scimaenaga.config.scim_users_scope).find(params[:id])
       raise ActiveRecord::RecordNotFound unless user
 
       begin
-        user.public_send(ScimRails.config.user_destroy_method)
+        user.public_send(Scimaenaga.config.user_destroy_method)
       rescue NoMethodError => e
-        raise ScimRails::ExceptionHandler::InvalidConfiguration, e.message
+        raise Scimaenaga::ExceptionHandler::InvalidConfiguration, e.message
       rescue ActiveRecord::RecordNotDestroyed => e
-        raise ScimRails::ExceptionHandler::InvalidRequest, e.message
+        raise Scimaenaga::ExceptionHandler::InvalidRequest, e.message
       rescue StandardError => e
-        raise ScimRails::ExceptionHandler::UnexpectedError, e.message
+        raise Scimaenaga::ExceptionHandler::UnexpectedError, e.message
       end
 
       head :no_content
@@ -92,13 +92,13 @@ module ScimRails
     private
 
       def permitted_user_params
-        ScimRails.config.mutable_user_attributes.each.with_object({}) do |attribute, hash|
+        Scimaenaga.config.mutable_user_attributes.each.with_object({}) do |attribute, hash|
           hash[attribute] = find_value_for(attribute)
         end
       end
 
       def controller_schema
-        ScimRails.config.mutable_user_attributes_schema
+        Scimaenaga.config.mutable_user_attributes_schema
       end
   end
 end

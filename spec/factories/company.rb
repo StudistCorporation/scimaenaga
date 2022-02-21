@@ -4,7 +4,7 @@ FactoryBot.define do
     subdomain { 'test' }
 
     after(:build) do |company|
-      company.api_token = ScimRails::Encoder.encode(company)
+      company.api_token = Scimaenaga::Encoder.encode(company)
     end
   end
 end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module ScimRails
+module Scimaenaga
   class ScimQueryParser
     attr_accessor :query_elements, :query_attributes
 
@@ -11,14 +11,14 @@ module ScimRails
 
     def attribute
       attribute = query_elements[0]
-      raise ScimRails::ExceptionHandler::InvalidQuery if attribute.blank?
+      raise Scimaenaga::ExceptionHandler::InvalidQuery if attribute.blank?
 
       dig_keys = attribute.split('.').map do |step|
         step == '0' ? 0 : step.to_sym
       end
 
       mapped_attribute = query_attributes.dig(*dig_keys)
-      raise ScimRails::ExceptionHandler::InvalidQuery if mapped_attribute.blank?
+      raise Scimaenaga::ExceptionHandler::InvalidQuery if mapped_attribute.blank?
 
       mapped_attribute
     end
@@ -42,7 +42,7 @@ module ScimRails
           '='
         else
           # TODO: implement additional query filters
-          raise ScimRails::ExceptionHandler::InvalidQuery
+          raise Scimaenaga::ExceptionHandler::InvalidQuery
         end
       end
   end

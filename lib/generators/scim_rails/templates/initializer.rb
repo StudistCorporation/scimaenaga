@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ScimRails.configure do |config|
+Scimaenaga.configure do |config|
   # Model used for authenticating and scoping users.
   config.basic_auth_model = 'Company'
 
