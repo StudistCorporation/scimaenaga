@@ -3,18 +3,17 @@
 require 'spec_helper'
 
 describe ScimRails::ScimQueryParser do
-
   let(:query_string) { 'userName eq "taro"' }
-  let(:queryable_attributes) {
+  let(:queryable_attributes) do
     {
       userName: :name,
       emails: [
         {
-          value: :email
+          value: :email,
         }
-      ]
+      ],
     }
-  }
+  end
   let(:parser) { described_class.new(query_string, queryable_attributes) }
 
   describe '#attribute' do

@@ -5,7 +5,7 @@ module ScimRails
     attr_accessor :query_elements, :query_attributes
 
     def initialize(query_string, queryable_attributes)
-      self.query_elements = query_string.gsub(/\[(.+?)\]/, ".0").split
+      self.query_elements = query_string.gsub(/\[(.+?)\]/, '.0').split
       self.query_attributes = queryable_attributes
     end
 
@@ -13,8 +13,8 @@ module ScimRails
       attribute = query_elements[0]
       raise ScimRails::ExceptionHandler::InvalidQuery if attribute.blank?
 
-      dig_keys = attribute.split(".").map do |step|
-        step == "0" ? 0 : step.to_sym
+      dig_keys = attribute.split('.').map do |step|
+        step == '0' ? 0 : step.to_sym
       end
 
       mapped_attribute = query_attributes.dig(*dig_keys)
@@ -28,22 +28,22 @@ module ScimRails
     end
 
     def parameter
-      parameter = query_elements[2..-1].join(" ")
+      parameter = query_elements[2..-1].join(' ')
       return if parameter.blank?
 
-      parameter.gsub(/"/, "")
+      parameter.gsub(/"/, '')
     end
 
     private
 
-    def sql_comparison_operator(element)
-      case element
-      when "eq"
-        "="
-      else
-        # TODO: implement additional query filters
-        raise ScimRails::ExceptionHandler::InvalidQuery
+      def sql_comparison_operator(element)
+        case element
+        when 'eq'
+          '='
+        else
+          # TODO: implement additional query filters
+          raise ScimRails::ExceptionHandler::InvalidQuery
+        end
       end
-    end
   end
 end

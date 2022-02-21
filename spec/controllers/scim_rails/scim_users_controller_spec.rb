@@ -755,23 +755,23 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
   describe 'destroy' do
     let(:company) { create(:company) }
 
-    context "when unauthorized" do
-      it "returns scim+json content type" do
+    context 'when unauthorized' do
+      it 'returns scim+json content type' do
         delete :destroy, params: { id: 1 }, as: :json
 
-        expect(response.media_type).to eq "application/scim+json"
+        expect(response.media_type).to eq 'application/scim+json'
       end
 
-      it "fails with no credentials" do
+      it 'fails with no credentials' do
         delete :destroy, params: { id: 1 }, as: :json
 
         expect(response.status).to eq 401
       end
 
-      it "fails with invalid credentials" do
-        request.env["HTTP_AUTHORIZATION"] =
+      it 'fails with invalid credentials' do
+        request.env['HTTP_AUTHORIZATION'] =
           ActionController::HttpAuthentication::Basic
-          .encode_credentials("unauthorized", "123456")
+          .encode_credentials('unauthorized', '123456')
 
         delete :destroy, params: { id: 1 }, as: :json
 
@@ -787,7 +787,6 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       end
 
       context 'when User destroy method is configured' do
-
         it 'is sucessful with valid credentials' do
           delete :destroy, params: { id: 1 }, as: :json
 
@@ -840,7 +839,7 @@ RSpec.describe ScimRails::ScimUsersController, type: :controller do
       context 'when target User is not found' do
         it 'return 404 not found' do
           expect do
-            delete :destroy, params: { id: 999999 }, as: :json
+            delete :destroy, params: { id: 999_999 }, as: :json
           end.not_to change { company.users.reload.count }.from(1)
 
           expect(response.status).to eq 404

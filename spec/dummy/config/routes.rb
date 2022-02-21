@@ -1,3 +1,3 @@
 Rails.application.routes.draw do
-  mount ScimRails::Engine => "/"
+  mount ScimRails::Engine => '/'
 end

@@ -417,8 +417,8 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
             Operations: [{
               op: 'Replace',
               path: 'displayName',
-              value: 'changed'
-            }]
+              value: 'changed',
+            }],
           }, as: :json
         end.to change { group.reload.name }.to('changed')
 
@@ -572,7 +572,7 @@ RSpec.describe ScimRails::ScimGroupsController, type: :controller do
       context 'whenr target Group is not found' do
         it 'return 404 not found' do
           expect do
-            delete :destroy, params: { id: 999999 }, as: :json
+            delete :destroy, params: { id: 999_999 }, as: :json
           end.not_to change { company.groups.reload.count }.from(1)
 
           expect(response.status).to eq 404

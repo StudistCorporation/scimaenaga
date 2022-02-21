@@ -2,7 +2,7 @@
 
 ScimRails.configure do |config|
   # Model used for authenticating and scoping users.
-  config.basic_auth_model = "Company"
+  config.basic_auth_model = 'Company'
 
   # Attribute used to search for a given record. This
   # attribute should be unique as it will return the
@@ -14,7 +14,7 @@ ScimRails.configure do |config|
   config.basic_auth_model_authenticatable_attribute = :api_token
 
   # Model used for user records.
-  config.scim_users_model = "User"
+  config.scim_users_model = 'User'
 
   # Method used for retrieving user records from the
   # authenticatable model.
@@ -25,7 +25,7 @@ ScimRails.configure do |config|
   config.scim_user_prevent_update_on_create = false
 
   # Model used for group records.
-  config.scim_groups_model = "Group"
+  config.scim_groups_model = 'Group'
   # Method used for retrieving user records from the
   # authenticatable model.
   config.scim_groups_scope = :groups
@@ -56,16 +56,16 @@ ScimRails.configure do |config|
     userName: :email,
     givenName: :first_name,
     familyName: :last_name,
-    email: :email
+    email: :email,
   }
 
   # Array of attributes that can be modified on the
   # user model. If the attribute is not in this array
   # the attribute cannot be modified by this Gem.
-  config.mutable_user_attributes = [
-    :first_name,
-    :last_name,
-    :email
+  config.mutable_user_attributes = %i[
+    first_name
+    last_name
+    email
   ]
 
   # Hash of mutable attributes. This object is the map
@@ -76,13 +76,13 @@ ScimRails.configure do |config|
   config.mutable_user_attributes_schema = {
     name: {
       givenName: :first_name,
-      familyName: :last_name
+      familyName: :last_name,
     },
     emails: [
       {
-        value: :email
+        value: :email,
       }
-    ]
+    ],
   }
 
   # Hash of SCIM structure for a user schema. This object
@@ -93,31 +93,31 @@ ScimRails.configure do |config|
   # through as is, symbols will be passed to the user
   # object to return a value.
   config.user_schema = {
-    schemas: ["urn:ietf:params:scim:schemas:core:2.0:User"],
+    schemas: ['urn:ietf:params:scim:schemas:core:2.0:User'],
     id: :id,
     userName: :email,
     name: {
       givenName: :first_name,
-      familyName: :last_name
+      familyName: :last_name,
     },
     emails: [
       {
-        value: :email
+        value: :email,
       }
     ],
-    active: :active?
+    active: :active?,
   }
 
   # Schema for users used in "abbreviated" lists such as in
   # the `members` field of a Group.
   config.user_abbreviated_schema = {
     value: :id,
-    display: :email
+    display: :email,
   }
 
   # Allow filtering Groups based on these parameters
   config.queryable_group_attributes = {
-    displayName: :name
+    displayName: :name,
   }
 
   # List of attributes on a Group that can be updated through SCIM
@@ -131,7 +131,7 @@ ScimRails.configure do |config|
   # include all attributes listed in
   # config.mutable_group_attributes.
   config.mutable_group_attributes_schema = {
-    displayName: :name
+    displayName: :name,
   }
 
   # The User relation's IDs field name on the Group model.
@@ -143,15 +143,15 @@ ScimRails.configure do |config|
   config.group_member_relation_schema = { value: :user_ids }
 
   config.group_schema = {
-    schemas: ["urn:ietf:params:scim:schemas:core:2.0:Group"],
+    schemas: ['urn:ietf:params:scim:schemas:core:2.0:Group'],
     id: :id,
     displayName: :name,
-    members: :users
+    members: :users,
   }
 
   config.group_abbreviated_schema = {
     value: :id,
-    display: :name
+    display: :name,
   }
 
   # Set group_destroy_method to a method on the Group model

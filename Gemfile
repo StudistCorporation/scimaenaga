@@ -10,10 +10,10 @@ gemspec
 # Git. Remember to move these dependencies to your gemspec before releasing
 # your gem to rubygems.org.
 
-gem "rails", ">= 5.2.4.6", "< 6.2"
+gem 'rails', '>= 5.2.4.6', '< 6.2'
 
 group :development, :test do
-  gem 'rubocop'
   gem 'pry'
   gem 'pry-nav'
+  gem 'rubocop'
 end

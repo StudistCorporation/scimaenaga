@@ -82,7 +82,7 @@ module ScimRails
         raise ScimRails::ExceptionHandler::InvalidConfiguration, e.message
       rescue ActiveRecord::RecordNotDestroyed => e
         raise ScimRails::ExceptionHandler::InvalidRequest, e.message
-      rescue => e
+      rescue StandardError => e
         raise ScimRails::ExceptionHandler::UnexpectedError, e.message
       end
 
