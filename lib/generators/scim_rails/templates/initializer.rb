@@ -159,7 +159,7 @@ ScimRails.configure do |config|
   # config.group_destroy_method = :destroy!
 
   # /Schemas settings.
-  # This configure is not used in /Users and /Groups for now.
+  # These settings are not used in /Users and /Groups for now.
   # Configure this only when you need Schemas endpoint.
   # Schemas endpoint returns configured value as it is.
   config.schemas = [
