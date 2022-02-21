@@ -1,5 +1,9 @@
 # Upcoming Release
 
+# v0.9.0 21-02-2022
+
+- [Implement Schemas endpoint (for Azure AD App Gallery)](https://github.com/StudistCorporation/scimaenaga/pull/28)
+
 # v0.8.0 04-02-2022
 
 - [Accept member remove by filter](https://github.com/StudistCorporation/scimaenaga/pull/26)
