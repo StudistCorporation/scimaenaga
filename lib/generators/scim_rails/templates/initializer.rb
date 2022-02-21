@@ -161,7 +161,7 @@ ScimRails.configure do |config|
   # /Schemas settings.
   # These settings are not used in /Users and /Groups for now.
   # Configure this only when you need Schemas endpoint.
-  # Schemas endpoint returns configured value as it is.
+  # Schemas endpoint returns the configured values as-is.
   config.schemas = [
     # Define User schemas
     {
