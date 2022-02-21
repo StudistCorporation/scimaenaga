@@ -2,4 +2,4 @@
 //= link_tree ../images
 //= link_directory ../javascripts .js
 //= link_directory ../stylesheets .css
-//= link scim_rails_manifest.js
+//= link scimaenaga_manifest.js

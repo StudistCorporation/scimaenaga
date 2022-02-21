@@ -5,4 +5,4 @@ Example:
     rails generate scimaenaga config
 
     This will create:
-        config/initializers/scim_rails_config.rb
+        config/initializers/scimaenaga_config.rb

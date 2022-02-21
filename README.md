@@ -41,7 +41,7 @@ $ rails generate scimaenaga config
 The config file will be located at:
 
 ```
-config/initializers/scim_rails_config.rb
+config/initializers/scimaenaga_config.rb
 ```
 
 Please update the config file with the models and attributes of your app.
