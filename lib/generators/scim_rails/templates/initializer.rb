@@ -165,7 +165,7 @@ ScimRails.configure do |config|
   config.schemas = [
     # Define User schemas
     {
-      # Basically, you don't have to change schemas/id/name/description
+      # Normally you don't have to change schemas/id/name/description
       schemas: ['urn:ietf:params:scim:schemas:core:2.0:Schema'],
       id: 'urn:ietf:params:scim:schemas:core:2.0:User',
       name: 'User',
