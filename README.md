@@ -17,7 +17,7 @@ The goal of the Gem is to offer a relatively painless way of adding SCIM 2.0 to 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'scimaenaga', require: 'scim_rails'
+gem 'scimaenaga'
 ```
 
 And then execute:
