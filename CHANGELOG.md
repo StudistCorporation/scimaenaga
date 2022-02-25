@@ -1,5 +1,9 @@
 # Upcoming Release
 
+# v0.9.1 25-02-2022
+
+- [Rename from ScimRails to Scimaenaga](https://github.com/StudistCorporation/scimaenaga/pull/32)
+
 # v0.9.0 21-02-2022
 
 - [Implement Schemas endpoint (for Azure AD App Gallery)](https://github.com/StudistCorporation/scimaenaga/pull/28)
