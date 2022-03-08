@@ -88,11 +88,11 @@ module Scimaenaga
         )
       end
 
-      rescue_from Scimaenaga::ExceptionHandler::UnsupportedPatchRequest do
+      rescue_from Scimaenaga::ExceptionHandler::UnsupportedPatchRequest do |e|
         json_response(
           {
             schemas: ['urn:ietf:params:scim:api:messages:2.0:Error'],
-            detail: 'Invalid PATCH request.',
+            detail: "Invalid PATCH request. #{e.message}",
             status: '422',
           },
           :unprocessable_entity

@@ -34,7 +34,7 @@ class ScimPatch
     end
   rescue ActiveRecord::RecordNotFound
     raise
-  rescue StandardError
-    raise Scimaenaga::ExceptionHandler::UnsupportedPatchRequest
+  rescue StandardError => e
+    raise Scimaenaga::ExceptionHandler::UnsupportedPatchRequest, e.message
   end
 end
