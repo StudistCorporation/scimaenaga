@@ -1,5 +1,9 @@
 # Upcoming Release
 
+# v0.9.2 11-03-2022
+
+- [Add error messages to make the cause](https://github.com/StudistCorporation/scimaenaga/pull/34)
+
 # v0.9.1 25-02-2022
 
 - [Rename from ScimRails to Scimaenaga](https://github.com/StudistCorporation/scimaenaga/pull/32)
