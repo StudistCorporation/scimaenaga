@@ -236,6 +236,16 @@ Sample request:
 $ curl -X PUT 'http://username:password@localhost:3000/scim/v2/Users/1' -d '{"schemas":["urn:ietf:params:scim:schemas:core:2.0:User"],"userName":"test@example.com","name":{"givenName":"Test","familyName":"User"},"emails":[{"primary":true,"value":"test@example.com","type":"work"}],"displayName":"Test User","active":true}' -H 'Content-Type: application/scim+json'
 ```
 
+### Deprovision / Reprovision
+
+The PATCH request was implemented to work with Azure AD. Azure AD deprovisions / reprovisions with PATCH.
+
+Sample request:
+
+```bash
+$ curl -X PATCH 'http://username:password@localhost:3000/scim/v2/Users/1' -d '{"schemas": ["urn:ietf:params:scim:api:messages:2.0:PatchOp"], "Operations": [{"op": "replace", "path": "active", "value": false}]}' -H 'Content-Type: application/scim+json'
+```
+
 ### Error Handling
 
 By default, scimaenaga will output any unhandled exceptions to your configured rails logs.
