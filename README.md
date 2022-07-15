@@ -318,8 +318,7 @@ Maintainers:
 - Help set project direction
 - Merge contributions from contributors
 
-- [@wernull](https://github.com/wernull)
-- [@rreinhardt9](https://github.com/rreinhardt9)
+- [Studist Corporation](https://github.com/StudistCorporation)
 
 ## License
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
