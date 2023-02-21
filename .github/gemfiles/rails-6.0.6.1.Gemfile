@@ -2,4 +2,4 @@ source 'https://rubygems.org'
 
 gemspec path: '../..'
 
-gem "rails", "6.1.3.2"
+gem "rails", "6.0.6.1"
