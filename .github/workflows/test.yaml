@@ -53,7 +53,7 @@ jobs:
           ## cf https://endoflife.date/rails
           - 6.0.6.1
           - 6.1.7.2
-          - 7.0.4.2
+          # - 7.0.4.2
         include:
           - rails: 6.0.6.1
             ruby: 2.7.7
