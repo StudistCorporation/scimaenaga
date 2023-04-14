@@ -53,7 +53,7 @@ module Scimaenaga
       def object_response(object)
         case object
            when Scimaenaga.config.scim_users_model
-             user_object_respnse(object)
+             user_object_response(object)
            when Scimaenaga.config.scim_groups_model
              group_object_response(object)
            else
