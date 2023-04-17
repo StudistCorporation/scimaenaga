@@ -52,14 +52,14 @@ module Scimaenaga
 
       def object_response(object)
         case object
-           when Scimaenaga.config.scim_users_model
-             user_object_response(object)
-           when Scimaenaga.config.scim_groups_model
-             group_object_response(object)
-           else
-             raise Scimaenaga::ExceptionHandler::InvalidQuery,
-                   "Unknown model: #{object}"
-           end
+        when Scimaenaga.config.scim_users_model
+          user_object_response(object)
+        when Scimaenaga.config.scim_groups_model
+          group_object_response(object)
+        else
+          raise Scimaenaga::ExceptionHandler::InvalidQuery,
+                "Unknown model: #{object}"
+        end
       end
 
       def user_object_response(object)
@@ -69,11 +69,11 @@ module Scimaenaga
       def group_object_response(object)
         response = find_value(object, Scimaenaga.config.group_schema.except(:members))
         members_attribute = Scimaenaga.config.group_schema[:members]
-        return if members_attribute.nil?
+        return response if members_attribute.nil?
 
         members_raw = find_value(object, members_attribute)
         response[:members] = members_raw.map do |member|
-          find_value(member, Scimaenaga.config.user_abbreviated_schema )
+          find_value(member, Scimaenaga.config.user_abbreviated_schema)
         end
         response
       end
