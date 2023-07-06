@@ -1,6 +1,9 @@
 name: Tests
 on:
-  push:
+  pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   rubocop:
@@ -19,7 +22,7 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0.2
-      - uses: reviewdog/action-brakeman@v1
+      - uses: reviewdog/action-brakeman@v2
 
   misspell:
     runs-on: ubuntu-latest
