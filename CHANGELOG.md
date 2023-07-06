@@ -1,5 +1,10 @@
 # Upcoming Release
 
+
+# v1.0.0 07-06-2023
+
+- [CI: Test against rails 7.0](https://github.com/StudistCorporation/scimaenaga/pull/43)
+
 # v0.9.3 04-27-2023
 
 - [Add Ruby 3.2](https://github.com/StudistCorporation/scimaenaga/pull/41)

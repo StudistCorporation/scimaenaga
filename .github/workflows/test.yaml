@@ -23,6 +23,8 @@ jobs:
         with:
           ruby-version: 3.0.2
       - uses: reviewdog/action-brakeman@v2
+        with:
+          brakeman_flags: --except CheckEOLRails
 
   misspell:
     runs-on: ubuntu-latest
