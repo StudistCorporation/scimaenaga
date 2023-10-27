@@ -1,6 +1,9 @@
 name: Tests
 on:
-  push:
+  pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   rubocop:
@@ -19,7 +22,9 @@ jobs:
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0.2
-      - uses: reviewdog/action-brakeman@v1
+      - uses: reviewdog/action-brakeman@v2
+        with:
+          brakeman_flags: --except CheckEOLRails
 
   misspell:
     runs-on: ubuntu-latest
@@ -42,14 +47,13 @@ jobs:
           ##
           ## cf https://endoflife.date/ruby
           # 2021-04-05 releases
-          - 2.5.9
-          - 2.6.7
-          - 2.7.3
           - 3.0.1
           # 2021-07-07 releases
-          - 2.6.8
-          - 2.7.4
           - 3.0.2
+          # 2023-02-08 release
+          - 3.2.1
+          # 2023-03-30 release
+          - 3.2.2
         rails:
           ## test against last two releases from supported rails versions
           ## when updating, be sure to add the matching version Gemfile to
@@ -57,33 +61,20 @@ jobs:
           ##
           ## cf https://endoflife.date/rails
           # 2021-05-06 releases
-          - 5.2.4.6
-          - 5.2.6
           - 6.0.3.7
           - 6.1.3.2
           # 2021-08-20 releases
           - 6.0.4.1
           - 6.1.4.1
+          # 2023-01-24 releases
+          - 6.1.7.2
+          # 2023-03-13 releases
+          - 6.1.7.3
+          # 2023-03-13 releases
+          - 7.0.4.3
         exclude:
           ## be careful with which versions of ruby does rails support
           ## cf https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
-          # rails 5.2 requires ruby < 2.7
-          - rails: 5.2.4.6
-            ruby: 2.7.3
-          - rails: 5.2.4.6
-            ruby: 2.7.4
-          - rails: 5.2.4.6
-            ruby: 3.0.1
-          - rails: 5.2.4.6
-            ruby: 3.0.2
-          - rails: 5.2.6
-            ruby: 2.7.3
-          - rails: 5.2.6
-            ruby: 2.7.4
-          - rails: 5.2.6
-            ruby: 3.0.1
-          - rails: 5.2.6
-            ruby: 3.0.2
           # rails 6.0 requires ruby < 3
           - rails: 6.0.3.7
             ruby: 3.0.1
@@ -93,6 +84,18 @@ jobs:
             ruby: 3.0.1
           - rails: 6.0.4.1
             ruby: 3.0.2
+          - rails: 6.0.3.7
+            ruby: 3.2.1
+          - rails: 6.0.4.1
+            ruby: 3.2.1
+          - rails: 6.1.3.2
+            ruby: 3.2.1
+          - rails: 6.0.3.7
+            ruby: 3.2.2
+          - rails: 6.0.4.1
+            ruby: 3.2.2
+          - rails: 6.1.3.2
+            ruby: 3.2.2
 
     env:
       RAILS_ENV: test
