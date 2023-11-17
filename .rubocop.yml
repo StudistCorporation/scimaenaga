@@ -1,6 +1,9 @@
 AllCops:
   NewCops: enable
 
+Gemspec/DevelopmentDependencies:
+  Enabled: false
+
 Style/FrozenStringLiteralComment:
   Enabled: true
 
