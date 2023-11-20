@@ -1,5 +1,8 @@
 # Upcoming Release
 
+# v1.0.1 11-20-2023
+
+- [Ci against rails7.1](https://github.com/StudistCorporation/scimaenaga/pull/48)
 
 # v1.0.0 07-06-2023
 
