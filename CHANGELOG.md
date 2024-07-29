@@ -1,5 +1,9 @@
 # Upcoming Release
 
+# v1.0.4 07-29-2024
+
+- [Support Ruby 3.3.4](https://github.com/StudistCorporation/scimaenaga/pull/54)
+- 
 # v1.0.3 06-18-2024
 
 - [Support Ruby 3.3.3](https://github.com/StudistCorporation/scimaenaga/pull/52)
