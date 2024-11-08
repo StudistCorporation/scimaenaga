@@ -54,7 +54,7 @@ jobs:
           - 3.2.1
           # 2023-03-30 release
           - 3.2.2
-          # 2024-11-11 release
+          # 2024-11-05 release
           - 3.3.6
         rails:
           ## test against last two releases from supported rails versions
