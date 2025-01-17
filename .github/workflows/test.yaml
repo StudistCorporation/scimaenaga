@@ -70,7 +70,7 @@ jobs:
           - 7.2
           # 2024-12-13 releases
           - 8.0
-        # exclude:
+        exclude:
           ## be careful with which versions of ruby does rails support
           ## cf https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
           # rails 6.0 requires ruby < 3
