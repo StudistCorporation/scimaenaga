@@ -123,6 +123,8 @@ jobs:
           bundler-cache: true
       - name: Install gems
         run: gem install concurrent-ruby -v 1.3.4 && gem uninstall concurrent-ruby -v 1.3.5
+      - name: list gems
+        run: gem list | grep concurrent-ruby
       - name: Prepare database
         run: bundle exec rails db:setup
       - name: Run tests
