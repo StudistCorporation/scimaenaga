@@ -11,6 +11,7 @@ gemspec
 # your gem to rubygems.org.
 
 gem 'rails', '>= 5.2.4.6', '< 7.1'
+gem 'concurrent-ruby', '1.3.4'
 
 group :development, :test do
   gem 'pry'
