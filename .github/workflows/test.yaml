@@ -121,6 +121,10 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+      - name: Install dependencies
+        run: sudo apt-get update
+      - name: Install gems
+        run: bundle install
       - name: Prepare database
         run: bundle exec rails db:setup
       - name: Run tests
