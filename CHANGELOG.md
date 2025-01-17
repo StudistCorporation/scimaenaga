@@ -1,5 +1,9 @@
 # Upcoming Release
 
+# v1.0.6 01-18-2025
+
+- [Support Ruby 3.3.7](https://github.com/StudistCorporation/scimaenaga/pull/58)
+
 # v1.0.5 11-08-2024
 
 - [Support Ruby 3.3.6](https://github.com/StudistCorporation/scimaenaga/pull/56)
