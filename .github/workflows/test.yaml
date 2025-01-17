@@ -116,7 +116,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: install libsqlite3-dev
-        run: apt-get install libsqlite3-dev
+        run: sudo apt-get install libsqlite3-dev
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
