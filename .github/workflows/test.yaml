@@ -112,7 +112,7 @@ jobs:
       BUNDLE_GEMFILE: ${{ github.workspace }}/.github/gemfiles/rails-${{ matrix.rails }}.Gemfile
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: ruby/setup-ruby@v1
