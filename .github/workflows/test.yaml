@@ -66,6 +66,8 @@ jobs:
           - 7.0.4.3
           # 2023-10-05 releases
           - 7.1
+          # 2024-12-10 releases
+          - 7.2
         exclude:
           ## be careful with which versions of ruby does rails support
           ## cf https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
@@ -76,6 +78,10 @@ jobs:
             ruby: 3.2.6
           - rails: 7.0.4.3
             ruby: 3.3.7
+          - rails: 7.2
+            ruby: 3.0.6
+          - rails: 7.2
+            ruby: 3.0.7
 
     env:
       RAILS_ENV: test
