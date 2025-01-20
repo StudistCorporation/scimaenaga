@@ -62,25 +62,42 @@ jobs:
           ## .github/gemfiles
           ##
           ## cf https://endoflife.date/rails
-          # 2023-03-13 releases
-          - 7.0.4.3
-          # 2023-10-05 releases
-          - 7.1
-          # 2024-12-10 releases
-          - 7.2
+          # 2023-08-22 release
+          - 7.0.7.2
+          # 2024-12-10 release
+          - 7.0.8.7
+          # 2024-10-23 release
+          - 7.1.4.2
+          # 2024-12-10 release
+          - 7.1.5.1
+          # 2024-10-23 release
+          - 7.2.1.2
+          # 2024-12-10 release
+          - 7.2.2.1
         exclude:
           ## be careful with which versions of ruby does rails support
           ## cf https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
-          # rails 6.0 requires ruby < 3
-          - rails: 7.0.4.3
+          # rails 7.0 requires ruby < 3.1
+          - rails: 7.0.7.2
             ruby: 3.2.5
-          - rails: 7.0.4.3
+          - rails: 7.0.7.2
             ruby: 3.2.6
-          - rails: 7.0.4.3
+          - rails: 7.0.7.2
             ruby: 3.3.7
-          - rails: 7.2
+          - rails: 7.0.8.7
+            ruby: 3.2.5
+          - rails: 7.0.8.7
+            ruby: 3.2.6
+          - rails: 7.0.8.7
+            ruby: 3.3.7
+          # rails 7.2 requires ruby >= 3.1
+          - rails: 7.2.1.2
             ruby: 3.0.6
-          - rails: 7.2
+          - rails: 7.2.1.2
+            ruby: 3.0.7
+          - rails: 7.2.2.1
+            ruby: 3.0.6
+          - rails: 7.2.2.1
             ruby: 3.0.7
 
     env:
