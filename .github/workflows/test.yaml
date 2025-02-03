@@ -56,6 +56,8 @@ jobs:
           - 3.2.6
           # 2025-01-15 release
           - 3.3.7
+          # 2024-12-25 release
+          - 3.4.1
         rails:
           ## test against last two releases from supported rails versions
           ## when updating, be sure to add the matching version Gemfile to
@@ -90,6 +92,10 @@ jobs:
             ruby: 3.2.6
           - rails: 7.0.8.7
             ruby: 3.3.7
+          - rails: 7.0.7.2
+            ruby: 3.4.1
+          - rails: 7.0.8.7
+            ruby: 3.4.1
           # rails 7.2 requires ruby >= 3.1
           - rails: 7.2.1.2
             ruby: 3.0.6
