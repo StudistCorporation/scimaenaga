@@ -76,6 +76,8 @@ jobs:
           - 7.2.1.2
           # 2024-12-10 release
           - 7.2.2.1
+          # 2025-03-12 release
+          - 8.0.2
         exclude:
           ## be careful with which versions of ruby does rails support
           ## cf https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
@@ -104,6 +106,11 @@ jobs:
           - rails: 7.2.2.1
             ruby: 3.0.6
           - rails: 7.2.2.1
+            ruby: 3.0.7
+          # rails 8.0 requires ruby >= 3.2
+          - rails: 8.0.2
+            ruby: 3.0.6
+          - rails: 8.0.2
             ruby: 3.0.7
 
     env:
