@@ -28,6 +28,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'sqlite3'
   s.add_runtime_dependency "bigdecimal"
   s.add_runtime_dependency "mutex_m"
+  s.add_runtime_dependency "benchmark"
+  s.add_runtime_dependency "drb"
   s.metadata = {
     'rubygems_mfa_required' => 'true',
   }
