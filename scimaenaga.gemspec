@@ -26,9 +26,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake', '~> 13.0'
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'sqlite3'
-  s.add_dependency 'benchmark'
+  s.add_development_dependency 'benchmark'
+  s.add_development_dependency 'drb'
   s.add_dependency 'bigdecimal'
-  s.add_dependency 'drb'
   s.add_dependency 'mutex_m'
   s.metadata = {
     'rubygems_mfa_required' => 'true',
