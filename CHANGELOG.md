@@ -1,5 +1,8 @@
 # Upcoming Release
 
+# v1.0.9 05-14-2025
+- [Support Ruby 3.4.3](https://github.com/StudistCorporation/scimaenaga/pull/XX)
+
 # v1.0.8 04-30-2025
 - [Support Rails 8.0](https://github.com/StudistCorporation/scimaenaga/pull/66)
 

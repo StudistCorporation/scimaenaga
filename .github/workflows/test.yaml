@@ -58,6 +58,8 @@ jobs:
           - 3.3.7
           # 2024-12-25 release
           - 3.4.1
+          # 2025-4-30 release
+          - 3.4.3
         rails:
           ## test against last two releases from supported rails versions
           ## when updating, be sure to add the matching version Gemfile to
