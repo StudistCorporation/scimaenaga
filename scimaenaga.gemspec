@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'rails', '>= 7.0', '< 8.1'
   s.test_files = Dir['spec/**/*']
 
-
   s.add_development_dependency 'benchmark'
   s.add_development_dependency 'bundler', '~> 2.0'
   s.add_development_dependency 'drb'
