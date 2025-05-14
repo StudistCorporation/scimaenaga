@@ -21,13 +21,13 @@ Gem::Specification.new do |s|
   s.test_files = Dir['spec/**/*']
 
   s.add_development_dependency 'bundler', '~> 2.0'
+  s.add_development_dependency 'benchmark'
+  s.add_development_dependency 'drb'
   s.add_development_dependency 'factory_bot_rails'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rake', '~> 13.0'
   s.add_development_dependency 'rspec-rails'
   s.add_development_dependency 'sqlite3'
-  s.add_development_dependency 'benchmark'
-  s.add_development_dependency 'drb'
   s.add_dependency 'bigdecimal'
   s.add_dependency 'mutex_m'
   s.metadata = {
