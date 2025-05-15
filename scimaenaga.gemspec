@@ -15,9 +15,9 @@ Gem::Specification.new do |s|
 
   s.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'Rakefile', 'README.md']
 
-  s.required_ruby_version = '>= 2.5.9', '<= 3.4.1'
+  s.required_ruby_version = '>= 2.5.9', '<= 3.4.3'
+  s.add_dependency 'jwt', '>= 1.5'
   s.add_dependency 'rails', '>= 7.0', '< 8.1'
-  s.add_runtime_dependency 'jwt', '>= 1.5'
   s.test_files = Dir['spec/**/*']
 
   s.add_development_dependency 'bundler', '~> 2.0'
