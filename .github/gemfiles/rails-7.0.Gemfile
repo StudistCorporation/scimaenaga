@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gemspec path: '../..'
 
-gem "rails", "7.0.8.7"
+gem "rails", "~> 7.0.0"
 gem 'concurrent-ruby', '1.3.4'
 gem 'sqlite3', '< 1.8'
 
