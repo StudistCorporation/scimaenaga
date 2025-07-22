@@ -1,5 +1,8 @@
 # Upcoming Release
 
+# v1.0.10 07-22-2025
+- [Remove the upper limit for Ruby and aligned the Ruby and Rails minor versions used in CI](https://github.com/StudistCorporation/scimaenaga/pull/70)
+
 # v1.0.9 05-14-2025
 - [Support Ruby 3.4.3](https://github.com/StudistCorporation/scimaenaga/pull/68)
 
