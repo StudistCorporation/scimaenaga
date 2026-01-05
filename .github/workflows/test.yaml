@@ -61,6 +61,7 @@ jobs:
           - "7.1"
           - "7.2"
           - "8.0"
+          - "8.1"
         exclude:
           ## be careful with which versions of ruby does rails support
           ## cf https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
@@ -78,6 +79,11 @@ jobs:
           - rails: "8.0"
             ruby: "3.0"
           - rails: "8.0"
+            ruby: "3.1"
+          # rails 8.1 requires ruby >= 3.2
+          - rails: "8.1"
+            ruby: "3.0"
+          - rails: "8.1"
             ruby: "3.1"
 
     env:
