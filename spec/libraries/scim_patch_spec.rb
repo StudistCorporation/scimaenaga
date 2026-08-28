@@ -148,6 +148,9 @@ describe ScimPatch do
       allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_group_attributes_schema)
       )
+      allow(Scimaenaga.config).to(
+        receive(:mutable_group_attributes).and_return([:name])
+      )
 
       expect(patch.operations[0].op).to eq 'replace'
       expect(patch.operations[0].path_scim).to eq(attribute: 'displayName', rest_path: [])

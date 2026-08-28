@@ -22,7 +22,7 @@ class ScimPatchOperationUser < ScimPatchOperation
     end
 
     def mutable?(_path_scim, path_sp)
-      Scimaenaga.config.mutable_user_attributes.include?(path_sp)
+      Array(Scimaenaga.config.mutable_user_attributes).include?(path_sp)
     end
 
     def path_scim_to_path_sp(path_scim)

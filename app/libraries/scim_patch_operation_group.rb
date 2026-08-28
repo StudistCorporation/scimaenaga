@@ -71,7 +71,7 @@ class ScimPatchOperationGroup < ScimPatchOperation
     def mutable?(path_scim, path_sp)
       return true if path_scim[:attribute] == 'members'
 
-      Scimaenaga.config.mutable_group_attributes.include?(path_sp)
+      Array(Scimaenaga.config.mutable_group_attributes).include?(path_sp)
     end
 
     def path_scim_to_path_sp(path_scim)
