@@ -1,4 +1,5 @@
 # Upcoming Release
+- [Add a random jti claim to generated tokens](https://github.com/StudistCorporation/scimaenaga/pull/74)
 
 # v1.0.10 07-22-2025
 - [Remove the upper limit for Ruby and aligned the Ruby and Rails minor versions used in CI](https://github.com/StudistCorporation/scimaenaga/pull/70)
