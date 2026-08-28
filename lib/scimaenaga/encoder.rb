@@ -5,8 +5,11 @@ module Scimaenaga
     extend self
 
     def encode(company)
+      # Without jti an unsigned token (signing_algorithm "none") could be guessed
+      # from the issue time alone, since iat is its only variable part.
       payload = {
         iat: Time.current.to_i,
+        jti: SecureRandom.uuid,
         Scimaenaga.config.basic_auth_model_searchable_attribute =>
           company.public_send(Scimaenaga.config.basic_auth_model_searchable_attribute),
       }

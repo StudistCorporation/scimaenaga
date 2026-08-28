@@ -10,7 +10,8 @@ describe Scimaenaga::Encoder do
         payload = Scimaenaga::Encoder.decode(token)
 
         expect(token).to match(/[a-z|A-Z0-9.]{16,}\.[a-z|A-Z0-9.]{16,}/)
-        expect(payload).to contain_exactly(['iat', Integer], %w[subdomain test])
+        expect(payload).to contain_exactly(['iat', Integer], ['jti', String],
+                                           %w[subdomain test])
       end
     end
 
@@ -25,7 +26,14 @@ describe Scimaenaga::Encoder do
         payload = Scimaenaga::Encoder.decode(token)
 
         expect(token).to match(/[a-z|A-Z0-9.]{16,}/)
-        expect(payload).to contain_exactly(['iat', Integer], %w[subdomain test])
+        expect(payload).to contain_exactly(['iat', Integer], ['jti', String],
+                                           %w[subdomain test])
+      end
+
+      it 'generates a different token every time' do
+        tokens = Array.new(2) { Scimaenaga::Encoder.encode(company) }
+
+        expect(tokens.uniq.size).to eq 2
       end
     end
   end
@@ -44,7 +52,8 @@ describe Scimaenaga::Encoder do
       it 'decodes a signed token, returning the company attributes' do
         payload = Scimaenaga::Encoder.decode(token)
 
-        expect(payload).to contain_exactly(['iat', Integer], %w[subdomain test])
+        expect(payload).to contain_exactly(['iat', Integer], ['jti', String],
+                                           %w[subdomain test])
       end
     end
 
@@ -57,7 +66,8 @@ describe Scimaenaga::Encoder do
       it 'decodes an unsigned token, returning the company attributes' do
         payload = Scimaenaga::Encoder.decode(token)
 
-        expect(payload).to contain_exactly(['iat', Integer], %w[subdomain test])
+        expect(payload).to contain_exactly(['iat', Integer], ['jti', String],
+                                           %w[subdomain test])
       end
     end
   end

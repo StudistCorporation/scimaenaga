@@ -114,6 +114,8 @@ $ curl -X GET 'http://username:password@localhost:3000/scim/v2/Users'
 ###### Signing Algorithm
 In the config settings, ensure you set `signing_algorithm` to a valid JWT signing algorithm, e.g "HS256". Defaults to `"none"` when not set.
 
+Signing is recommended even if you only use basic authentication: an unsigned token is only as secret as its random `jti` claim.
+
 ###### Signing Secret
 In the config settings, ensure you set `signing_secret` to a secret key that will be used to encode and decode tokens. Defaults to `nil` when not set.
 
