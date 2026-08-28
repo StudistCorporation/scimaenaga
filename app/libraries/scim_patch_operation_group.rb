@@ -16,6 +16,15 @@ class ScimPatchOperationGroup < ScimPatchOperation
     end
   end
 
+  # Member ids this operation will attach to the group ('add' / 'replace').
+  # 'remove' never attaches anything, so it returns [].
+  def member_ids_to_assign
+    return [] unless @path_scim[:attribute] == 'members'
+    return [] if @op == 'remove'
+
+    member_ids_from_value || []
+  end
+
   private
 
     def save_members(model)

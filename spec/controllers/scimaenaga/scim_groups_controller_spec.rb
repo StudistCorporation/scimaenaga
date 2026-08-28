@@ -289,6 +289,18 @@ RSpec.describe Scimaenaga::ScimGroupsController, type: :controller do
         expect(company.groups.count).to eq 1
       end
 
+      it 'returns :not_found when a member belongs to another company' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        post :create, params: {
+          displayName: 'Test Group',
+          members: [{ value: other_user.id.to_s }],
+        }, as: :json
+
+        expect(response.status).to eq 404
+        expect(company.groups.count).to eq 0
+      end
+
       it 'creates group' do
         users = create_list(:user, 3, company: company)
 
@@ -449,6 +461,24 @@ RSpec.describe Scimaenaga::ScimGroupsController, type: :controller do
         patch :patch_update, params:  patch_params(user_id: 0), as: :json
 
         expect(response.status).to eq 404
+      end
+
+      it 'returns :not_found and does not add a User of another company' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        expect do
+          patch :patch_update, params: patch_params(user_id: other_user.id), as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 404
+      end
+
+      it 'can remove a User even if the id is not in the company' do
+        expect do
+          patch :patch_update, params: patch_params(user_id: 0, op: 'Remove'), as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 200
       end
 
       it 'rollback if even one cannot be saved' do
