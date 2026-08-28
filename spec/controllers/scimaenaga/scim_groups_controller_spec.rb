@@ -400,6 +400,16 @@ RSpec.describe Scimaenaga::ScimGroupsController, type: :controller do
 
         expect(response.status).to eq 422
       end
+
+      it 'returns :not_found and does not add a User of another company' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        expect do
+          put :put_update, params: put_params(users: [other_user]), as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 404
+      end
     end
   end
 
@@ -479,6 +489,52 @@ RSpec.describe Scimaenaga::ScimGroupsController, type: :controller do
         end.not_to(change { group.reload.users.to_a })
 
         expect(response.status).to eq 200
+      end
+
+      it 'returns :not_found when replacing with a User of another company' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        expect do
+          patch :patch_update,
+                params: patch_params(user_id: other_user.id, op: 'Replace'), as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 404
+      end
+
+      it 'returns :not_found when members mix own and other company Users' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        expect do
+          patch :patch_update, params: {
+            id: group.id,
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
+            Operations: [{
+              op: 'Add',
+              path: 'members',
+              value: [
+                { value: user2.id },
+                { value: other_user.id }
+              ],
+            }],
+          }, as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 404
+      end
+
+      it 'returns 422 when members value is not an array' do
+        patch :patch_update, params: {
+          id: group.id,
+          schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
+          Operations: [{
+            op: 'Add',
+            path: 'members',
+            value: user2.id.to_s,
+          }],
+        }, as: :json
+
+        expect(response.status).to eq 422
       end
 
       it 'rollback if even one cannot be saved' do
