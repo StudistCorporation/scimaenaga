@@ -1,4 +1,5 @@
 # Upcoming Release
+- [Reject group members that do not belong to the authenticated company](https://github.com/StudistCorporation/scimaenaga/pull/73)
 
 # v1.0.10 07-22-2025
 - [Remove the upper limit for Ruby and aligned the Ruby and Rails minor versions used in CI](https://github.com/StudistCorporation/scimaenaga/pull/70)
