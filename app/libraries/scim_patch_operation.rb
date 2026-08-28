@@ -21,7 +21,10 @@ class ScimPatchOperation
     @path_scim = parse_path_scim(path)
     @path_sp = path_scim_to_path_sp(@path_scim)
 
-    # define parse method in the inherited class
+    # define mutable? method in the inherited class
+    return if mutable?(@path_scim, @path_sp)
+
+    raise Scimaenaga::ExceptionHandler::UnsupportedPatchRequest
   end
 
   private
