@@ -61,6 +61,7 @@ module Scimaenaga
               .public_send(Scimaenaga.config.scim_groups_scope)
               .find(params[:id])
       patch = ScimPatch.new(params, :group)
+      verify_member_ids!(patch.operations.flat_map(&:member_ids_to_assign))
       patch.save(group)
 
       json_scim_response(object: group)
@@ -101,12 +102,19 @@ module Scimaenaga
       end
 
       def member_params
-        {
-          Scimaenaga.config.group_member_relation_attribute =>
-            params[:members].map do |member|
-              member[Scimaenaga.config.group_member_relation_schema.keys.first]
-            end,
-        }
+        member_ids = params[:members].map do |member|
+          member[Scimaenaga.config.group_member_relation_schema.keys.first]
+        end
+        verify_member_ids!(member_ids)
+        { Scimaenaga.config.group_member_relation_attribute => member_ids }
+      end
+
+      # Without this a client could attach users of another company to its own group.
+      def verify_member_ids!(member_ids)
+        ids = member_ids.map(&:to_s).uniq
+        users = @company.public_send(Scimaenaga.config.scim_users_scope)
+        missing_ids = ids - users.where(users.primary_key => ids).ids.map(&:to_s)
+        raise ExceptionHandler::ResourceNotFound, missing_ids if missing_ids.any?
       end
 
       def mutable_attributes

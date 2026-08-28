@@ -16,6 +16,19 @@ class ScimPatchOperationGroup < ScimPatchOperation
     end
   end
 
+  # Member ids this operation will attach to the group ('add' / 'replace').
+  # 'remove' never attaches anything, so it returns [].
+  # A malformed value (not an Array) also returns [] on purpose: this method is
+  # called before #save, and rejecting the shape here would turn the 422 that
+  # #save raises into a 500.
+  def member_ids_to_assign
+    return [] unless @path_scim[:attribute] == 'members'
+    return [] if @op == 'remove'
+    return [] unless @value.is_a?(Array)
+
+    member_ids_from_value
+  end
+
   private
 
     def save_members(model)
