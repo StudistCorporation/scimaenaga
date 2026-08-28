@@ -114,6 +114,8 @@ $ curl -X GET 'http://username:password@localhost:3000/scim/v2/Users'
 ###### Signing Algorithm
 In the config settings, ensure you set `signing_algorithm` to a valid JWT signing algorithm, e.g "HS256". Defaults to `"none"` when not set.
 
+Do not leave it `"none"` in production, even if you only use basic authentication. An unsigned token contains nothing but the searchable attribute and the issue time (`iat`), so it can be guessed from the issue time alone. This follows [RFC 8725 Section 3.2](https://www.rfc-editor.org/rfc/rfc8725#section-3.2), which allows `"none"` only when the token is protected by other means.
+
 ###### Signing Secret
 In the config settings, ensure you set `signing_secret` to a secret key that will be used to encode and decode tokens. Defaults to `nil` when not set.
 

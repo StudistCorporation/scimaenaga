@@ -33,13 +33,13 @@ Scimaenaga.configure do |config|
   # Cryptographic algorithm used for signing the auth tokens.
   # It supports all algorithms supported by the jwt gem.
   # See https://github.com/jwt/ruby-jwt#algorithms-and-usage for supported algorithms
-  # It is "none" by default, hence generated tokens are unsigned
-  # The tokens do not need to be signed if you only need basic authentication.
+  # It is "none" by default, hence generated tokens are unsigned.
+  # Do not leave it "none" in production: an unsigned token contains only
+  # the searchable attribute and the issue time, so it can be guessed.
   # config.signing_algorithm = "HS256"
 
   # Secret token used to sign authorization tokens
-  # It is `nil` by default, hence generated tokens are unsigned
-  # The tokens do not need to be signed if you only need basic authentication.
+  # It is `nil` by default, hence generated tokens are unsigned.
   # config.signing_secret = SECRET_TOKEN
 
   # Default sort order for pagination is by id. If you
