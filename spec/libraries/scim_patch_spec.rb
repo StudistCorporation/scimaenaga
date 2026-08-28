@@ -9,6 +9,9 @@ describe ScimPatch do
       allow(Scimaenaga.config).to(
         receive(:mutable_user_attributes_schema).and_return(mutable_user_attributes_schema)
       )
+      allow(Scimaenaga.config).to(
+        receive(:mutable_user_attributes).and_return(%i[name email family_name active])
+      )
 
       expect(patch.operations[0].op).to eq 'replace'
       expect(patch.operations[0].path_scim).to eq(attribute: 'emails',
@@ -144,6 +147,9 @@ describe ScimPatch do
     it {
       allow(Scimaenaga.config).to(
         receive(:mutable_group_attributes_schema).and_return(mutable_group_attributes_schema)
+      )
+      allow(Scimaenaga.config).to(
+        receive(:mutable_group_attributes).and_return([:name])
       )
 
       expect(patch.operations[0].op).to eq 'replace'

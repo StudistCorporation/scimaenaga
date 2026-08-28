@@ -7,6 +7,7 @@ describe ScimPatchOperationGroup do
   let(:path) { 'displayName' }
   let(:value) { 'groupA' }
   let(:mutable_attributes_schema) { { displayName: :name } }
+  let(:mutable_attributes) { [:name] }
   let(:group_member_relation_attribute) { :user_ids }
 
   let(:user1) { create(:user) }
@@ -22,6 +23,26 @@ describe ScimPatchOperationGroup do
       value
     )
   end
+
+  before do
+    allow(Scimaenaga.config).to(
+      receive(:mutable_group_attributes).and_return(mutable_attributes)
+    )
+  end
+
+  context 'attribute in the schema but not in mutable_group_attributes' do
+    let(:mutable_attributes_schema) { { displayName: :name, externalId: :external_id } }
+    let(:path) { 'externalId' }
+    it {
+      allow(Scimaenaga.config).to(
+        receive(:mutable_group_attributes_schema).and_return(mutable_attributes_schema)
+      )
+      expect { operation }.to(
+        raise_error(Scimaenaga::ExceptionHandler::UnsupportedPatchRequest)
+      )
+    }
+  end
+
   context 'replace displayName' do
     it {
       allow(Scimaenaga.config).to(
