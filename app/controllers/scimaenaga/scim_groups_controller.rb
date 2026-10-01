@@ -110,11 +110,16 @@ module Scimaenaga
       end
 
       # Without this a client could attach users of another company to its own group.
+      # Ids are normalized the same way as the relation writer (e.g. user_ids=) does,
+      # so ids it accepts ("01", blank) are not rejected here.
       def verify_member_ids!(member_ids)
-        ids = member_ids.map(&:to_s).uniq
         users = @company.public_send(Scimaenaga.config.scim_users_scope)
-        missing_ids = ids - users.where(users.primary_key => ids).ids.map(&:to_s)
-        raise ExceptionHandler::ResourceNotFound, missing_ids if missing_ids.any?
+        pk_type = users.klass.type_for_attribute(users.primary_key)
+        ids = member_ids.compact_blank.map { |id| pk_type.cast(id) }.uniq
+        missing_ids = ids - users.where(users.primary_key => ids).ids
+        return if missing_ids.empty?
+
+        raise ExceptionHandler::ResourceNotFound, missing_ids.join(', ')
       end
 
       def mutable_attributes

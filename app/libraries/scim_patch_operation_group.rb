@@ -18,15 +18,17 @@ class ScimPatchOperationGroup < ScimPatchOperation
 
   # Member ids this operation will attach to the group ('add' / 'replace').
   # 'remove' never attaches anything, so it returns [].
-  # A malformed value (not an Array) also returns [] on purpose: this method is
-  # called before #save, and rejecting the shape here would turn the 422 that
-  # #save raises into a 500.
+  # A malformed value (not an Array, or elements that are not Hash) is skipped on
+  # purpose: this method is called before #save, and raising here would turn the
+  # 422 that #save raises into a 500. Hash elements next to malformed ones are
+  # still returned, because #save accepts e.g. ['abc', { 'value' => id }].
   def member_ids_to_assign
     return [] unless @path_scim[:attribute] == 'members'
     return [] if @op == 'remove'
     return [] unless @value.is_a?(Array)
 
-    member_ids_from_value
+    @value.select { |v| v.is_a?(Hash) || v.is_a?(ActionController::Parameters) }
+          .map { |v| v['value'].to_s }
   end
 
   private

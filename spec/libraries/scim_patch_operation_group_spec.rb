@@ -209,6 +209,12 @@ describe ScimPatchOperationGroup do
       let(:value) { user3.id.to_s }
       it { expect(operation.member_ids_to_assign).to eq [] }
     end
+
+    context 'value has elements that are not Hash' do
+      let(:op) { 'add' }
+      let(:value) { [user3.id, nil, 'abc', { 'value' => user4.id }] }
+      it { expect(operation.member_ids_to_assign).to eq [user4.id.to_s] }
+    end
   end
 
   context 'remove user id (with filter)' do
