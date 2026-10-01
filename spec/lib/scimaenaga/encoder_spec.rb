@@ -35,6 +35,18 @@ describe Scimaenaga::Encoder do
           Scimaenaga::Encoder.encode(company)
         end.to raise_error Scimaenaga::ExceptionHandler::InvalidConfiguration
       end
+
+      it 'raises InvalidConfiguration in production for :none and "NONE"' do
+        allow(Rails.env).to receive(:production?).and_return(true)
+
+        [:none, 'NONE'].each do |algorithm|
+          allow(Scimaenaga.config).to receive(:signing_algorithm).and_return(algorithm)
+
+          expect do
+            Scimaenaga::Encoder.encode(company)
+          end.to raise_error Scimaenaga::ExceptionHandler::InvalidConfiguration
+        end
+      end
     end
 
     context 'with signing configuration in production' do

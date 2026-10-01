@@ -30,7 +30,10 @@ module Scimaenaga
 
       def refuse_unsigned_in_production
         return unless Rails.env.production?
-        return unless Scimaenaga.config.signing_algorithm == Scimaenaga::Config::ALGO_NONE
+
+        # The jwt gem also treats "NONE" and :none as "none".
+        algorithm = Scimaenaga.config.signing_algorithm.to_s
+        return unless algorithm.casecmp?(Scimaenaga::Config::ALGO_NONE)
 
         raise Scimaenaga::ExceptionHandler::InvalidConfiguration,
               'signing_algorithm must not be "none" in production'
