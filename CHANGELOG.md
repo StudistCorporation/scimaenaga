@@ -1,5 +1,6 @@
 # Upcoming Release
 - [Reject group members that do not belong to the authenticated company](https://github.com/StudistCorporation/scimaenaga/pull/73)
+- [Document that signing_algorithm must not be left "none"](https://github.com/StudistCorporation/scimaenaga/pull/75)
 - [Reject PATCH operations for attributes not listed in mutable attributes](https://github.com/StudistCorporation/scimaenaga/pull/76)
 
 # v1.0.10 07-22-2025
