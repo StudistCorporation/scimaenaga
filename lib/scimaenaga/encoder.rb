@@ -5,6 +5,8 @@ module Scimaenaga
     extend self
 
     def encode(company)
+      refuse_unsigned_in_production
+
       payload = {
         iat: Time.current.to_i,
         Scimaenaga.config.basic_auth_model_searchable_attribute =>
@@ -23,5 +25,15 @@ module Scimaenaga
     rescue JWT::VerificationError, JWT::DecodeError
       raise Scimaenaga::ExceptionHandler::InvalidCredentials
     end
+
+    private
+
+      def refuse_unsigned_in_production
+        return unless Rails.env.production?
+        return unless Scimaenaga.config.signing_algorithm == Scimaenaga::Config::ALGO_NONE
+
+        raise Scimaenaga::ExceptionHandler::InvalidConfiguration,
+              'signing_algorithm must not be "none" in production'
+      end
   end
 end

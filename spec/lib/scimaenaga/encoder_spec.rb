@@ -27,6 +27,27 @@ describe Scimaenaga::Encoder do
         expect(token).to match(/[a-z|A-Z0-9.]{16,}/)
         expect(payload).to contain_exactly(['iat', Integer], %w[subdomain test])
       end
+
+      it 'raises InvalidConfiguration in production' do
+        allow(Rails.env).to receive(:production?).and_return(true)
+
+        expect do
+          Scimaenaga::Encoder.encode(company)
+        end.to raise_error Scimaenaga::ExceptionHandler::InvalidConfiguration
+      end
+    end
+
+    context 'with signing configuration in production' do
+      before do
+        allow(Rails.env).to receive(:production?).and_return(true)
+      end
+
+      it 'generates a signed token with the company attribute' do
+        token   = Scimaenaga::Encoder.encode(company)
+        payload = Scimaenaga::Encoder.decode(token)
+
+        expect(payload).to contain_exactly(['iat', Integer], %w[subdomain test])
+      end
     end
   end
 
@@ -56,6 +77,15 @@ describe Scimaenaga::Encoder do
 
       it 'decodes an unsigned token, returning the company attributes' do
         payload = Scimaenaga::Encoder.decode(token)
+
+        expect(payload).to contain_exactly(['iat', Integer], %w[subdomain test])
+      end
+
+      it 'decodes an already issued unsigned token in production' do
+        issued_token = token
+        allow(Rails.env).to receive(:production?).and_return(true)
+
+        payload = Scimaenaga::Encoder.decode(issued_token)
 
         expect(payload).to contain_exactly(['iat', Integer], %w[subdomain test])
       end
