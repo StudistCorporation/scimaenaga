@@ -22,6 +22,15 @@ describe ScimPatchOperationUser do
       active: :active,
     }
   end
+  let(:mutable_attributes) do
+    %i[name display_name email family_name given_name active]
+  end
+
+  before do
+    allow(Scimaenaga.config).to(
+      receive(:mutable_user_attributes).and_return(mutable_attributes)
+    )
+  end
 
   let(:operation) do
     described_class.new(
@@ -95,6 +104,20 @@ describe ScimPatchOperationUser do
         expect(operation.path_scim).to eq(attribute: 'name', rest_path: ['familyName'])
         expect(operation.path_sp).to eq :family_name
         expect(operation.value).to eq value
+      }
+    end
+
+    context 'attribute in the schema but not in mutable_user_attributes' do
+      let(:mutable_attributes) { %i[name display_name email active] }
+      let(:path) { 'name.familyName' }
+      let(:value) { 'Suzuki' }
+      it {
+        allow(Scimaenaga.config).to(
+          receive(:mutable_user_attributes_schema).and_return(mutable_attributes_schema)
+        )
+        expect { operation }.to(
+          raise_error(Scimaenaga::ExceptionHandler::UnsupportedPatchRequest)
+        )
       }
     end
   end

@@ -1,5 +1,5 @@
 Mime::Type.register "application/scim+json", :scimjson
 
-ActionDispatch::Request.parameter_parsers[:scimjson] = lambda do |body|
-  ActiveSupport::JSON.decode(body)
-end
+original_parsers = ActionDispatch::Request.parameter_parsers
+parsers = original_parsers.merge(scimjson: ->(body) { ActiveSupport::JSON.decode(body) })
+ActionDispatch::Request.parameter_parsers = parsers
