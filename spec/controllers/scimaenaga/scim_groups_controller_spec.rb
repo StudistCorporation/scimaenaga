@@ -289,6 +289,30 @@ RSpec.describe Scimaenaga::ScimGroupsController, type: :controller do
         expect(company.groups.count).to eq 1
       end
 
+      it 'returns :not_found when a member belongs to another company' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        post :create, params: {
+          displayName: 'Test Group',
+          members: [{ value: other_user.id.to_s }],
+        }, as: :json
+
+        expect(response.status).to eq 404
+        expect(company.groups.count).to eq 0
+      end
+
+      it 'accepts member ids in a form the relation writer accepts' do
+        user = create(:user, company: company)
+
+        post :create, params: {
+          displayName: 'Test Group',
+          members: [{ value: "0#{user.id}" }, { value: nil }],
+        }, as: :json
+
+        expect(response.status).to eq 201
+        expect(company.groups.first.users).to eq [user]
+      end
+
       it 'creates group' do
         users = create_list(:user, 3, company: company)
 
@@ -388,6 +412,16 @@ RSpec.describe Scimaenaga::ScimGroupsController, type: :controller do
 
         expect(response.status).to eq 422
       end
+
+      it 'returns :not_found and does not add a User of another company' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        expect do
+          put :put_update, params: put_params(users: [other_user]), as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 404
+      end
     end
   end
 
@@ -449,6 +483,120 @@ RSpec.describe Scimaenaga::ScimGroupsController, type: :controller do
         patch :patch_update, params:  patch_params(user_id: 0), as: :json
 
         expect(response.status).to eq 404
+      end
+
+      it 'returns :not_found and does not add a User of another company' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        expect do
+          patch :patch_update, params: patch_params(user_id: other_user.id), as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 404
+        response_body = JSON.parse(response.body)
+        expect(response_body['detail']).to eq "Resource #{other_user.id} not found."
+      end
+
+      it 'returns :not_found for another company User mixed with a non-Hash' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        expect do
+          patch :patch_update, params: {
+            id: group.id,
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
+            Operations: [{
+              op: 'Add',
+              path: 'members',
+              value: ['abc', { value: other_user.id }],
+            }],
+          }, as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 404
+      end
+
+      it 'can remove a User even if the id is not in the company' do
+        expect do
+          patch :patch_update, params: patch_params(user_id: 0, op: 'Remove'), as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 200
+      end
+
+      it 'returns :not_found when replacing with a User of another company' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        expect do
+          patch :patch_update,
+                params: patch_params(user_id: other_user.id, op: 'Replace'), as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 404
+      end
+
+      it 'returns :not_found when members mix own and other company Users' do
+        other_user = create(:user, company: create(:company, subdomain: 'other'))
+
+        expect do
+          patch :patch_update, params: {
+            id: group.id,
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
+            Operations: [{
+              op: 'Add',
+              path: 'members',
+              value: [
+                { value: user2.id },
+                { value: other_user.id }
+              ],
+            }],
+          }, as: :json
+        end.not_to(change { group.reload.users.to_a })
+
+        expect(response.status).to eq 404
+      end
+
+      it 'returns 422 when members value is not an array' do
+        patch :patch_update, params: {
+          id: group.id,
+          schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
+          Operations: [{
+            op: 'Add',
+            path: 'members',
+            value: user2.id.to_s,
+          }],
+        }, as: :json
+
+        expect(response.status).to eq 422
+      end
+
+      it 'returns 422 when a members element is not a Hash' do
+        patch :patch_update, params: {
+          id: group.id,
+          schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
+          Operations: [{
+            op: 'Add',
+            path: 'members',
+            value: [user2.id],
+          }],
+        }, as: :json
+
+        expect(response.status).to eq 422
+      end
+
+      it 'accepts member ids in a form the relation writer accepts' do
+        expect do
+          patch :patch_update, params: {
+            id: group.id,
+            schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
+            Operations: [{
+              op: 'Add',
+              path: 'members',
+              value: [{ value: "0#{user2.id}" }, { value: nil }],
+            }],
+          }, as: :json
+        end.to change { group.reload.users }.from([user1]).to([user1, user2])
+
+        expect(response.status).to eq 200
       end
 
       it 'rollback if even one cannot be saved' do
