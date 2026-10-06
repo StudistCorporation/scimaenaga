@@ -210,10 +210,16 @@ describe ScimPatchOperationGroup do
       it { expect(operation.member_ids_to_assign).to eq [] }
     end
 
-    context 'value has elements that are not Hash' do
+    context 'value has elements that #save cannot read' do
       let(:op) { 'add' }
-      let(:value) { [user3.id, nil, 'abc', { 'value' => user4.id }] }
+      let(:value) { [user3.id, nil, { 'value' => user4.id }] }
       it { expect(operation.member_ids_to_assign).to eq [user4.id.to_s] }
+    end
+
+    context 'value has String elements' do
+      let(:op) { 'add' }
+      let(:value) { %w[value abc] }
+      it { expect(operation.member_ids_to_assign).to eq ['value', ''] }
     end
   end
 
