@@ -569,7 +569,7 @@ RSpec.describe Scimaenaga::ScimGroupsController, type: :controller do
         expect(response.status).to eq 422
       end
 
-      it 'returns 422 when a members element is not a Hash' do
+      it 'returns 422 when a members element is an Integer' do
         patch :patch_update, params: {
           id: group.id,
           schemas: ['urn:ietf:params:scim:api:messages:2.0:PatchOp'],
