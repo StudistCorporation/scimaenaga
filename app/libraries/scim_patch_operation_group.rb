@@ -16,7 +16,26 @@ class ScimPatchOperationGroup < ScimPatchOperation
     end
   end
 
+  # Member ids this operation will attach to the group ('add' / 'replace').
+  # 'remove' never attaches anything, so it returns [].
+  # Ids must be read the same way #save reads them, or the check can be bypassed.
+  # String elements are read too, because #save attaches 'value'['value'] ('value').
+  # A value that #save cannot read (not an Array, or elements such as Integer or nil)
+  # is skipped on purpose: this method is called before #save, and raising here
+  # would turn the 422 that #save raises into a 500.
+  def member_ids_to_assign
+    return [] unless @path_scim[:attribute] == 'members'
+    return [] if @op == 'remove'
+    return [] unless @value.is_a?(Array)
+
+    @value.select { |v| readable_member?(v) }.map { |v| v['value'].to_s }
+  end
+
   private
+
+    def readable_member?(value)
+      [Hash, ActionController::Parameters, String].any? { |klass| value.is_a?(klass) }
+    end
 
     def save_members(model)
       current_member_ids = model.public_send(member_relation_attribute).map(&:to_s)
