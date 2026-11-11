@@ -36,6 +36,7 @@ Scimaenaga.configure do |config|
   # It is "none" by default, hence generated tokens are unsigned.
   # Do not leave it "none" in production: an unsigned token contains only
   # the searchable attribute and the issue time, so it can be guessed.
+  # Scimaenaga::Encoder.encode raises in production when it is "none".
   # config.signing_algorithm = "HS256"
 
   # Secret token used to sign authorization tokens
