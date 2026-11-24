@@ -1,8 +1,12 @@
-# Upcoming Release
+# v2.0.0 11-12-2026
 - [Reject group members that do not belong to the authenticated company](https://github.com/StudistCorporation/scimaenaga/pull/73)
 - [Document that signing_algorithm must not be left "none"](https://github.com/StudistCorporation/scimaenaga/pull/75)
-- [Reject PATCH operations for attributes not listed in mutable attributes](https://github.com/StudistCorporation/scimaenaga/pull/76)
+- [Reject PATCH operations for attributes not listed in mutable attributes](https://github.com/StudistCorporation/scimaenaga/pull/76) (breaking if `mutable_*_attributes_schema` is not set: PATCH requests that include attributes such as `id`, e.g. Okta's group rename, respond 422)
+- [Avoid mutating `ActionDispatch::Request.parameter_parsers`](https://github.com/StudistCorporation/scimaenaga/pull/78)
 - [Refuse signing_algorithm "none" in Encoder.encode in production](https://github.com/StudistCorporation/scimaenaga/pull/79) (breaking: `Encoder.encode` raises `InvalidConfiguration` in production when `signing_algorithm` is `"none"`)
+
+# v1.1.0 01-08-2026
+- [Support Rails 8.1](https://github.com/StudistCorporation/scimaenaga/pull/72)
 
 # v1.0.10 07-22-2025
 - [Remove the upper limit for Ruby and aligned the Ruby and Rails minor versions used in CI](https://github.com/StudistCorporation/scimaenaga/pull/70)
